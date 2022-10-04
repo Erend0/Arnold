@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NEA.RegisterPage">
+    <ContentPage.Content>
+        <StackLayout>
+
+            <Label Text="Sign Up"
+                  FontSize="Header"
+                 />
+            <Label
+                Text="Enter a 4 digit Pin and Password"
+             />
+
+
+            <Entry  x:Name="UserName"
+                Placeholder="Enter a Username"      
+             />
+            <Entry  x:Name="UserPin"
+                Placeholder="Enter a 4-Digit Pin"
+             />
+            <Button
+               Text="Register"
+                Clicked="Register_Clicked"
+             />
+            <Label x:Name="UserNameError"
+                Text=""
+                TextColor="Red"
+             />
+            <Label x:Name="PassError"
+                
+             Text="" 
+             TextColor="Red"
+             />
+
+
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
