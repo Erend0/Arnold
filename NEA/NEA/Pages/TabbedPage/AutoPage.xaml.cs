@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NEA.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,19 @@ namespace NEA
         public AutoPage()
         {
             InitializeComponent();
+            
         }
+
+        private async void Regenerate_Clicked(object sender, EventArgs e)
+        {
+
+            
+            await Navigation.PushAsync(new Regenerate());
+            
+
+        }
+
+        
+        
     }
 }

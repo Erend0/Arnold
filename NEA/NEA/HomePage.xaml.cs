@@ -15,6 +15,7 @@ namespace NEA
         public HomePage()
         {
             InitializeComponent();
+
         }
     }
 }

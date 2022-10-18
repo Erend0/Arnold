@@ -13,6 +13,9 @@
              />
 
             <Button x:Name="TimeSubmit"
+               Text="Generate"
+               CornerRadius="10"
+               Margin="10"
                Clicked="TimeSubmit_Clicked"
              />
             

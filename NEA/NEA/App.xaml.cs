@@ -9,8 +9,9 @@ namespace NEA
         public App()
         {
             InitializeComponent();
+            // create a new navigation page
+            MainPage = new NavigationPage(new HomePage());
 
-            MainPage = new HomePage();
         }
 
         protected override void OnStart()
