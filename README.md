@@ -7,4 +7,3 @@ For my NEA, I have create a mobile app to record/track and generate workout sche
 This repository contains code made using c# and xaml using xamarin to create an <b><i>android app </i></b>
 </p>
 
-<footer> This project belongs to Eren Demir in Woodhouse College (2022 - 2023)</footer>
