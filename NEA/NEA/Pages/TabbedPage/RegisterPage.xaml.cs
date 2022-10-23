@@ -1,6 +1,10 @@
-﻿using System;
+﻿using NEA.Data;
+using NEA.Models;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,14 +27,19 @@ namespace NEA
             // The Pin and Username checking functions are run until they are both returning true
             bool hasPin = checkPin();
             bool hasName = checkName();
+            
+            
             if (hasPin && hasName)
             {
                 // Once the pin and username functions are both satisfied, the data is stored and the current screen is changed to the schedule page
-                storeUserDetails();
+                storeUserDetails();              
                 apppage();
+
 
             }
         }
+
+      
 
         private bool checkPin()
         {
@@ -64,16 +73,17 @@ namespace NEA
             // The username variable in the xaml entry is taken and stored as a variable called checkUserName
             string checkUserName = ((Entry)UserName).Text;
             // Used in the elif statement
-            bool NameDuplicateError = doesExist(checkUserName);
+            bool NameDuplicateError = doesExist();
             // check if it is larger than 0 characters 
             if (checkUserName.Length < 0)
             {
                 UserNameError.Text = "The Username must be at least one characters";
             }
             // check if the username already exists
-            else if(NameDuplicateError == true){
-                UserName.Text = "This Username Already Exists, Please pick a new one";
+            else if (NameDuplicateError == true) {
+                UserNameError.Text = "This Username Already Exists, Please pick a new one";
             }
+
             else if(checkUserName.Length > 6)
             {
                 UserNameError.Text = "The Username must be shorted than 6 characters";
@@ -86,25 +96,55 @@ namespace NEA
 
             return false;
         }
-        private bool doesExist(string NameToCheck)
+        private bool doesExist()
         {
+            string NameToCheck = ((Entry)UserName).Text;
+
+            // check if NameToCheck is already in the database
+            var userRepo = new UserRepository();
+            var loggedInUser = userRepo.GetLoggedInUser();
+            foreach (var user in loggedInUser)
+            {
+                if (user.UserName == NameToCheck)
+                {
+                    return true;
+                }
+            }
             return false;
+
+
+
+
+
+
         }
 
-        //MUST COMPLETE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         private void storeUserDetails()
         {
+            string userName = ((Entry)UserName).Text;
+            int userPin = int.Parse(((Entry)UserPin).Text);
+            // create new user with UserName as userName and UserPin as userpin
+            var user = new User
+            {
+                UserName = userName,
+                UserPin = userPin,
+                HasLoggedIn = true
+            };
+            // add user to database
+            var userRepo = new UserRepository();
+            userRepo.AddNewUser(user);
+            
 
-            // stores the users details in the format of a textfile
         }
 
 
 
         private void apppage()
         {
-            // Application.Current.MainPage = new NavigationPage(new DetailsPage());
+         
+            Application.Current.MainPage = new NavigationPage(new HomePage());
 
-            //await Navigation.PushAsync(new NavigationPage(new DetailsPage()));
         }
     }
 }

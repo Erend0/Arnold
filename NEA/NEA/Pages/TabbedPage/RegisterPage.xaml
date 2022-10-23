@@ -6,6 +6,7 @@
         <StackLayout>
 
             <Label Text="Sign Up"
+                  HorizontalOptions="CenterAndExpand"
                   FontSize="Header"
                  />
             <Label
@@ -20,7 +21,7 @@
                 Placeholder="Enter a 4-Digit Pin"
              />
             <Button
-               Text="Register"
+                Text="Register"
                 Clicked="Register_Clicked"
              />
             <Label x:Name="UserNameError"
