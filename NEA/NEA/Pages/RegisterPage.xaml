@@ -3,26 +3,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NEA.RegisterPage">
     <ContentPage.Content>
+        
         <StackLayout>
 
             <Label Text="Sign Up"
                   HorizontalOptions="CenterAndExpand"
                   FontSize="Header"
-                 />
+                  Padding="20"
+                  TextColor="White"
+             />
             <Label
-                Text="Enter a 4 digit Pin and Password"
+                Text="Pick a Username and a 4 digit Pin"
+                HorizontalOptions="Center"
              />
 
 
             <Entry  x:Name="UserName"
-                Placeholder="Enter a Username"      
+                Placeholder="Enter a Username"
+                HorizontalOptions="Center"
+                
              />
             <Entry  x:Name="UserPin"
                 Placeholder="Enter a 4-Digit Pin"
+                HorizontalOptions="Center"
+                IsPassword="True"
+                Keyboard="Numeric"
+                
              />
             <Button
                 Text="Register"
                 Clicked="Register_Clicked"
+                CornerRadius="5"
+                Margin="25"
              />
             <Label x:Name="UserNameError"
                 Text=""
@@ -32,6 +44,15 @@
                 
              Text="" 
              TextColor="Red"
+             />
+
+            <Button
+                Text="Login Instead"
+                TextColor="MediumPurple"
+                Margin="25"
+                VerticalOptions="EndAndExpand"
+                Pressed="Login_Pressed"
+                
              />
 
 

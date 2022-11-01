@@ -1,13 +1,8 @@
 ﻿using NEA.Data;
 using NEA.Models;
+using NEA.Pages;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,27 +15,23 @@ namespace NEA
         {
             InitializeComponent();
         }
-
-
+        
         private void Register_Clicked(object sender, EventArgs e)
         {
             // The Pin and Username checking functions are run until they are both returning true
             bool hasPin = checkPin();
             bool hasName = checkName();
-            
-            
             if (hasPin && hasName)
             {
-                // Once the pin and username functions are both satisfied, the data is stored and the current screen is changed to the schedule page
-                storeUserDetails();              
+                // Once the pin and username functions are both satisfied, the user is promted to the user data page
+
+                storeUserDetails();    
                 apppage();
 
 
             }
         }
-
-      
-
+        
         private bool checkPin()
         {
             // Statement below is required to check string details
@@ -101,9 +92,10 @@ namespace NEA
             string NameToCheck = ((Entry)UserName).Text;
 
             // check if NameToCheck is already in the database
-            var userRepo = new UserRepository();
-            var loggedInUser = userRepo.GetLoggedInUser();
-            foreach (var user in loggedInUser)
+            var userrepo = new UserRepository();
+            var usernames = userrepo.GetUsernames();
+
+            foreach (var user in usernames)
             {
                 if (user.UserName == NameToCheck)
                 {
@@ -111,11 +103,6 @@ namespace NEA
                 }
             }
             return false;
-
-
-
-
-
 
         }
 
@@ -129,7 +116,7 @@ namespace NEA
             {
                 UserName = userName,
                 UserPin = userPin,
-                HasLoggedIn = true
+                HasLoggedIn = true,
             };
             // add user to database
             var userRepo = new UserRepository();
@@ -142,8 +129,18 @@ namespace NEA
 
         private void apppage()
         {
-         
-            Application.Current.MainPage = new NavigationPage(new HomePage());
+            // chooses the split type
+            // fills the splits for the first time
+            
+            Application.Current.MainPage = new NavigationPage(new UserDataPage());
+
+        }
+
+        private void Login_Pressed(object sender, EventArgs e)
+        {
+            // change mainpage to login page
+            Application.Current.MainPage = new NavigationPage(new LoginPage());
+            
 
         }
     }

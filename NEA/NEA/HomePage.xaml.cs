@@ -11,8 +11,10 @@ namespace NEA
         public HomePage()
         {
             InitializeComponent();
-             
-          
+           
+            NavigationPage.SetHasNavigationBar(this, false);
+
+
         }
 
     }

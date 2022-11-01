@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NEA.Pages.UserDataPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label
+                Text="Please enter your details"
+                FontSize="Medium"
+                HorizontalOptions="Center"
+                Padding="15"
+             />
+            
+            <Picker x:Name="Aim" Title="Pick an aim" HorizontalOptions="Center">
+                <Picker.Items>
+                    <x:String>Muscle Mass</x:String>
+                    <x:String>Muscle Strength</x:String>
+                    <x:String>Endurance</x:String>
+                </Picker.Items>
+            </Picker> 
+           
+            <Label Text="How many days you can workout in a week?" HorizontalOptions="Center" Padding="20" />
+            <Label Text="{Binding Source={x:Reference Days}, Path=Value, StringFormat='{0} Days'}" HorizontalOptions="Center" Padding="20" />
+            <Stepper x:Name="Days" Minimum="3" Maximum="6" Increment="1" HorizontalOptions="Center"  />
+            
+            
+
+            <Label Text="How many minutes can you workout for in one session?" HorizontalOptions="Center" Padding="20"/>
+            <Label Text="{Binding Source={x:Reference Time}, Path=Value, StringFormat='{0} minutes'}" HorizontalOptions="Center" Padding="20" />
+            <Stepper x:Name="Time" Minimum="30" Maximum="90" Increment="5" HorizontalOptions="Center" />
+
+            <Button
+                Text="Create schedule"
+                HorizontalOptions="Center"
+                Pressed="Button_Pressed"
+                VerticalOptions="EndAndExpand"
+                CornerRadius="10"
+                Padding="20"
+                Margin="50"
+                BackgroundColor="Purple"
+                
+             />
+
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

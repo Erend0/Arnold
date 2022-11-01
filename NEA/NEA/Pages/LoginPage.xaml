@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NEA.Pages.LoginPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Login"
+                  HorizontalOptions="CenterAndExpand"
+                  FontSize="Header"
+                  Padding="20"
+                  TextColor="White"
+             />
+            <Entry  x:Name="UserName"
+                Placeholder="Enter Username"
+                HorizontalOptions="Center"
+                
+             />
+            <Entry  x:Name="UserPin"
+                Placeholder="Enter pin"
+                HorizontalOptions="Center"
+                IsPassword="True"
+                Keyboard="Numeric"
+                
+             />
+            <Button
+                Text="Login"
+                Clicked="Login_Clicked"
+                CornerRadius="5"
+                Margin="25"
+             />
+            <Button 
+                Text="Register Instead"
+                Clicked="Register_Clicked"
+                CornerRadius="5"
+                Margin="25"
+                
+             />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

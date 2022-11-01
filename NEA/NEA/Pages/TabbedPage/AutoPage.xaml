@@ -4,15 +4,10 @@
              x:Class="NEA.AutoPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text=""/>
+          
             
-            <Button
-                Text="Modify"
-                CornerRadius="10"
-                Margin="10"
-                Clicked="Regenerate_Clicked"
-             />
-            
+          
+                    
             
         </StackLayout>
         
