@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using NEA.Models;
 using SQLite;
-
 
 namespace NEA.Data
 {
@@ -20,6 +17,18 @@ namespace NEA.Data
             _database = new SQLiteConnection(DbPath);
             _database.CreateTable<Exercise>();
         }
-      
+        // return the sets and reps for an exercise from the exercise table given the exerciseID 
+        //public int[] GetSetsReps(int exerciseID)
+        //{
+        //    var exercise = _database.Table<Exercise>().Where(x => x.ExerciseID == exerciseID).FirstOrDefault();
+        //    int[] setsreps = new int[2];
+        //    setsreps[0] = exercise.Sets;
+        //    setsreps[1] = exercise.Reps;
+        //    return setsreps;
+        //}
+
+
+
+
     }
 }

@@ -18,5 +18,25 @@ namespace NEA.Data
             _database.CreateTable<MuscleTargeted>();
         }
 
+
+        // a function which returns the muscle id from the muscle minor input 
+        public int GetMuscleID(string muscleMinor)
+        {
+            var muscle = _database.Table<Muscle>().Where(x => x.MinorMuscle == muscleMinor).FirstOrDefault();
+            return muscle.MuscleID;
+        }
+
+        // returns all the exercise ids from the muscletargeted table where he minormuscleid is equal to int minomuscleid  
+        public int[] GetExercises(int minormuscleid)
+        {
+            var exercises = _database.Table<MuscleTargeted>().Where(y => y.MinorMuscleID == minormuscleid).ToArray();
+            int[] exerciseids = new int[exercises.Length];
+            for (int i = 0; i < exercises.Length; i++)
+            {
+                exerciseids[i] = exercises[i].ExerciseID;
+            }
+            return exerciseids;
+        }
+
     }
 }

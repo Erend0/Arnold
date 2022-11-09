@@ -2,6 +2,7 @@
 using Xamarin.Forms.Xaml;
 using NEA.Data;
 using NEA.Tasks;
+using System;
 
 namespace NEA
 {
@@ -10,13 +11,13 @@ namespace NEA
     {
         public AutoPage()
         {
-            // pass the days to generate into workout
-            Workout myworkout = new Workout("fill");
-            
+           
             InitializeComponent();
-          
+            // pass the days to generate into workout
+            Workout myworkout = new Workout("all");
 
 
         }
+
     }
 }

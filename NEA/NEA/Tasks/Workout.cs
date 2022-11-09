@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 
 
+
+
+
 namespace NEA.Tasks
 {
     public class Workout
@@ -25,16 +28,15 @@ namespace NEA.Tasks
         private string[] back = { "lats", "middleback", "lowerback" };
         private string[] biceps = { "longhead", "shorthead" };
         private string[] shoulders = { "anteriordelts", "medialdelts", "posteriordelts" };
-        private string[] legs = { "Quadriceps", "Hamstrings", "Glutes", "Calves", "Abductors" };
-        private string[] cardio = { "cardio" };
+        private string[] legs = { "quadriceps", "hamstrings", "glutes", "calves", "abductors" };
+        private string[] cardio = {"cardio" };
         // the variable below is used by the fill split method to determine how many muscles there are in each day of splits
         private int numberofmuscles { get; set; }
-
-
 
         // The constructor
         public Workout(string togenerate)
         {
+            
             GetUserData();
             GenerateWorkout(togenerate);
 
@@ -43,8 +45,8 @@ namespace NEA.Tasks
         {
             // GetLoggedInUser method from the UserRepository is used to fetch the currentley logged in users id from DB
             var userrepo = new UserRepository();
-            int currentuserid = Convert.ToInt32(userrepo.GetLoggedInUser());
-
+            int currentuserid = userrepo.GetLoggedInUser().UserID;
+            
             // Getuserdata method is used to get the aim, time and days available from the userdata table in the form of a array 
             var userdatarepo = new UserDataRepository();
             string[] userdata = userdatarepo.GetUserData(currentuserid);
@@ -113,23 +115,68 @@ namespace NEA.Tasks
        
 
         
-        public void fillsplit(string[][] days)
+        public void fillsplit(string[][] day)
         {
-            //the string[][] day contains an array of type strings e.g. Tricep and Chest arrays inside an array 
-            foreach (string[] daypart in days)
+            int totaltimetaken = 0;
+            int timeforeachfocus = usertime / day.Length;
+            // The musclefocus is in the form of, Triceps and Chest, each of these will be filled evenly
+            foreach (string[] musclefocus in day)
             {
-                // the foreach loop will iterate over every main muscle focus e.g. Tricep 
-                int timeforeachmuscle = usertime / numberofmuscles;
-                while (timeforeachmuscle != 0)
-                { 
-                    foreach(string x in daypart)
+                int index = 0;
+                // The musclefocus is stopped filling if time allocated to it runs out, or too little time is left ( less than or equal to 4 mins)
+                while(totaltimetaken != timeforeachfocus | (timeforeachfocus-totaltimetaken)>=4)
+                {
+                    int exercisefound = FindExerciseforMinorMuscle(musclefocus[index]);
+                    bool hasblacklisted = true;
+                    while (!hasblacklisted)
                     {
-                       // goes over every minor muscle
-
+                        hasblacklisted = CheckBlackLists(exercisefound); 
                     }
 
+                   
+                    UpdateTimeTaken(exercisefound);
+                    UpdateDB();
+                    // the index is used to repeatedly go over the minor muscles e.g. Hamstring, Glutes to fill them evenly
+                    index += 1;
+                    if(index == musclefocus.Length+1)
+                    {
+                        index = 0;
+                    }
                 }
-            }
+
+            } 
+        }
+        public int FindExerciseforMinorMuscle(string minormuscle)
+        {
+            // use the GetMuscleID method with the minor muscle parameter to get the id of the minor muscle
+            var musclerepo = new  MuscleRepository();
+            int muscleid = musclerepo.GetMuscleID(minormuscle);
+            // use the id of the muscle to find the exercises it links to 
+            int[] exercises = musclerepo.GetExercises(muscleid);
+
+            // Uses a random integer to pick a random exercise from the array of exercises
+            Random random = new Random();
+            int num = random.Next(0, exercises.Length);
+            
+
+            
+
+
+            return exercises[num];
+        }
+        public bool CheckBlackLists(int exercisefound)
+        {
+            return true;
+        }
+        public void UpdateTimeTaken(int exerciseID)
+        {
+            
+            
+
+        }
+        public void UpdateDB()
+        {
+
         }
        
       

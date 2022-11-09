@@ -18,8 +18,9 @@ namespace NEA
             InitializeComponent();
             
                 var userRepo = new UserRepository();
-                var loggedInUser = userRepo.GetLoggedInUser();
-                if (loggedInUser.Count > 0)
+                bool hasloggedin = userRepo.CheckLoggedInUser();
+               // checks if there is a user logged in
+                if (hasloggedin)
                 {
                 // if a user has logged in before, go to main page
                   MainPage = new NavigationPage(new HomePage());  

@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NEA.Pages.LoginPage">
+             x:Class="NEA.Pages.LoginPage"
+             Background="Black">
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Login"
@@ -27,12 +28,15 @@
                 Clicked="Login_Clicked"
                 CornerRadius="5"
                 Margin="25"
+                BackgroundColor="Blue"
              />
             <Button 
+                BackgroundColor="Blue"
                 Text="Register Instead"
                 Clicked="Register_Clicked"
                 CornerRadius="5"
                 Margin="25"
+                VerticalOptions="EndAndExpand"
                 
              />
         </StackLayout>

@@ -19,33 +19,31 @@ namespace NEA.Pages
         }
         private void Button_Pressed(object sender, EventArgs e)
         {
-            // gets days slider value
-            int days = (int)Days.Value;
-            // gets time slider value 
-            int time = (int)Time.Value;
-            // gets aim value
-            string aim = Aim.SelectedItem.ToString();
-
             if (Aim.SelectedIndex == -1)
             {
                 DisplayAlert("Error", "Please select an aim", "OK");
             }
             else
             {
-                // gets user id of current logged in user 
+                // gets days slider value
+                int days = (int)Days.Value;
+                // gets time slider value 
+                int time = (int)Time.Value;
+                // gets aim value
+                string aim = Aim.SelectedItem.ToString();
+
+                // inserts user data into userdata repositoru 
                 var userrepo = new UserRepository();
-                int CurrentUserID = userrepo.GetLoggedInUserId();
-                // inserts new user into the userdata table
-                var userdataRepo = new UserDataRepository();
-                userdataRepo.InsertUserData(CurrentUserID, days, time, aim);
-                // changes the current mainpage to HomePage.xaml
-
-
-
-                // creates workout -----------------------------------------
+                int userID = userrepo.GetLoggedInUser().UserID;
                 
+                var userdataRepo = new UserDataRepository();
+                userdataRepo.InsertUserData(userID,time,days,aim);
+
                 App.Current.MainPage = new NavigationPage(new HomePage());
+
+
             }
+
         }
       
     }

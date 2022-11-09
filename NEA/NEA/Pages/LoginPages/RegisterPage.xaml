@@ -1,26 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NEA.RegisterPage">
+             x:Class="NEA.RegisterPage"
+             BackgroundColor="Black"
+             
+             >
     <ContentPage.Content>
         
         <StackLayout>
+
+           
+            
 
             <Label Text="Sign Up"
                   HorizontalOptions="CenterAndExpand"
                   FontSize="Header"
                   Padding="20"
                   TextColor="White"
+                  Margin="10"
              />
             <Label
                 Text="Pick a Username and a 4 digit Pin"
                 HorizontalOptions="Center"
+                TextColor="White"
              />
 
 
             <Entry  x:Name="UserName"
                 Placeholder="Enter a Username"
                 HorizontalOptions="Center"
+               
                 
              />
             <Entry  x:Name="UserPin"
@@ -28,6 +37,7 @@
                 HorizontalOptions="Center"
                 IsPassword="True"
                 Keyboard="Numeric"
+           
                 
              />
             <Button
@@ -35,6 +45,9 @@
                 Clicked="Register_Clicked"
                 CornerRadius="5"
                 Margin="25"
+                BackgroundColor="CornflowerBlue"
+                
+                
              />
             <Label x:Name="UserNameError"
                 Text=""
@@ -48,10 +61,12 @@
 
             <Button
                 Text="Login Instead"
-                TextColor="MediumPurple"
+                TextColor="White"
                 Margin="25"
                 VerticalOptions="EndAndExpand"
                 Pressed="Login_Pressed"
+                BackgroundColor="Blue"
+                CornerRadius="5"
                 
              />
 

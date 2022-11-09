@@ -3,7 +3,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Linq;
 
 namespace NEA.Data
 {
@@ -24,11 +24,7 @@ namespace NEA.Data
         {
             return _database.Table<User>().ToList();
         }
-        
-        public List<User> GetLoggedInUser()
-        {
-            return _database.Query<User>("SELECT * FROM [Users] WHERE [HasLoggedIn] = 1");
-        }
+       
         // return usernames of all users 
         public List<User> GetUsernames()
         {
@@ -61,17 +57,31 @@ namespace NEA.Data
                 return false;
             }
         }
-
-        // returns the userID for the current logged in user 
-        public int GetLoggedInUserId()
+        
+        // returns the currentley logged in user 
+        public User GetLoggedInUser()
         {
             var user = _database.Query<User>("SELECT * FROM [Users] WHERE [HasLoggedIn] = 1");
-            return user[0].UserID;
+            return user[0];
+        }
+        // returns a boolean value false if there is no user with haslogged in as 1 
+        public bool CheckLoggedInUser()
+        {
+            var user = _database.Query<User>("SELECT * FROM [Users] WHERE [HasLoggedIn] = 1");
+            if (user.Count == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 
-       
-       
+
+
+
 
 
 
