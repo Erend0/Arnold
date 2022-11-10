@@ -1,11 +1,7 @@
 ﻿using NEA.Data;
 using System;
 using System.Collections.Generic;
-
-
-
-
-
+using System.Linq;
 namespace NEA.Tasks
 {
     public class Workout
@@ -22,16 +18,21 @@ namespace NEA.Tasks
         };
         private int userdays { get; set; }
         private string useraim { get; set; }
+        // Note that usertime is in seconds 
         private int usertime { get; set; }
-        private string[] chest = { "upper", "lower", "inner" };
-        private string[] triceps = { "longhead", "lateralhead", "medialhead" };
-        private string[] back = { "lats", "middleback", "lowerback" };
-        private string[] biceps = { "longhead", "shorthead" };
-        private string[] shoulders = { "anteriordelts", "medialdelts", "posteriordelts" };
-        private string[] legs = { "quadriceps", "hamstrings", "glutes", "calves", "abductors" };
-        private string[] cardio = {"cardio" };
+        private readonly string[] chest = { "upper", "lower", "inner" };
+        private readonly string[] triceps = { "longhead", "lateralhead", "medialhead" };
+        private readonly string[] back = { "lats", "middleback", "lowerback" };
+        private readonly string[] biceps = { "longhead", "shorthead" };
+        private readonly string[] shoulders = { "anteriordelts", "medialdelts", "posteriordelts" };
+        private readonly string[] legs = { "quadriceps", "hamstrings", "glutes", "calves", "abductors" };
+        private readonly string[] cardio = {"cardio" };
         // the variable below is used by the fill split method to determine how many muscles there are in each day of splits
+        private int totaltimetaken { get; set;}
         private int numberofmuscles { get; set; }
+        public int[][] generatedworkout { get; set; }
+    
+   
 
         // The constructor
         public Workout(string togenerate)
@@ -51,9 +52,10 @@ namespace NEA.Tasks
             var userdatarepo = new UserDataRepository();
             string[] userdata = userdatarepo.GetUserData(currentuserid);
 
-            string useraim = userdata[0];
-            int usertime = Convert.ToInt32(userdata[1]);
-            int userdays = Convert.ToInt32(userdata[2]);
+            useraim = userdata[0];
+            usertime = Convert.ToInt32(userdata[1])*60;
+            userdays = Convert.ToInt32(userdata[2]);
+            
 
 
         }
@@ -117,24 +119,28 @@ namespace NEA.Tasks
         
         public void fillsplit(string[][] day)
         {
-            int totaltimetaken = 0;
+            
             int timeforeachfocus = usertime / day.Length;
             // The musclefocus is in the form of, Triceps and Chest, each of these will be filled evenly
             foreach (string[] musclefocus in day)
             {
+                totaltimetaken = 0;
+                int exercisefound = 0;
                 int index = 0;
                 // The musclefocus is stopped filling if time allocated to it runs out, or too little time is left ( less than or equal to 4 mins)
-                while(totaltimetaken != timeforeachfocus | (timeforeachfocus-totaltimetaken)>=4)
+                int[] exercises = new int[20];
+                while(totaltimetaken != timeforeachfocus && (timeforeachfocus-totaltimetaken)>=4)
                 {
-                    int exercisefound = FindExerciseforMinorMuscle(musclefocus[index]);
                     bool hasblacklisted = true;
-                    while (!hasblacklisted)
+                    while (hasblacklisted)
                     {
+                        exercisefound = FindExerciseforMinorMuscle(musclefocus[index]);
                         hasblacklisted = CheckBlackLists(exercisefound); 
                     }
-
-                   
                     UpdateTimeTaken(exercisefound);
+                    exercises.Append(exercisefound);
+
+
                     UpdateDB();
                     // the index is used to repeatedly go over the minor muscles e.g. Hamstring, Glutes to fill them evenly
                     index += 1;
@@ -143,6 +149,7 @@ namespace NEA.Tasks
                         index = 0;
                     }
                 }
+                generatedworkout.Append(exercises);
 
             } 
         }
@@ -157,22 +164,35 @@ namespace NEA.Tasks
             // Uses a random integer to pick a random exercise from the array of exercises
             Random random = new Random();
             int num = random.Next(0, exercises.Length);
-            
-
-            
-
-
             return exercises[num];
         }
         public bool CheckBlackLists(int exercisefound)
         {
-            return true;
+            // this method checks the exercise blacklist, machine blacklist, and muscle blacklist tables to see if something related to the exercise is blacklisted 
+            
+
+
+            return false;
         }
         public void UpdateTimeTaken(int exerciseID)
         {
-            
-            
+            // get the sets and reps for the exercise 
+            var exerciserepo = new ExerciseRepository();
+            int[] setsandreps = exerciserepo.GetExerciseData(exerciseID);
+            // Note that the rest times are in seconds 
+            int resttime = 60;
+            if (useraim == "strength")
+            {
+                resttime = 90;
+            }
+            else if(useraim == "endurance")
+            {
+                resttime = 45;
+            }
 
+            // the formula below assumed that the time for each rep is 5 seconds 
+            int timeforexercise = setsandreps[0] * (setsandreps[1] * 5 + resttime);
+            totaltimetaken += timeforexercise;
         }
         public void UpdateDB()
         {

@@ -4,7 +4,16 @@
              x:Class="NEA.AutoPage">
     <ContentPage.Content>
         <StackLayout>
-         
+
+
+            <CollectionView>
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Span="2" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate></DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
 
 

@@ -3,7 +3,7 @@
 namespace NEA.Models
 {
     [Table("MachineBlacklist")]
-    internal class MachineBlacklist
+    public class MachineBlacklist
     {
         [Indexed(Name = "CompositeKey", Order = 1, Unique = true)]
         public int UserID { get; set; }

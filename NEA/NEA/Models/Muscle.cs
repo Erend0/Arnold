@@ -3,7 +3,7 @@
 namespace NEA.Models
 {
     [Table("Muscle")]
-    internal class Muscle
+    public class Muscle
     {
         [PrimaryKey, AutoIncrement]
         public int MuscleID { get; set; }

@@ -6,7 +6,8 @@ using NEA.Data;
 using NEA.Models;
 using System.Runtime.CompilerServices;
 using NEA.Pages;
-
+using NEA.Tasks;
+using System.Security.Cryptography.X509Certificates;
 
 namespace NEA.Pages
 {
@@ -39,12 +40,15 @@ namespace NEA.Pages
                 var userdataRepo = new UserDataRepository();
                 userdataRepo.InsertUserData(userID,time,days,aim);
 
+                // The calls which will generate the workout is called
+                // The all variable means all of the days will be generated 
+                Workout workout = new Workout("all");
                 App.Current.MainPage = new NavigationPage(new HomePage());
 
 
             }
-
         }
+   
       
     }
 }

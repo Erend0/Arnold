@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using SQLite;
 
-namespace NEA.Models
+namespace NEA.
+     [Table("Exercise")]
+      
 {
-    internal class Exercise
+    public class Exercise
     {
 
-        [Table("Exercise")]
-        public class User
-        {
+       
             [AutoIncrement, PrimaryKey]
 
             public int ExerciseID { get; set; }
@@ -20,6 +20,6 @@ namespace NEA.Models
             public int Reps { get; set; }
             
 
-        }
+        
     }
 }

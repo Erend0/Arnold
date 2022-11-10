@@ -3,7 +3,7 @@
 namespace NEA.Models
 {
     [Table("Schedule")]
-    internal class Schedule
+    public class Schedule
     {
         [PrimaryKey,AutoIncrement]
         public int RowID { get; set; }

@@ -3,7 +3,7 @@
 namespace NEA.Models
 {
     [Table("ExerciseBlacklist")]
-    internal class ExerciseBlacklist
+    public class ExerciseBlacklist
     {
 
         [Indexed(Name = "CompositeKey", Order = 1, Unique = true)]

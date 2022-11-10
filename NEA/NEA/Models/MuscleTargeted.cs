@@ -3,7 +3,7 @@
 namespace NEA.Models
 {
     [Table("MuscleTargeted")]
-    internal class MuscleTargeted
+    public class MuscleTargeted
     {
         [PrimaryKey, AutoIncrement]
         [Indexed(Name = "CompositeKey", Order = 1, Unique = true)]
