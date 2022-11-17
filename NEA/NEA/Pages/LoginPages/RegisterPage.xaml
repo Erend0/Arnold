@@ -2,16 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NEA.RegisterPage"
-             BackgroundColor="Black"
-             
-             >
+             BackgroundColor="Black">
     <ContentPage.Content>
-        
         <StackLayout>
-
-           
-            
-
             <Label Text="Sign Up"
                   HorizontalOptions="CenterAndExpand"
                   FontSize="Header"
@@ -24,41 +17,26 @@
                 HorizontalOptions="Center"
                 TextColor="White"
              />
-
-
             <Entry  x:Name="UserName"
                 Placeholder="Enter a Username"
                 HorizontalOptions="Center"
-               
-                
              />
+            <!-- Entry field for the user that brings up the keypad for pin entry-->
             <Entry  x:Name="UserPin"
                 Placeholder="Enter a 4-Digit Pin"
                 HorizontalOptions="Center"
                 IsPassword="True"
                 Keyboard="Numeric"
-           
-                
              />
+            <!-- This button is used to trigger the username and password checking in the program-->
             <Button
                 Text="Register"
                 Clicked="Register_Clicked"
                 CornerRadius="5"
                 Margin="25"
                 BackgroundColor="CornflowerBlue"
-                
-                
              />
-            <Label x:Name="UserNameError"
-                Text=""
-                TextColor="Red"
-             />
-            <Label x:Name="PassError"
-                
-             Text="" 
-             TextColor="Red"
-             />
-
+            <!-- This button is used to prompt the user to the register page-->
             <Button
                 Text="Login Instead"
                 TextColor="White"
@@ -67,12 +45,7 @@
                 Pressed="Login_Pressed"
                 BackgroundColor="Blue"
                 CornerRadius="5"
-                
              />
-
-
-
-
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

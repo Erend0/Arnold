@@ -5,40 +5,40 @@
              Background="Black">
     <ContentPage.Content>
         <StackLayout>
+            
             <Label Text="Login"
                   HorizontalOptions="CenterAndExpand"
                   FontSize="Header"
                   Padding="20"
-                  TextColor="White"
-             />
+                  TextColor="White" />
+            
             <Entry  x:Name="UserName"
                 Placeholder="Enter Username"
-                HorizontalOptions="Center"
-                
-             />
+                HorizontalOptions="Center"/>
+            
             <Entry  x:Name="UserPin"
                 Placeholder="Enter pin"
                 HorizontalOptions="Center"
                 IsPassword="True"
-                Keyboard="Numeric"
-                
-             />
+                Keyboard="Numeric"/>
+            
+            <!-- The button below is used to trigger the program to check user details -->
             <Button
                 Text="Login"
                 Clicked="Login_Clicked"
                 CornerRadius="5"
                 Margin="25"
-                BackgroundColor="Blue"
-             />
+                BackgroundColor="Blue"/>
+            
+            <!-- The button below is used to change the current page to the register page -->
             <Button 
                 BackgroundColor="Blue"
                 Text="Register Instead"
                 Clicked="Register_Clicked"
                 CornerRadius="5"
                 Margin="25"
-                VerticalOptions="EndAndExpand"
-                
-             />
+                VerticalOptions="EndAndExpand"/>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

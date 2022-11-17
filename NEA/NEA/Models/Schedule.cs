@@ -1,7 +1,8 @@
 ﻿using SQLite;
-
+s
 namespace NEA.Models
 {
+    
     [Table("Schedule")]
     public class Schedule
     {

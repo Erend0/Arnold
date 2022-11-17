@@ -1,7 +1,7 @@
 ﻿using SQLite;
-
 namespace NEA.Models
 {
+    // This class is used to store the data for each muscle
     [Table("Muscle")]
     public class Muscle
     {

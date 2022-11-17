@@ -7,14 +7,11 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 namespace NEA
 {
- 
-   
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegisterPage : ContentPage
     {
         public RegisterPage()
         {
-            
             InitializeComponent();
         }
         
@@ -25,11 +22,11 @@ namespace NEA
             bool hasName = checkName();
             if (hasPin && hasName)
             {
-                // Once the pin and username functions are both satisfied, the user is promted to the user data page
-
-                storeUserDetails();    
-                apppage();
-
+                // Once the pin and username functions are both satisfied
+                // The user is added to the database
+                // The homepage is changed to the details page
+                storeUserDetails();
+                Application.Current.MainPage = new NavigationPage(new UserDataPage()); ;
 
             }
         }
@@ -41,23 +38,22 @@ namespace NEA
             // Error : Pin is too short
             if (checkpin.Length < 4)
             {
-                PassError.Text = "Error - The Pin is too short: It should be 4 digits";
+                DisplayAlert("Error", "The Pin is too short: It should be 4 digits", "OK");
             }
             // Error : Pin is too long
             else if (checkpin.Length > 4)
             {
-                PassError.Text = "Error - The Pin is too long: It should be 4 digits";
+                DisplayAlert("Error", "The Pin is too long: It should be 4 digits", "OK");
             }
             // Error : Pin contains non numeric values
             else if (checkpin.All(char.IsDigit) == false)
             {
-                PassError.Text = "Error - The Pin contains non numeric values";
+                DisplayAlert("Error", "The Pin contains non numeric values", "OK");
             }
             // Accept : Correct Pin format
             else
             {
                 return true;
-
             }
             return false;
         }
@@ -70,16 +66,17 @@ namespace NEA
             // check if it is larger than 0 characters 
             if (checkUserName.Length < 0)
             {
-                UserNameError.Text = "The Username must be at least one characters";
+                DisplayAlert("Error", "The Username is too short: It should be 1 or more characters", "OK");
             }
             // check if the username already exists
-            else if (NameDuplicateError == true) {
-                UserNameError.Text = "This Username Already Exists, Please pick a new one";
-            }
-
-            else if(checkUserName.Length > 6)
+            else if (NameDuplicateError == true)
             {
-                UserNameError.Text = "The Username must be shorted than 6 characters";
+                DisplayAlert("Error", "The Username already exists", "OK");
+            }
+            // checks if the username is too long
+            else if (checkUserName.Length > 6)
+            {
+                DisplayAlert("Error", "The Username is too long: It should be 6 or less characters", "OK");
             }
             // Accept : Correct Username format
             else
@@ -89,11 +86,13 @@ namespace NEA
 
             return false;
         }
+        
+        // This method is used to check if a username already exists in the database
         private bool doesExist()
         {
             string NameToCheck = ((Entry)UserName).Text;
-
-            // check if NameToCheck is already in the database
+            // The userrepository function GetUsernames is called
+            // Each name is checked against the name to check
             var userrepo = new UserRepository();
             var usernames = userrepo.GetUsernames();
 
@@ -108,7 +107,7 @@ namespace NEA
 
         }
 
-
+        // This function stores the user details in the database, and sets the HasLoggedIn to true / 1
         private void storeUserDetails()
         {
             string userName = ((Entry)UserName).Text;
@@ -123,27 +122,13 @@ namespace NEA
             // add user to database
             var userRepo = new UserRepository();
             userRepo.AddNewUser(user);
-            
-
         }
-
-
-
-        private void apppage()
-        {
-            // chooses the split type
-            // fills the splits for the first time
-            
-            Application.Current.MainPage = new NavigationPage(new UserDataPage());
-
-        }
-
+        
+        // This function is triggered by the button in the xaml code, and is used to promt the user back to the login page
         private void Login_Pressed(object sender, EventArgs e)
         {
             // change mainpage to login page
             Application.Current.MainPage = new NavigationPage(new LoginPage());
-            
-
         }
     }
 }

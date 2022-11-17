@@ -1,8 +1,7 @@
 ﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using NEA.Data;
 using NEA.Tasks;
-using System;
+
 
 namespace NEA
 {
@@ -13,11 +12,22 @@ namespace NEA
         {
            
             InitializeComponent();
-            // pass the days to generate into workout
-            Workout myworkout = new Workout("all");
-
+           
 
         }
 
+        private void Button2_Pressed(object sender, System.EventArgs e)
+        {
+           // pass the days to generate into workout
+           Workout myworkout = new Workout("Biceps");
+           int[][] testvar = myworkout.generatedworkout;
+           foreach (int[] item in testvar)
+           {
+               // create a display alert with teh item variablle 
+              DisplayAlert("test", item.ToString(), "ok");
+           }
+
+
+        }
     }
 }

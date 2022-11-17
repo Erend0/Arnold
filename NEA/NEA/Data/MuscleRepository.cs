@@ -4,7 +4,7 @@ using NEA.Models;
 using SQLite;
 namespace NEA.Data
 {
-    internal class MuscleRepository
+    public class MuscleRepository
     {
 
         private readonly SQLiteConnection _database;
@@ -12,31 +12,28 @@ namespace NEA.Data
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GymDataBase.db");
 
         public MuscleRepository()
-        {
+        { 
             _database = new SQLiteConnection(DbPath);
             _database.CreateTable<Muscle>();
-            _database.CreateTable<MuscleTargeted>();
+            
         }
 
 
-        // a function which returns the muscle id from the muscle minor input 
-        public int GetMuscleID(string muscleMinor)
+        // finds the muscle id given the major and minor muscles and returns as an integer, function name is FindMuscleID
+        public int FindMuscleID(string majorMuscle, string minorMuscle)
         {
-            var muscle = _database.Table<Muscle>().Where(x => x.MinorMuscle == muscleMinor).FirstOrDefault();
-            return muscle.MuscleID;
-        }
-
-        // returns all the exercise ids from the muscletargeted table where he minormuscleid is equal to int minomuscleid  
-        public int[] GetExercises(int minormuscleid)
-        {
-            var exercises = _database.Table<MuscleTargeted>().Where(y => y.MinorMuscleID == minormuscleid).ToArray();
-            int[] exerciseids = new int[exercises.Length];
-            for (int i = 0; i < exercises.Length; i++)
-            {
-                exerciseids[i] = exercises[i].ExerciseID;
+            // insert into muscle major and minor muscle
+            // Find the muscle id of the muscle with the major and minor muscle names
+            var muscle = _database.Table<Muscle>().Where(x => x.MajorMuscle == majorMuscle && x.MinorMuscle == minorMuscle).ToArray();
+            if (muscle.Length == 0)
+            {  
+                return -1;
+                
             }
-            return exerciseids;
+            else
+            {
+                return muscle[0].MuscleID;
+            }
         }
-
     }
 }

@@ -3,53 +3,48 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-
 namespace NEA.Data
 {
     public class UserRepository
     {
+        // A connection to the database file is estabilished
         private readonly SQLiteConnection _database;
         public static String DbPath { get; } =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GymDataBase.db");
 
 
-        public UserRepository()
-        {
+        public UserRepository() 
+        { 
             _database = new SQLiteConnection(DbPath);
             _database.CreateTable<User>();
         }
         
-        public List<User> List()
-        {
-            return _database.Table<User>().ToList();
-        }
-       
-        // return usernames of all users 
+        // This function is used to return all the user names in the format of a string
         public List<User> GetUsernames()
         {
             return _database.Query<User>("SELECT [UserName] FROM [Users]");
         }
         
-        // add a new user to database 
+        // This function is used to insert new users to the database
         public void AddNewUser(User user)
         {
             _database.Insert(user);
         }
-
-        // delete all the users
+        
+        // Deletes all the users in the table
         public void DeleteAllUsers()
         {
-            
                 _database.DeleteAll<User>();
-            
         }
-        // check if a user with the username and pin exists in the database
+        
+        // Check if a user with the username and pin exists in the database (used in the login page)
         public bool LoginUser(string username, string pin)
         {
             var user = _database.Query<User>("SELECT * FROM [Users] WHERE [UserName] = ? AND [UserPin] = ?", username, pin);
             if (user.Count == 1)
             {
+                // Set the has logged in for the user to 1
+                _database.Query<User>("UPDATE [Users] SET [HasLoggedIn] = 1 WHERE [UserName] = ? AND [UserPin] = ?", username, pin);
                 return true;
             }
             else
@@ -58,13 +53,15 @@ namespace NEA.Data
             }
         }
         
-        // returns the currentley logged in user 
+        // Returns the currentley logged in user 
         public User GetLoggedInUser()
         {
             var user = _database.Query<User>("SELECT * FROM [Users] WHERE [HasLoggedIn] = 1");
             return user[0];
         }
-        // returns a boolean value false if there is no user with haslogged in as 1 
+        // This function returns a boolean value false if there is no user with haslogged in as 1 
+        // Meaning the program will have to use the login page
+        // Instead of directley launcing the HomePage
         public bool CheckLoggedInUser()
         {
             var user = _database.Query<User>("SELECT * FROM [Users] WHERE [HasLoggedIn] = 1");
@@ -77,13 +74,5 @@ namespace NEA.Data
                 return false;
             }
         }
-
-
-
-
-
-
-
-
     }
 }

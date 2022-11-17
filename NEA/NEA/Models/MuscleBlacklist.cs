@@ -1,7 +1,7 @@
 ﻿using SQLite;
-
 namespace NEA.Models
 {
+    // This class is used to store the muscles blacklisted by the user
     [Table("MachineBlacklist")]
     public class MuscleBlacklist
     {

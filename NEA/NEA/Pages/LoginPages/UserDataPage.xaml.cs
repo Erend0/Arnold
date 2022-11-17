@@ -1,14 +1,8 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using SQLite;
 using NEA.Data;
-using NEA.Models;
-using System.Runtime.CompilerServices;
-using NEA.Pages;
 using NEA.Tasks;
-using System.Security.Cryptography.X509Certificates;
-
 namespace NEA.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -26,29 +20,25 @@ namespace NEA.Pages
             }
             else
             {
-                // gets days slider value
+                // gets days stepper value from the bindings
                 int days = (int)Days.Value;
-                // gets time slider value 
-                int time = (int)Time.Value;
+                // gets time stepper value (converted to seconds)
+                int time = (int)Time.Value*60;
                 // gets aim value
                 string aim = Aim.SelectedItem.ToString();
 
-                // inserts user data into userdata repositoru 
+                // Inserts user data into the database using the userdata repository
                 var userrepo = new UserRepository();
                 int userID = userrepo.GetLoggedInUser().UserID;
-                
                 var userdataRepo = new UserDataRepository();
                 userdataRepo.InsertUserData(userID,time,days,aim);
 
-                // The calls which will generate the workout is called
-                // The all variable means all of the days will be generated 
+                // The class which will generate the workout is instantiated
+                // The "all" parameter means all of the days will be generated
                 Workout workout = new Workout("all");
+                // The current page is changed to the main tabbed page
                 App.Current.MainPage = new NavigationPage(new HomePage());
-
-
             }
         }
-   
-      
     }
 }

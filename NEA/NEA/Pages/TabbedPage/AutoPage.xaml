@@ -6,14 +6,9 @@
         <StackLayout>
 
 
-            <CollectionView>
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Span="2" Orientation="Vertical" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate></DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <Button
+                
+            Pressed="Button2_Pressed"/>
 
 
 
