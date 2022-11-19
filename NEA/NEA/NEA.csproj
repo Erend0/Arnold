@@ -10,9 +10,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="GymDB.db" />
-  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
@@ -20,9 +18,6 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="GymDB.db" />
-  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Pages\LoginPages\LoginPage.xaml">

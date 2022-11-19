@@ -117,7 +117,7 @@ namespace NEA
             {
                 UserName = userName,
                 UserPin = userPin,
-                HasLoggedIn = true,
+                HasLoggedIn = 1,
             };
             // add user to database
             var userRepo = new UserRepository();

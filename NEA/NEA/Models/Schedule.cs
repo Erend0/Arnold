@@ -1,5 +1,4 @@
 ﻿using SQLite;
-s
 namespace NEA.Models
 {
     

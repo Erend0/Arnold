@@ -16,13 +16,19 @@ namespace NEA.Data
         public UserRepository() 
         { 
             _database = new SQLiteConnection(DbPath);
+            // read from the user table in the database file
             _database.CreateTable<User>();
+
+
+
+
+            //_database.CreateTable<User>();
         }
         
         // This function is used to return all the user names in the format of a string
         public List<User> GetUsernames()
         {
-            return _database.Query<User>("SELECT [UserName] FROM [Users]");
+            return _database.Query<User>("SELECT [UserName] FROM [User]");
         }
         
         // This function is used to insert new users to the database
@@ -40,11 +46,11 @@ namespace NEA.Data
         // Check if a user with the username and pin exists in the database (used in the login page)
         public bool LoginUser(string username, string pin)
         {
-            var user = _database.Query<User>("SELECT * FROM [Users] WHERE [UserName] = ? AND [UserPin] = ?", username, pin);
+            var user = _database.Query<User>("SELECT * FROM [User] WHERE [UserName] = ? AND [UserPin] = ?", username, pin);
             if (user.Count == 1)
             {
                 // Set the has logged in for the user to 1
-                _database.Query<User>("UPDATE [Users] SET [HasLoggedIn] = 1 WHERE [UserName] = ? AND [UserPin] = ?", username, pin);
+                _database.Query<User>("UPDATE [User] SET [HasLoggedIn] = 1 WHERE [UserName] = ? AND [UserPin] = ?", username, pin);
                 return true;
             }
             else
@@ -56,7 +62,7 @@ namespace NEA.Data
         // Returns the currentley logged in user 
         public User GetLoggedInUser()
         {
-            var user = _database.Query<User>("SELECT * FROM [Users] WHERE [HasLoggedIn] = 1");
+            var user = _database.Query<User>("SELECT * FROM [User] WHERE [HasLoggedIn] = 1");
             return user[0];
         }
         // This function returns a boolean value false if there is no user with haslogged in as 1 
@@ -64,7 +70,7 @@ namespace NEA.Data
         // Instead of directley launcing the HomePage
         public bool CheckLoggedInUser()
         {
-            var user = _database.Query<User>("SELECT * FROM [Users] WHERE [HasLoggedIn] = 1");
+            var user = _database.Query<User>("SELECT * FROM [User] WHERE [HasLoggedIn] = 1");
             if (user.Count == 1)
             {
                 return true;
