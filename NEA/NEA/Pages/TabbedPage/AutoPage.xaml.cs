@@ -1,8 +1,9 @@
 ﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NEA.Tasks;
-
-
+using NEA.Data;
+using System.Collections.Generic;
+using System;
 namespace NEA
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -12,20 +13,22 @@ namespace NEA
         {
            
             InitializeComponent();
-           
-
+            
         }
 
         private void Button2_Pressed(object sender, System.EventArgs e)
         {
            // pass the days to generate into workout
            Workout myworkout = new Workout("Biceps");
-           int[][] testvar = myworkout.generatedworkout;
-           foreach (int[] item in testvar)
-           {
-               // create a display alert with teh item variablle 
-              DisplayAlert("test", item.ToString(), "ok");
-           }
+           List<List<int>> testvar = myworkout.generatedworkout;
+            // creates console output showing all the contents of testvar
+            foreach (var item in testvar)
+            {
+                foreach (var item2 in item)
+                {
+                    Console.WriteLine(item2);
+                }
+            }
 
 
         }

@@ -35,7 +35,7 @@ namespace NEA.Pages
 
                 // The class which will generate the workout is instantiated
                 // The "all" parameter means all of the days will be generated
-                Workout workout = new Workout("all");
+               /////////////////////////////////////////////////////////// Workout workout = new Workout("all");
                 // The current page is changed to the main tabbed page
                 App.Current.MainPage = new NavigationPage(new HomePage());
             }

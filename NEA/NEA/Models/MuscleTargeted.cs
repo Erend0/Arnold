@@ -10,6 +10,6 @@ namespace NEA.Models
         public int ExerciseID { get; set; }
 
         [Indexed(Name = "CompositeKey", Order = 2, Unique = true)]
-        public int MinorMuscleID { get; set; }
+        public int MuscleID { get; set; }
     }
 }

@@ -10,6 +10,14 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="GymDatabase.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="GymDatabase.db" />
+  </ItemGroup>
+
 
 
   <ItemGroup>

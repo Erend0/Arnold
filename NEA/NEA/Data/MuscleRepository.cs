@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using NEA.Models;
 using SQLite;
 namespace NEA.Data
@@ -7,33 +8,31 @@ namespace NEA.Data
     public class MuscleRepository
     {
 
-        private readonly SQLiteConnection _database;
-        public static String DbPath { get; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GymDataBase.db");
-
+        static SQLiteAsyncConnection _database;
         public MuscleRepository()
-        { 
-            _database = new SQLiteConnection(DbPath);
-            _database.CreateTable<Muscle>();
-            
+        {
+            string DbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GymDatabase.db");
+            Assembly assemly = IntrospectionExtensions.GetTypeInfo(typeof(App)).Assembly;
+            Stream embeddedDatabaseStream = assemly.GetManifestResourceStream("NEA.GymDatabase.db");
+            if (!File.Exists(DbPath))
+            {
+                FileStream filestreamtowrite = File.Create(DbPath);
+
+                embeddedDatabaseStream.Seek(0, SeekOrigin.Begin);
+                embeddedDatabaseStream.CopyTo(filestreamtowrite);
+                filestreamtowrite.Close();
+            }
+            _database = new SQLiteAsyncConnection(DbPath);
+            _database.CreateTableAsync<Muscle>().Wait();
         }
 
 
-        // finds the muscle id given the major and minor muscles and returns as an integer, function name is FindMuscleID
+        // finds the muscle id given the major and minor muscles and returns as an integer, function name is FindMuscleID, returns -1 if not found
         public int FindMuscleID(string majorMuscle, string minorMuscle)
         {
-            // insert into muscle major and minor muscle
-            // Find the muscle id of the muscle with the major and minor muscle names
-            var muscle = _database.Table<Muscle>().Where(x => x.MajorMuscle == majorMuscle && x.MinorMuscle == minorMuscle).ToArray();
-            if (muscle.Length == 0)
-            {  
-                return -1;
-                
-            }
-            else
-            {
-                return muscle[0].MuscleID;
-            }
+            var muscle = _database.Table<Muscle>().Where(i => i.MajorMuscle == majorMuscle && i.MinorMuscle == minorMuscle).FirstOrDefaultAsync().Result;
+            return muscle.MuscleID;
+            
         }
     }
 }

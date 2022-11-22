@@ -23,7 +23,7 @@ namespace NEA.Tasks
         // the variable below is used by the fill split method to determine how many muscles there are in each day of splits
         private int totaltimetaken { get; set;}
         private int numberofmuscles { get; set; }
-        public int[][] generatedworkout { get; set; }
+        public List<List<int>> generatedworkout { get; set; } = new List<List<int>>();
         public int Currentuserid { get; set; }
         public int currentmuscleID { get; set; }
       
@@ -116,24 +116,26 @@ namespace NEA.Tasks
         {
             int index = 0;
             int timeforeachfocus = usertime / day.Length;
-            for(int i=0;i<day.Length;i++)
+            for (int i = 0; i < day.Length; i++)
             {
                 // Note that totaltimetaken is also in the format of minutes, same as the usertime variable
                 totaltimetaken = 0;
-                int[] exercises = new int[50];
-                while(totaltimetaken != timeforeachfocus && (timeforeachfocus-totaltimetaken)>=4)
+                List<int> exercises = new List<int>();
+                while (totaltimetaken != timeforeachfocus && (timeforeachfocus - totaltimetaken) >= 240)
                 {
                     bool hasblacklisted = true;
-                    while (hasblacklisted)
+                    bool hasduplicate = true;
+                    while (hasblacklisted || hasduplicate)
                     {
-                        //Console.WriteLine(day[i][index]);
-
+                        
                         exercisefound = FindExerciseforMinorMuscle(day[i][index]);
                         Console.WriteLine("Exercise found is" + exercisefound);
                         hasblacklisted = CheckBlackLists(exercisefound);
+                        hasduplicate = CheckDuplicates(exercises, exercisefound);
                         Console.WriteLine("Has blacklisted is" + hasblacklisted);
                     }
                     UpdateTimeTaken(exercisefound);
+                    exercises.Add(exercisefound);
                     Console.WriteLine("New time is" + totaltimetaken);
                     //UpdateDB();
                     index++;
@@ -142,7 +144,8 @@ namespace NEA.Tasks
                         index = 0;
                     }  
                 }
-                generatedworkout.Append(exercises);
+                
+                generatedworkout.Add(exercises);
             } 
         }
         public int FindExerciseforMinorMuscle(string minormuscle)
@@ -198,8 +201,19 @@ namespace NEA.Tasks
         {
             
         }
-       
-      
+        public bool CheckDuplicates(List<int> exercises, int exerciseID)
+        {
+            if (exercises.Contains(exerciseID))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
 
     }   
 }
