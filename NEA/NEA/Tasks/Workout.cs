@@ -1,7 +1,11 @@
 ﻿using NEA.Data;
+using NEA.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
+
 namespace NEA.Tasks
 {
     public class Workout
@@ -26,6 +30,7 @@ namespace NEA.Tasks
         public List<List<int>> generatedworkout { get; set; } = new List<List<int>>();
         public int Currentuserid { get; set; }
         public int currentmuscleID { get; set; }
+       
       
    
 
@@ -137,7 +142,8 @@ namespace NEA.Tasks
                     UpdateTimeTaken(exercisefound);
                     exercises.Add(exercisefound);
                     Console.WriteLine("New time is" + totaltimetaken);
-                    //UpdateDB();
+                    string dayname = "";
+                    UpdateDB(dayname,exercisefound);
                     index++;
                     if (index == day[i].Length)
                     {
@@ -197,10 +203,28 @@ namespace NEA.Tasks
             int timeforexercise = setsandreps[0] * (setsandreps[1] * 5 + resttime);
             totaltimetaken += timeforexercise;
         }
-        public void UpdateDB(int exerciseid)
+        public void UpdateDB(string dayname, int exerciseID)
         {
-            
+            var exerciserepo = new ExerciseRepository();
+            int[] setsandreps = exerciserepo.GetExerciseData(exerciseID);
+            string exercisename = exerciserepo.GetExerciseName(exerciseID);
+            var muscletargetedrepo = new MuscleTargetedRepository();
+            int muscleid = muscletargetedrepo.GetMuscleID(exerciseID);
+
+            var schedulecontent = new Schedule
+            {
+                UserID = Currentuserid,
+                Dayname = dayname,
+                ExerciseName = exercisename,
+                MuscleID =muscleid,
+                Sets = setsandreps[0],
+                Reps = setsandreps[1],
+            };
+            var schedulerepo = new ScheduleRepository();
+            schedulerepo.CreateSchedule(schedulecontent);
+
         }
+                
         public bool CheckDuplicates(List<int> exercises, int exerciseID)
         {
             if (exercises.Contains(exerciseID))

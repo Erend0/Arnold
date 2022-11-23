@@ -37,6 +37,12 @@ namespace NEA.Data
             return exercise[index].ExerciseID;
             
         }
+        public int GetMuscleID(int exerciseID)
+        {
+            // returns the muscleID given the exerciseid
+            var muscle = _database.Table<MuscleTargeted>().Where(i => i.ExerciseID == exerciseID).ToListAsync().Result;
+            return muscle[0].MuscleID;
+        }
 
     }
 }

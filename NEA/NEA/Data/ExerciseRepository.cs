@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using NEA.Models;
@@ -32,10 +33,15 @@ namespace NEA.Data
         public int[] GetExerciseData(int exerciseID)
         {
             var exercise = _database.Table<Exercise>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result;
-            int[] setsAndReps = new int[2];
-            setsAndReps[0] = exercise.Sets;
-            setsAndReps[1] = exercise.Reps;
-            return setsAndReps;
+            int[] data = new int[2];
+            data[0] = exercise.Sets;
+            data[1] = exercise.Reps;
+            return data;
+        }
+        public string GetExerciseName(int exerciseID)
+        {
+            string exercisename = _database.Table<Exercise>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result.ExerciseName;
+            return exercisename; 
         }
 
         // return the machine id given the exercise id

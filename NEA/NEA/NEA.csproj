@@ -34,7 +34,10 @@
     <EmbeddedResource Update="Pages\TabbedPage\AutoPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\TabbedPage\CustomPage.xaml">
+    <EmbeddedResource Update="Pages\TabbedPage\CustomPage\CustomInfoPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\TabbedPage\CustomPage\CustomPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="HomePage.xaml">
