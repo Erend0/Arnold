@@ -28,11 +28,21 @@ namespace NEA.Data
 
 
         // finds the muscle id given the major and minor muscles and returns as an integer, function name is FindMuscleID, returns -1 if not found
-        public int FindMuscleID(string majorMuscle, string minorMuscle)
+        public int FindMuscleID(string minorMuscle)
         {
-            var muscle = _database.Table<Muscle>().Where(i => i.MajorMuscle == majorMuscle && i.MinorMuscle == minorMuscle).FirstOrDefaultAsync().Result;
+            var muscle = _database.Table<Muscle>().Where(i => i.MinorMuscle == minorMuscle).FirstOrDefaultAsync().Result;
+            Console.WriteLine(minorMuscle);
             return muscle.MuscleID;
             
+        }
+        public string[] GetMuscleName(int muscleID)
+        {
+            
+            var muscle = _database.Table<Muscle>().Where(i => i.MuscleID == muscleID).FirstOrDefaultAsync().Result;
+            string[] muscleName = new string[2];
+            muscleName[0] = muscle.MajorMuscle;
+            muscleName[1] = muscle.MinorMuscle;
+            return muscleName;
         }
     }
 }

@@ -9,9 +9,26 @@
             <Button
                 
             Pressed="Button2_Pressed"/>
+           
+            
+            <!-- List view which are added with the gym exercises -->
+            <ListView x:Name="listView" ItemsSource="{Binding GymExercises}" ItemSelected="ListView_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding Name}" />
+                                <Label Text="{Binding Sets}" />
+                                <Label Text="{Binding Reps}" />
+                                
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
 
-
-
+            </ListView>
+            <Button x:Name="Additem" 
+                    Pressed="Add_Pressed"/>
 
         </StackLayout>
         

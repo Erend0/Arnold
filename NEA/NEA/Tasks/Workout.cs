@@ -15,13 +15,13 @@ namespace NEA.Tasks
         private string useraim { get; set; }
         // Note that usertime is in seconds by default
         private int usertime { get; set; }
-        private readonly string[] chest = { "upper", "lower", "inner" };
-        private readonly string[] triceps = { "longhead", "lateralhead", "medialhead" };
-        private readonly string[] back = { "lats", "middleback", "lowerback" };
-        private readonly string[] biceps = { "Long Head", "Short Head" };
-        private readonly string[] shoulders = { "anteriordelts", "medialdelts", "posteriordelts" };
-        private readonly string[] legs = { "quadriceps", "hamstrings", "glutes", "calves", "abductors" };
-        private readonly string[] cardio = {"cardio" };
+        private readonly string[] chest = { "Upper", "Lower", "Inner" };
+        private readonly string[] triceps = { "Longhead", "Lateral Head", "Medial Head" };
+        private readonly string[] back = { "Lats", "Middle Back", "Lower Back" };
+        private readonly string[] biceps = { "LongHead", "ShortHead" };
+        private readonly string[] shoulders = { "Anteriordelts", "Medialdelts", "Posteriordelts" };
+        private readonly string[] legs = { "Quadriceps", "Hamstrings", "Glutes", "Calves"};
+        private readonly string[] cardio = {"Cardio" };
         private int exercisefound { get; set; }
 
         // the variable below is used by the fill split method to determine how many muscles there are in each day of splits
@@ -31,15 +31,10 @@ namespace NEA.Tasks
         public int Currentuserid { get; set; }
         public int currentmuscleID { get; set; }
        
-      
-   
-
-        // The constructor
         public Workout(string togenerate)
         {
             GetUserData();
             GenerateWorkout(togenerate);
-            Console.WriteLine("Workout generated");
         }
         public void GetUserData()
         {
@@ -71,10 +66,37 @@ namespace NEA.Tasks
             // the element in the queue containing the queue will be found 
             else
             {
+                string[][] day = { };
+                if (togenerate == "biceps")
+                {
+                    day.Append(biceps);
+                    Fillsplit(day);
+                }
+                else if (togenerate == "back")
+                {
+                    day.Append(back);
+                    Fillsplit(day);
 
-                string[][] test = { biceps };
+                }
+                else if (togenerate == "chest")
+                {
+                    day.Append(chest);
+                    Fillsplit(day);
+                }
+                  
+                else if (togenerate == "triceps") {
+                    day.Append(triceps);
+                    Fillsplit(day);
+                }
+                else if (togenerate == "legs")
+                {
+                    day.Append(legs);
+                    Fillsplit(day);
+                }
                 
-                Fillsplit(test);
+                
+                
+                
             }
         }
         public Queue<string[][]> returnsplitqueue()
@@ -159,7 +181,7 @@ namespace NEA.Tasks
             // use the GetMuscleID method with the minor muscle parameter to get the id of the minor muscle
             var muscletargetedrepo = new  MuscleTargetedRepository();
             var musclerepo = new MuscleRepository();
-            currentmuscleID = musclerepo.FindMuscleID("Bicep","LongHead");
+            currentmuscleID = musclerepo.FindMuscleID(minormuscle);
             Console.WriteLine("Muscleid is" + currentmuscleID);
             // use the id of the muscle to find the exercises it links to 
             int exercise = muscletargetedrepo.GetExerciseID(currentmuscleID);
