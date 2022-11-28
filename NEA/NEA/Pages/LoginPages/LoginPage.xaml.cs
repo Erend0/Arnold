@@ -9,6 +9,8 @@ namespace NEA.Pages
     {
         public LoginPage()
         {
+            //remove navigation bar
+            NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
         }
 

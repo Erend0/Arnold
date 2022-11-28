@@ -5,12 +5,15 @@
              Background="Black">
     <ContentPage.Content>
         <StackLayout>
+            <StackLayout HorizontalOptions="CenterAndExpand" Margin="20" Padding="70" >
             
             <Label Text="Login"
                   HorizontalOptions="CenterAndExpand"
-                  FontSize="Header"
+                  FontSize="70"
                   Padding="20"
-                  TextColor="White" />
+                  TextColor="DarkSlateBlue" 
+                   
+                  />
             
             <Entry  x:Name="UserName"
                 Placeholder="Enter Username"
@@ -28,17 +31,17 @@
                 Clicked="Login_Clicked"
                 CornerRadius="5"
                 Margin="25"
-                BackgroundColor="Blue"/>
+                BackgroundColor="DarkSlateGray"/>
             
             <!-- The button below is used to change the current page to the register page -->
             <Button 
-                BackgroundColor="Blue"
+                BackgroundColor="DarkSlateBlue"
                 Text="Register Instead"
                 Clicked="Register_Clicked"
                 CornerRadius="5"
                 Margin="25"
                 VerticalOptions="EndAndExpand"/>
-            
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

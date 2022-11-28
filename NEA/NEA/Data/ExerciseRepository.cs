@@ -33,22 +33,56 @@ namespace NEA.Data
         public int[] GetExerciseData(int exerciseID)
         {
             var exercise = _database.Table<Exercise>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result;
-            int[] data = new int[2];
-            data[0] = exercise.Sets;
-            data[1] = exercise.Reps;
-            return data;
+            if(exercise != null)
+            {
+                int[] data = new int[2];
+                data[0] = exercise.Sets;
+                data[1] = exercise.Reps;
+                return data;
+            }
+            else
+            {
+                int[] error = { -1 };
+                return error;
+
+            }
+         
         }
         public string GetExerciseName(int exerciseID)
         {
-            string exercisename = _database.Table<Exercise>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result.ExerciseName;
-            return exercisename; 
+            // given the exerciseID the exercisename is returend, if not found "error" is returned
+            var exercise = _database.Table<Exercise>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result;
+            if(exercise != null)
+            {
+                return exercise.ExerciseName;
+            }
+            else
+            {
+                return "error";
+            }
+
+
+
+
         }
 
         // return the machine id given the exercise id
         public int GetMachineID(int exerciseID)
         {
+            
             var exercise = _database.Table<Exercise>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result;
-            return exercise.MachineID;
+            if (exercise != null)
+            {
+                return exercise.MachineID;
+            }
+            else
+            {
+                return -1;
+            }
+
+
+
+
         }
     }
 }

@@ -15,6 +15,8 @@ namespace NEA
             NavigationPage.SetHasNavigationBar(this, false);
 
 
+
+
         }
 
     }

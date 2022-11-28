@@ -37,5 +37,17 @@ namespace NEA.Data
         {
             _database.DeleteAsync<Schedule>(userID);
         }
+
+
+        // Gets all the schedules given the UserID from the database
+        // Makes an array of arrays to contain the fields with the same dayname 
+        // Within the arrays inside the arrays store the exerciseName, sets, reps and type
+        // This is done so that the data can be displayed in a listview
+        
+        
+
+
+
     }
+
 }

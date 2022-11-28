@@ -2,20 +2,24 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NEA.RegisterPage"
-             BackgroundColor="Black">
+             BackgroundColor="Black"
+              >
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout BackgroundColor="Black">
+            <StackLayout HorizontalOptions="CenterAndExpand" Margin="20" Padding="70">
             <Label Text="Sign Up"
-                  HorizontalOptions="CenterAndExpand"
-                  FontSize="Header"
+                  FontSize="75"
+                  HorizontalTextAlignment="Center"
                   Padding="20"
-                  TextColor="White"
+                  TextColor="DarkSlateBlue"
                   Margin="10"
              />
+                
             <Label
                 Text="Pick a Username and a 4 digit Pin"
                 HorizontalOptions="Center"
                 TextColor="White"
+                FontSize="14.5"
              />
             <Entry  x:Name="UserName"
                 Placeholder="Enter a Username"
@@ -23,7 +27,8 @@
              />
             <!-- Entry field for the user that brings up the keypad for pin entry-->
             <Entry  x:Name="UserPin"
-                Placeholder="Enter a 4-Digit Pin"
+                Placeholder="Enter a Pin"
+                HorizontalTextAlignment="Center"
                 HorizontalOptions="Center"
                 IsPassword="True"
                 Keyboard="Numeric"
@@ -34,7 +39,7 @@
                 Clicked="Register_Clicked"
                 CornerRadius="5"
                 Margin="25"
-                BackgroundColor="CornflowerBlue"
+                BackgroundColor="DarkSlateGray"
              />
             <!-- This button is used to prompt the user to the register page-->
             <Button
@@ -43,9 +48,10 @@
                 Margin="25"
                 VerticalOptions="EndAndExpand"
                 Pressed="Login_Pressed"
-                BackgroundColor="Blue"
+                BackgroundColor="DarkSlateBlue"
                 CornerRadius="5"
              />
+         </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

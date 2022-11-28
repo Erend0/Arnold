@@ -37,12 +37,20 @@ namespace NEA.Data
         }
         public string[] GetMuscleName(int muscleID)
         {
-            
+
             var muscle = _database.Table<Muscle>().Where(i => i.MuscleID == muscleID).FirstOrDefaultAsync().Result;
             string[] muscleName = new string[2];
-            muscleName[0] = muscle.MajorMuscle;
-            muscleName[1] = muscle.MinorMuscle;
-            return muscleName;
+            if (muscle != null)
+            {
+                muscleName[0] = muscle.MajorMuscle;
+                muscleName[1] = muscle.MinorMuscle;
+                return muscleName;
+            }
+            else
+            {
+                string[] muscleerror = {"error"};
+                return muscleerror;
+            }
         }
     }
 }

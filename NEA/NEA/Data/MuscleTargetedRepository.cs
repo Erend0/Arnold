@@ -32,16 +32,31 @@ namespace NEA.Data
         public int GetExerciseID(int muscleID)
         {
             var exercise = _database.Table<MuscleTargeted>().Where(i => i.MuscleID == muscleID).ToListAsync().Result;
-            Random random = new Random();
-            int index = random.Next(0, exercise.Count);
-            return exercise[index].ExerciseID;
-            
+            // return -1 if no exercises found, if there are found pick one at random
+            if (exercise.Count == 0)
+            {
+                return -1;
+            }
+            else
+            {
+                Random rnd = new Random();
+                int index = rnd.Next(0, exercise.Count);
+                return exercise[index].ExerciseID;
+            }
+
         }
         public int GetMuscleID(int exerciseID)
         {
-            // returns the muscleID given the exerciseid
-            var muscle = _database.Table<MuscleTargeted>().Where(i => i.ExerciseID == exerciseID).ToListAsync().Result;
-            return muscle[0].MuscleID;
+            // returns the muscleID given the exerciseid, if not found returns -1
+            var exercise = _database.Table<MuscleTargeted>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result;
+            if (exercise != null)
+            {
+                return exercise.MuscleID;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
     }

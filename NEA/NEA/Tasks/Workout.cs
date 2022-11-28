@@ -2,9 +2,7 @@
 using NEA.Models;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace NEA.Tasks
 {
@@ -16,8 +14,8 @@ namespace NEA.Tasks
         // Note that usertime is in seconds by default
         private int usertime { get; set; }
         private readonly string[] chest = { "Upper", "Lower", "Inner" };
-        private readonly string[] triceps = { "Longhead", "Lateral Head", "Medial Head" };
-        private readonly string[] back = { "Lats", "Middle Back", "Lower Back" };
+        private readonly string[] triceps = { "Longhead", "LateralHead", "MedialHead" };
+        private readonly string[] back = { "Lats", "MiddleBack", "LowerBack" };
         private readonly string[] biceps = { "LongHead", "ShortHead" };
         private readonly string[] shoulders = { "Anteriordelts", "Medialdelts", "Posteriordelts" };
         private readonly string[] legs = { "Quadriceps", "Hamstrings", "Glutes", "Calves"};
@@ -47,10 +45,6 @@ namespace NEA.Tasks
             useraim = userdata[0];
             usertime = Convert.ToInt32(userdata[1]);
             userdays = Convert.ToInt32(userdata[2]);
-            Console.WriteLine("User time is" + usertime);
-            Console.WriteLine("user days is" + userdays);
-            Console.WriteLine("user aim is" + useraim);
-            Console.WriteLine("User ID is" + Currentuserid);
         }
         public void GenerateWorkout(string togenerate)
         {
@@ -220,10 +214,14 @@ namespace NEA.Tasks
             {
                 resttime = 45;
             }
+            if (setsandreps[0] != -1)
+            {
+                // the formula below assumed that the time for each rep is 5 seconds 
+                int timeforexercise = setsandreps[0] * (setsandreps[1] * 5 + resttime);
+                totaltimetaken += timeforexercise;
 
-            // the formula below assumed that the time for each rep is 5 seconds 
-            int timeforexercise = setsandreps[0] * (setsandreps[1] * 5 + resttime);
-            totaltimetaken += timeforexercise;
+            }
+         
         }
         public void UpdateDB(string dayname, int exerciseID)
         {
@@ -232,18 +230,22 @@ namespace NEA.Tasks
             string exercisename = exerciserepo.GetExerciseName(exerciseID);
             var muscletargetedrepo = new MuscleTargetedRepository();
             int muscleid = muscletargetedrepo.GetMuscleID(exerciseID);
-
-            var schedulecontent = new Schedule
+            if (setsandreps[0] != -1)
             {
-                UserID = Currentuserid,
-                Dayname = dayname,
-                ExerciseName = exercisename,
-                MuscleID =muscleid,
-                Sets = setsandreps[0],
-                Reps = setsandreps[1],
-            };
-            var schedulerepo = new ScheduleRepository();
-            schedulerepo.CreateSchedule(schedulecontent);
+                var schedulecontent = new Schedule
+                {
+                    UserID = Currentuserid,
+                    Dayname = dayname,
+                    ExerciseName = exercisename,
+                    MuscleID = muscleid,
+                    Sets = setsandreps[0],
+                    Reps = setsandreps[1],
+                    Type = 0,
+                };
+                var schedulerepo = new ScheduleRepository();
+                schedulerepo.CreateSchedule(schedulecontent);
+            }
+
 
         }
                 

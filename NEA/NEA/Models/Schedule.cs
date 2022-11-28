@@ -17,5 +17,6 @@ namespace NEA.Models
         public int MuscleID { get; set; }
         public int Sets { get; set; }
         public int Reps { get; set; } 
+       
     }
 }

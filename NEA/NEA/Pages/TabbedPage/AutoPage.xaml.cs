@@ -18,35 +18,9 @@ namespace NEA
 
         }
 
-        private void Button2_Pressed(object sender, System.EventArgs e)
-        {
-            // pass the days to generate into workout
-            Workout myworkout = new Workout("all");
-            List<List<int>> testvar = myworkout.generatedworkout;
-            // creates console output showing all the contents of testvar
-            foreach (var item in testvar)
-            {
-                foreach (var item2 in item)
-                {
-                    var muscletargetedrepo = new MuscleTargetedRepository();
-                    var exerciserepo = new ExerciseRepository();
-                    string exercisename = exerciserepo.GetExerciseName(item2);
-                    int muscleid = muscletargetedrepo.GetMuscleID(item2);
-                    var muscle = new MuscleRepository();
-                    string[] muscleName = muscle.GetMuscleName(muscleid);
-                    Console.WriteLine(item2 + " " + exercisename + " " + muscleName[0] + " " + muscleName[1]);
 
-                }
-            }
+        // add a child element to the stacklayout exercise container
+        
 
-
-        }
-
-        private void Add_Pressed(object sender, EventArgs e)
-        {
-            
-
-
-        }
     }
 }

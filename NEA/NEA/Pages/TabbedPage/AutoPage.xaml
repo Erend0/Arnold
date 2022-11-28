@@ -1,36 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NEA.AutoPage">
+             x:Class="NEA.AutoPage"
+             Padding="10"
+             BackgroundColor="Black">
     <ContentPage.Content>
         <StackLayout>
 
 
-            <Button
-                
-            Pressed="Button2_Pressed"/>
-           
             
-            <!-- List view which are added with the gym exercises -->
-            <ListView x:Name="listView" ItemsSource="{Binding GymExercises}" ItemSelected="ListView_ItemSelected">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding Name}" />
-                                <Label Text="{Binding Sets}" />
-                                <Label Text="{Binding Reps}" />
-                                
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-
-            </ListView>
-            <Button x:Name="Additem" 
-                    Pressed="Add_Pressed"/>
-
-        </StackLayout>
+            </StackLayout>
         
     </ContentPage.Content>
 </ContentPage>
