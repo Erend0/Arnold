@@ -111,8 +111,8 @@ namespace NEA.Tasks
             {
                 string[][] day1 = { chest, triceps };
                 string[][] day2 = { back, biceps };
-                string[][] day3 = { shoulders };
-                string[][] day4 = { legs };
+                string[][] day3 = { shoulders, shoulders };
+                string[][] day4 = { legs, legs};
                 split.Enqueue(day1);
                 split.Enqueue(day2);
                 split.Enqueue(day3);
@@ -160,11 +160,17 @@ namespace NEA.Tasks
                     Console.WriteLine("New time is" + totaltimetaken);
                     string dayname = "";
                     UpdateDB(dayname,exercisefound);
-                    index++;
-                    if (index == day[i].Length)
+
+                    // if index is over the size reset is to zero, if not increment
+                    if (index == day[i].Length - 1)
                     {
                         index = 0;
-                    }  
+                    }
+                    else
+                    {
+                        index++;
+                    }
+
                 }
                 
                 generatedworkout.Add(exercises);

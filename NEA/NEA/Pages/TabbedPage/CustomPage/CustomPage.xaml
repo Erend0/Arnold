@@ -4,8 +4,12 @@
              x:Class="NEA.CustomPage">
     <ContentPage.Content>
         <StackLayout>
-        
-            
+            <Label Text="Routines" TextColor="White"/>
+            <Button Text="Add Routine" TextColor="White" BackgroundColor="Black" Pressed="Routine_Pressed"/>
+
+
+
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace NEA.Pages.TabbedPage.CustomPage
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CustomInfoPage : ContentPage
+    public partial class RoutineCreatePage : ContentPage
     {
-        public CustomInfoPage()
+        public RoutineCreatePage()
         {
             InitializeComponent();
         }

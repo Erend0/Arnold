@@ -37,7 +37,10 @@ namespace NEA.Data
         {
             _database.DeleteAsync<Schedule>(userID);
         }
-
+        public void DeleteAll()
+        {
+            _database.DeleteAllAsync<Schedule>();
+        }
 
         // Gets all the schedules given the UserID from the database
         // Makes an array of arrays to contain the fields with the same dayname 

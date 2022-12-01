@@ -81,6 +81,13 @@ namespace NEA.Data
             }
         }
 
+        // logs out user by setting hasloggedin to 0
+        public void LogoutUser()
+        {
+            var user = _database.Table<User>().Where(i => i.HasLoggedIn == 1).FirstOrDefaultAsync().Result;
+            user.HasLoggedIn = 0;
+            _database.UpdateAsync(user);
+        }
     }
 }
 
