@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NEA.Pages.TabbedPage.CustomPage.CreateRoutinePage"
+             BackgroundColor="Black"
+             >
+    <ContentPage.Content>
+        <StackLayout>
+            <Button HorizontalOptions="Start" Text="Delete Routine" BackgroundColor="PaleVioletRed" Margin="20" Padding="5" CornerRadius="5"/>
+
+            <StackLayout Margin="30">
+                <Entry x:Name="ExericiseName" Placeholder="ExerciseName" />
+                <Entry x:Name="Sets" Placeholder="4" Keyboard="Numeric"/>
+                <Entry x:Name="Reps" Placeholder="10" Keyboard="Numeric"/>
+            </StackLayout>
+            
+            <Button x:Name="AddExercise" Text="Add Exercise" Pressed="AddExercise_Pressed" BackgroundColor="SlateBlue" Margin="30" CornerRadius="5"/>
+            
+            <StackLayout>
+                <ListView x:Name="AddedExericisesView">
+
+                </ListView>
+            </StackLayout>
+            
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

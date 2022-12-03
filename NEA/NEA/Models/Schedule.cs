@@ -1,12 +1,9 @@
 ﻿using SQLite;
 namespace NEA.Models
 {
-    
-    
     [Table("Schedule")]
     public class Schedule
     {
-        
         public int UserID { get; set; } 
         public string Dayname { get; set; }
         // The database contains the exercisename and not the exerciseid 
