@@ -49,5 +49,17 @@ namespace NEA.Data
             var schedule = _database.Table<Schedule>().Where(i => i.UserID == userID).ToListAsync().Result;
             return schedule;
         }
+
+       
+        public int[] GetSchedule(int userID, string dayname)
+        {
+            var schedule = _database.Table<Schedule>().Where(i => i.UserID == userID && i.DayName == dayname).ToListAsync().Result;
+            int[] exerciseIDS = new int[schedule.Count];
+            for (int i = 0; i < schedule.Count; i++)
+            {
+                exerciseIDS[i] = schedule[i].ExerciseID;
+            }
+            return exerciseIDS;
+        }
     }
 }

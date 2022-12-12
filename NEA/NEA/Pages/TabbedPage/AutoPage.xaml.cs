@@ -1,9 +1,8 @@
 ﻿using NEA.Data;
 using NEA.Models;
 using System;
-using System.Collections.Generic;
+using NEA.Pages.TabbedPage;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 namespace NEA
@@ -11,6 +10,7 @@ namespace NEA
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AutoPage : ContentPage
     {
+       
         public ObservableCollection<Day> Days { get; set; }
         int UserID { get; set; }
         int UserDays { get; set; }
@@ -61,5 +61,24 @@ namespace NEA
             }
             
         }
+        
+         private void DaysList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+         {
+            // The cell is clicked
+            // THe clicked cell is found
+            // THe dayname of the clicked cell is used to create a new day overview page 
+
+
+
+
+            
+            var day = e.SelectedItem as Day;
+            if (day != null)
+            {
+                Navigation.PushAsync(new DayOverviewPage(UserID,day.DayName));
+            }
+         }
+      
+      
     }
 }

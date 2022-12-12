@@ -79,10 +79,13 @@ namespace NEA.Data
             {
                 return -1;
             }
+        }
 
-
-
-
+        
+        public Exercise GetExercise(int exerciseID)
+        {
+            var exercise = _database.Table<Exercise>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result;
+            return exercise;
         }
     }
 }
