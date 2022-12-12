@@ -137,7 +137,7 @@ namespace NEA.Tasks
         {
             int index = 0;
             int timeforeachfocus = usertime / day.Length;
-            for (int i = 0; i < day.Length; i++)
+            for (int i = 0; i < day.Length-1; i++)
             {
                 // Note that totaltimetaken is also in the format of minutes, same as the usertime variable
                 totaltimetaken = 0;
@@ -150,16 +150,14 @@ namespace NEA.Tasks
                     {
                         
                         exercisefound = FindExerciseforMinorMuscle(day[i][index]);
-                        Console.WriteLine("Exercise found is" + exercisefound);
                         hasblacklisted = CheckBlackLists(exercisefound);
                         hasduplicate = CheckDuplicates(exercises, exercisefound);
-                        Console.WriteLine("Has blacklisted is" + hasblacklisted);
+                        
                     }
                     UpdateTimeTaken(exercisefound);
                     exercises.Add(exercisefound);
-                    Console.WriteLine("New time is" + totaltimetaken);
-                    string dayname = "";
-                    UpdateDB(dayname,exercisefound);
+                  
+                 
 
                     // if index is over the size reset is to zero, if not increment
                     if (index == day[i].Length - 1)
@@ -182,7 +180,7 @@ namespace NEA.Tasks
             var muscletargetedrepo = new  MuscleTargetedRepository();
             var musclerepo = new MuscleRepository();
             currentmuscleID = musclerepo.FindMuscleID(minormuscle);
-            Console.WriteLine("Muscleid is" + currentmuscleID);
+            Console.WriteLine("Muscleid is " + currentmuscleID);
             // use the id of the muscle to find the exercises it links to 
             int exercise = muscletargetedrepo.GetExerciseID(currentmuscleID);
             return exercise;  
@@ -229,31 +227,27 @@ namespace NEA.Tasks
             }
          
         }
-        public void UpdateDB(string dayname, int exerciseID)
-        {
-            var exerciserepo = new ExerciseRepository();
-            int[] setsandreps = exerciserepo.GetExerciseData(exerciseID);
-            string exercisename = exerciserepo.GetExerciseName(exerciseID);
-            var muscletargetedrepo = new MuscleTargetedRepository();
-            int muscleid = muscletargetedrepo.GetMuscleID(exerciseID);
-            if (setsandreps[0] != -1)
-            {
-                var schedulecontent = new Schedule
-                {
-                    UserID = Currentuserid,
-                    Dayname = dayname,
-                    ExerciseName = exercisename,
-                    MuscleID = muscleid,
-                    Sets = setsandreps[0],
-                    Reps = setsandreps[1],
-                    Type = 0,
-                };
-                var schedulerepo = new ScheduleRepository();
-                schedulerepo.CreateSchedule(schedulecontent);
-            }
+        //public void UpdateDB(string dayname, int exerciseID)
+        //{
+        //    var exerciserepo = new ExerciseRepository();
+        //    int[] setsandreps = exerciserepo.GetExerciseData(exerciseID);
+        //    string exercisename = exerciserepo.GetExerciseName(exerciseID);
+        //    var muscletargetedrepo = new MuscleTargetedRepository();
+        //    int muscleid = muscletargetedrepo.GetMuscleID(exerciseID);
+        //    if (setsandreps[0] != -1)
+        //    {
+        //        var schedulecontent = new Schedule
+        //        {
+        //            UserID = Currentuserid,
+        //            Dayname = dayname,
+                    
+        //        };
+        //        var schedulerepo = new ScheduleRepository();
+        //        schedulerepo.CreateSchedule(schedulecontent);
+        //    }
 
 
-        }
+        //}
                 
         public bool CheckDuplicates(List<int> exercises, int exerciseID)
         {

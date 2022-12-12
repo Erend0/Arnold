@@ -1,67 +1,65 @@
-﻿using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using NEA.Tasks;
-using NEA.Data;
-using System.Collections.Generic;
+﻿using NEA.Data;
+using NEA.Models;
 using System;
-using System.Runtime.InteropServices;
-
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 namespace NEA
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AutoPage : ContentPage
     {
+        public ObservableCollection<Day> Days { get; set; }
+        int UserID { get; set; }
+        int UserDays { get; set; }
+
+
         public AutoPage()
         {
-
             InitializeComponent();
 
-        }
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-            Workout workout = new Workout("all");
-            List<List<int>> testvar = workout.generatedworkout;
+            Days = new ObservableCollection<Day>();
+            DaysList.ItemsSource = Days;
 
-            foreach (var item in testvar)
+
+            var userRepo = new UserRepository();
+            UserID = userRepo.GetLoggedInUser().UserID;
+            var userdataRepo = new UserDataRepository();
+            UserDays = Convert.ToInt32(userdataRepo.GetUserData(UserID)[2]);
+            Populatecollection();
+        }
+        public void Populatecollection()
+        {
+            string[] DayNames = new string[5];
+            if (UserDays == 3)
             {
-                foreach (var item2 in item)
-                {
-                    var muscletargetedrepo = new MuscleTargetedRepository();
-                    var exerciserepo = new ExerciseRepository();
-                    string exercisename = exerciserepo.GetExerciseName(item2);
-                    int muscleid = muscletargetedrepo.GetMuscleID(item2);
-                    var muscle = new MuscleRepository();
-                    string[] muscleName = muscle.GetMuscleName(muscleid);
-                    if (muscleName[0] != "error")
-                    {
-                        Console.WriteLine(item2 + " " + exercisename + " " + muscleName[0] + " " + muscleName[1]);
-                    }
-                }
+                DayNames[1] = ("Chest,Tricep,Legs");
+                DayNames[2] = ("Back,Biceps,Shoulders");
+                DayNames[3] = ("Biceps,legs,chest");
             }
+            if (UserDays == 4 || UserDays == 5)
+            {
+                DayNames[1] = ("Chest,triceps");
+                DayNames[2] = ("Back,Biceps");
+                DayNames[3] = ("Shoulders");
+                DayNames[4] = ("Legs");
+            }
+            if (UserDays == 5)
+            {
+                DayNames[5] = ("Cardio");
+            }
+            foreach (string day in DayNames)
+            {
+                if(day != null)
+                {
+                    Days.Add(new Day { DayName = day });
+                }
+               
 
-
-        }
-
-        private void Button_Clicked_1(object sender, EventArgs e)
-        {
-            var shedulerepo = new ScheduleRepository();
-            shedulerepo.DeleteAll();
-        }
-
-        private void Button_Clicked_2(object sender, EventArgs e)
-        {
-            // log out user
-            var userrepo = new UserRepository();
-            userrepo.LogoutUser();
+            }
             
-
         }
-
-
-        // add a child elem
-
-        // add a child element to the stacklayout exercise container
-
-
     }
 }

@@ -3,6 +3,7 @@ using SQLite;
 using System.IO;
 using NEA.Models;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace NEA.Data
 {
@@ -42,15 +43,11 @@ namespace NEA.Data
             _database.DeleteAllAsync<Schedule>();
         }
 
-        // Gets all the schedules given the UserID from the database
-        // Makes an array of arrays to contain the fields with the same dayname 
-        // Within the arrays inside the arrays store the exerciseName, sets, reps and type
-        // This is done so that the data can be displayed in a listview
         
-        
-
-
-
+        public List<Schedule> GetSchedule(int userID)
+        {
+            var schedule = _database.Table<Schedule>().Where(i => i.UserID == userID).ToListAsync().Result;
+            return schedule;
+        }
     }
-
 }

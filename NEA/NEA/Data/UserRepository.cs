@@ -63,7 +63,6 @@ namespace NEA.Data
         // returns all the user details in the databasecalled get user details
         public List<User> GetAllUsers()
         {
-            Console.WriteLine("Check - Get All Users Work ");
             var user = _database.Table<User>().ToListAsync().Result;
             return user;
         }

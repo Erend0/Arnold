@@ -37,7 +37,7 @@
             <Button
                 Text="Create schedule"
                 HorizontalOptions="Center"
-                Pressed="Button_Pressed"
+                Pressed="Submit_Pressed"
                 VerticalOptions="EndAndExpand"
                 CornerRadius="10"
                 Padding="20"

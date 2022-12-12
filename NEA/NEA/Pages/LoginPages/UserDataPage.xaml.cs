@@ -4,6 +4,8 @@ using Xamarin.Forms.Xaml;
 using NEA.Data;
 using NEA.Tasks;
 using System.Collections.Generic;
+using System.Linq;
+using NEA.Models;
 
 namespace NEA.Pages
 {
@@ -11,11 +13,12 @@ namespace NEA.Pages
     
     public partial class UserDataPage : ContentPage
     {
+        private int UserID { get; set; }
         public UserDataPage()
         {
             InitializeComponent();
         }
-        private void Button_Pressed(object sender, EventArgs e)
+        private void Submit_Pressed(object sender, EventArgs e)
         {
             if (Aim.SelectedIndex == -1)
             {
@@ -23,42 +26,68 @@ namespace NEA.Pages
             }
             else
             {
-                // gets days stepper value from the bindings
                 int days = (int)Days.Value;
                 // gets time stepper value (converted to seconds)
                 int time = (int)Time.Value*60;
                 // gets aim value
                 string aim = Aim.SelectedItem.ToString();
 
-                // Inserts user data into the database using the userdata repository
-                var userrepo = new UserRepository();
-                int userID = userrepo.GetLoggedInUser().UserID;
+                // The User's data is inserted into the database
+                var userRepo = new UserRepository();
+                UserID = userRepo.GetLoggedInUser().UserID;
                 var userdataRepo = new UserDataRepository();
-                userdataRepo.InsertUserData(userID,time,days,aim);
+                userdataRepo.InsertUserData(UserID,time,days,aim);
 
+                
                 // The class which will generate the workout is instantiated
                 // The "all" parameter means all of the days will be generated
                 Workout workout = new Workout("all");
-                List<List<int>> testvar = workout.generatedworkout;
-
-                foreach (var item in testvar)
-                {
-                    foreach (var item2 in item)
-                    {
-                        var muscletargetedrepo = new MuscleTargetedRepository();
-                        var exerciserepo = new ExerciseRepository();
-                        string exercisename = exerciserepo.GetExerciseName(item2);
-                        int muscleid = muscletargetedrepo.GetMuscleID(item2);
-                        var muscle = new MuscleRepository();
-                        string[] muscleName = muscle.GetMuscleName(muscleid);
-                        if (muscleName[0] != "error")
-                        {
-                            Console.WriteLine(item2 + " " + exercisename + " " + muscleName[0] + " " + muscleName[1]);
-                        }
-                    }
-                }
+                List<List<int>> CreatedWorkout = workout.generatedworkout;
+               
+                // The database is updated with the generated workout
+                DBUpdate(CreatedWorkout,days);
+                
+                
                 // The current page is changed to the main tabbed page
                 App.Current.MainPage = new NavigationPage(new HomePage());
+            }
+        }
+        private void DBUpdate(List<List<int>> Workout, int Days)
+        {
+            string[] DayNames = new string[5];
+            if (Days == 3)
+            {
+                DayNames[1] = ("Chest,Tricep,Legs");
+                DayNames[2] = ("Back,Biceps,Shoulders");
+                DayNames[3] = ("Biceps,legs,chest");
+            }
+            if (Days == 4 || Days == 5)
+            {
+                DayNames[1] = ("Chest,triceps");
+                DayNames[2] = ("Back,Biceps");
+                DayNames[3] = ("Shoulders");
+                DayNames[4] = ("Legs");
+            }
+            if(Days == 5)
+            {
+                DayNames[5] = ("Cardio");
+            }
+            var scheduleRepo = new ScheduleRepository();
+            int dayindex = 0;
+            foreach (List<int> day in Workout)
+            {
+                foreach (int exercise in day)
+                {
+                    // create new instance of schedule
+                    var schedule = new Schedule
+                    {
+                        UserID = UserID,
+                        DayName = DayNames[dayindex],
+                        ExerciseID = exercise,
+                    };
+                    scheduleRepo.CreateSchedule(schedule);
+                }
+                dayindex += 1;
             }
         }
     }

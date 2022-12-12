@@ -5,13 +5,26 @@
              Padding="10"
              BackgroundColor="Black">
     <ContentPage.Content>
-        <StackLayout>
-            <Button BackgroundColor="White" Text="Re - Generate" Clicked="Button_Clicked" TextColor="Black"/>
-            <Button BackgroundColor="White" Text="Delete" Clicked="Button_Clicked_1" TextColor="Black"/>
-            <Button BackgroundColor="White" Text="Delete all Users" Clicked="Button_Clicked_2" TextColor="Black"/>
-
-
+        <StackLayout Padding="10">
+            <!-- Create a list view with the observable collection exercises as the source-->
+            <ListView x:Name="DaysList" 
+                      HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <!-- Create a data template with the Exercise class as the type-->
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label Text="{Binding DayName}"
+                                       TextColor="Black"
+                                       FontSize="Large" 
+                                       Padding="10"
+                                       BackgroundColor="White"
+                                       Margin="20"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
-        
     </ContentPage.Content>
 </ContentPage>
