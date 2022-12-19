@@ -54,23 +54,23 @@ namespace NEA.Pages
         }
         private void DBUpdate(List<List<int>> Workout, int Days)
         {
-            string[] DayNames = new string[5];
+            string[] DayNames = new string[4];
             if (Days == 3)
             {
-                DayNames[1] = ("Chest,Tricep,Legs");
-                DayNames[2] = ("Back,Biceps,Shoulders");
-                DayNames[3] = ("Biceps,legs,chest");
+                DayNames[0] = ("Chest,Tricep,Legs");
+                DayNames[1] = ("Back,Biceps,Shoulders");
+                DayNames[2] = ("Biceps,legs,chest");
             }
             if (Days == 4 || Days == 5)
             {
-                DayNames[1] = ("Chest,triceps");
-                DayNames[2] = ("Back,Biceps");
-                DayNames[3] = ("Shoulders");
-                DayNames[4] = ("Legs");
+                DayNames[0] = ("Chest,Triceps");
+                DayNames[1] = ("Back,Biceps");
+                DayNames[2] = ("Shoulders");
+                DayNames[3] = ("Legs");
             }
             if(Days == 5)
             {
-                DayNames[5] = ("Cardio");
+                DayNames[4] = ("Cardio");
             }
             var scheduleRepo = new ScheduleRepository();
             int dayindex = 0;

@@ -1,23 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NEA.Pages.TabbedPage.DayOverviewPage">
+             x:Class="NEA.Pages.TabbedPage.DayOverviewPage"
+             BackgroundColor="Black"
+             Padding="10">
     <ContentPage.Content>
         <StackLayout>
-            <ListView x:Name="ExerciseList">
+            <Label x:Name="Time_Taken" Text=""/>
+             <ListView x:Name="ExerciseList" HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout>
-                                <Label Text="{Binding ExerciseName}" />
-                                <Label Text="{Binding Sets}"/>
-                                <Label Text="{Binding Reps}"/>
-                                <Label Text="{Binding MachineID}"/>
+                            <StackLayout BackgroundColor="White" Margin="2.5">
+                                <Label Text="{Binding ExerciseName}" TextColor="Black" TextTransform="Uppercase"  TextDecorations="Underline"/>
+                                <Label Text="{Binding Sets, StringFormat='{0} sets'}" TextColor="Black"/>
+                                <Label Text="{Binding Reps, StringFormat='{0} reps'}" TextColor="Black"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
+             </ListView>
+            <Button Text="Start Day" Clicked="StartDay_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

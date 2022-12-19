@@ -7,12 +7,12 @@
     <ContentPage.Content>
         <StackLayout Padding="10">
             <!-- Create a list view with the observable collection exercises as the source-->
-            <ListView x:Name="DaysList" 
-                      HasUnevenRows="True">
-                <ListView.ItemTemplate >
+            <ListView x:Name="ListofDays" 
+                      HasUnevenRows="True"
+                      ItemTapped="ListofDays_ItemTapped">
+                <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                           
                             <StackLayout>
                                 <Label Text="{Binding DayName}"
                                        TextColor="Black"
@@ -23,12 +23,10 @@
                                        />
                             </StackLayout>
                         </ViewCell>
-                        
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                
-                
             </ListView>
+            <Button Text="Regenerate All Days" Clicked="Regenerate_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

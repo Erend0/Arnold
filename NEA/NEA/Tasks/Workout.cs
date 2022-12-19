@@ -1,5 +1,4 @@
 ﻿using NEA.Data;
-using NEA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +24,7 @@ namespace NEA.Tasks
         // the variable below is used by the fill split method to determine how many muscles there are in each day of splits
         private int totaltimetaken { get; set;}
         private int numberofmuscles { get; set; }
-        public List<List<int>> generatedworkout { get; set; } = new List<List<int>>();
+        public List<List<int>> generatedworkout  = new List<List<int>>();
         public int Currentuserid { get; set; }
         public int currentmuscleID { get; set; }
        
@@ -155,10 +154,7 @@ namespace NEA.Tasks
                         
                     }
                     UpdateTimeTaken(exercisefound);
-                    exercises.Add(exercisefound);
-                  
-                 
-
+                   
                     // if index is over the size reset is to zero, if not increment
                     if (index == day[i].Length - 1)
                     {
@@ -168,11 +164,11 @@ namespace NEA.Tasks
                     {
                         index++;
                     }
+                    exercises.Add(exercisefound);
 
                 }
-                
                 generatedworkout.Add(exercises);
-            } 
+            }
         }
         public int FindExerciseforMinorMuscle(string minormuscle)
         {
@@ -180,7 +176,6 @@ namespace NEA.Tasks
             var muscletargetedrepo = new  MuscleTargetedRepository();
             var musclerepo = new MuscleRepository();
             currentmuscleID = musclerepo.FindMuscleID(minormuscle);
-            Console.WriteLine("Muscleid is " + currentmuscleID);
             // use the id of the muscle to find the exercises it links to 
             int exercise = muscletargetedrepo.GetExerciseID(currentmuscleID);
             return exercise;  
@@ -226,29 +221,7 @@ namespace NEA.Tasks
 
             }
          
-        }
-        //public void UpdateDB(string dayname, int exerciseID)
-        //{
-        //    var exerciserepo = new ExerciseRepository();
-        //    int[] setsandreps = exerciserepo.GetExerciseData(exerciseID);
-        //    string exercisename = exerciserepo.GetExerciseName(exerciseID);
-        //    var muscletargetedrepo = new MuscleTargetedRepository();
-        //    int muscleid = muscletargetedrepo.GetMuscleID(exerciseID);
-        //    if (setsandreps[0] != -1)
-        //    {
-        //        var schedulecontent = new Schedule
-        //        {
-        //            UserID = Currentuserid,
-        //            Dayname = dayname,
-                    
-        //        };
-        //        var schedulerepo = new ScheduleRepository();
-        //        schedulerepo.CreateSchedule(schedulecontent);
-        //    }
-
-
-        //}
-                
+        }      
         public bool CheckDuplicates(List<int> exercises, int exerciseID)
         {
             if (exercises.Contains(exerciseID))
