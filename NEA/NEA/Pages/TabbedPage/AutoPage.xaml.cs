@@ -5,6 +5,7 @@ using NEA.Pages.TabbedPage;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using NEA.Tasks;
 
 namespace NEA
 {
@@ -36,7 +37,7 @@ namespace NEA
             {
                 DayNames[1] = ("Chest,Tricep,Legs");
                 DayNames[2] = ("Back,Biceps,Shoulders");
-                DayNames[3] = ("Biceps,legs,chest");
+                DayNames[3] = ("Biceps,Legs,Chest");
             }
             if (UserDays == 4 || UserDays == 5)
             {
@@ -65,7 +66,10 @@ namespace NEA
 
         private void Regenerate_Clicked(object sender, EventArgs e)
         {
-
+            var schedulerepo = new ScheduleRepository();
+            schedulerepo.DeleteSchedule(UserID);
+            DisplayAlert("Success", "All days have been regenerated", "Ok");
+            Workout workout = new Workout("all");
         }
     }
 }

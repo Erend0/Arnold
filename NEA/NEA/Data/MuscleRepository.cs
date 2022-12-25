@@ -31,7 +31,6 @@ namespace NEA.Data
         public int FindMuscleID(string minorMuscle)
         {
             var muscle = _database.Table<Muscle>().Where(i => i.MinorMuscle == minorMuscle).FirstOrDefaultAsync().Result;
-            Console.WriteLine(minorMuscle);
             return muscle.MuscleID;
             
         }

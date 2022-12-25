@@ -7,7 +7,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Label x:Name="Time_Taken" Text=""/>
-             <ListView x:Name="ExerciseList" HasUnevenRows="True">
+            <ListView x:Name="ExerciseList" HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -19,8 +19,9 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-             </ListView>
+            </ListView>
             <Button Text="Start Day" Clicked="StartDay_Clicked"/>
+            <Button Text="Regenerate day" Clicked="Regenerate_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

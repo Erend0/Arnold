@@ -42,53 +42,13 @@ namespace NEA.Pages
                 // The class which will generate the workout is instantiated
                 // The "all" parameter means all of the days will be generated
                 Workout workout = new Workout("all");
-                List<List<int>> CreatedWorkout = workout.generatedworkout;
-               
-                // The database is updated with the generated workout
-                DBUpdate(CreatedWorkout,days);
+             
                 
                 
                 // The current page is changed to the main tabbed page
                 App.Current.MainPage = new NavigationPage(new HomePage());
             }
         }
-        private void DBUpdate(List<List<int>> Workout, int Days)
-        {
-            string[] DayNames = new string[4];
-            if (Days == 3)
-            {
-                DayNames[0] = ("Chest,Tricep,Legs");
-                DayNames[1] = ("Back,Biceps,Shoulders");
-                DayNames[2] = ("Biceps,legs,chest");
-            }
-            if (Days == 4 || Days == 5)
-            {
-                DayNames[0] = ("Chest,Triceps");
-                DayNames[1] = ("Back,Biceps");
-                DayNames[2] = ("Shoulders");
-                DayNames[3] = ("Legs");
-            }
-            if(Days == 5)
-            {
-                DayNames[4] = ("Cardio");
-            }
-            var scheduleRepo = new ScheduleRepository();
-            int dayindex = 0;
-            foreach (List<int> day in Workout)
-            {
-                foreach (int exercise in day)
-                {
-                    // create new instance of schedule
-                    var schedule = new Schedule
-                    {
-                        UserID = UserID,
-                        DayName = DayNames[dayindex],
-                        ExerciseID = exercise,
-                    };
-                    scheduleRepo.CreateSchedule(schedule);
-                }
-                dayindex += 1;
-            }
-        }
+        
     }
 }

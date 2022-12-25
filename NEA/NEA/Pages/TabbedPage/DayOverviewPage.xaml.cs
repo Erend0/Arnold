@@ -3,20 +3,27 @@ using Xamarin.Forms.Xaml;
 using NEA.Data;
 using NEA.Models;
 using System.Collections.ObjectModel;
-
+using System;
+using NEA.Tasks;
 
 namespace NEA.Pages.TabbedPage
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DayOverviewPage : ContentPage
     {
+        
         public ObservableCollection<Exercise> Exercises { get; set; }
+        private int UserID { get; set; }
         private int TimeTaken {get; set; }
-        public DayOverviewPage(int UserID,string DayName)
+        private string DayName { get; set; }
+
+        public DayOverviewPage(int userID,string dayname)
         {
             InitializeComponent();
             Exercises = new ObservableCollection<Exercise>();
             ExerciseList.ItemsSource = Exercises;
+            DayName = dayname;
+            UserID = userID;
 
             var scheduleRepo = new ScheduleRepository();
             var exerciserepo = new ExerciseRepository();
@@ -40,12 +47,21 @@ namespace NEA.Pages.TabbedPage
                 TimeTaken += exercisedata[0] * (exercisedata[1] * 5 + resttime);
 
             }
-            Time_Taken.Text = "Estimate time taken: " + TimeTaken.ToString();
+            Time_Taken.Text = "Estimate time taken: " + (TimeTaken/60).ToString() + " minutes";
         }
 
         private void StartDay_Clicked(object sender, System.EventArgs e)
         {
 
+        }
+
+        private void Regenerate_Clicked(object sender, EventArgs e)
+        {
+            var schedulerepo = new ScheduleRepository();
+            schedulerepo.DeleteDay(UserID, DayName);
+            Workout regeneratedday = new Workout(DayName);
+            DisplayAlert("Regenerated", "Day has been succesfully regenerated", "Ok");
+            App.Current.MainPage = new NavigationPage(new HomePage());
         }
     }
 }

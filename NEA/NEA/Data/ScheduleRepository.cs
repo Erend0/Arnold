@@ -33,23 +33,10 @@ namespace NEA.Data
             _database.InsertAsync(schedule);
         }
 
-        /// removes all the data in the table which belongs to user with userID
-        public void DeleteSchedule(int userID)
-        {
-            _database.DeleteAsync<Schedule>(userID);
-        }
-        public void DeleteAll()
+        public void ResetTable()
         {
             _database.DeleteAllAsync<Schedule>();
         }
-
-        
-        public List<Schedule> GetSchedule(int userID)
-        {
-            var schedule = _database.Table<Schedule>().Where(i => i.UserID == userID).ToListAsync().Result;
-            return schedule;
-        }
-
        
         public int[] GetSchedule(int userID, string dayname)
         {
@@ -61,5 +48,18 @@ namespace NEA.Data
             }
             return exerciseIDS;
         }
+
+        // delete every single schedule for a given userid
+        public void DeleteSchedule(int userID)
+        {
+            _database.Table<Schedule>().Where(i => i.UserID == userID).DeleteAsync();
+        }
+        
+        public void DeleteDay(int userID, string DayName)
+        {
+            _database.Table<Schedule>().Where(i => i.UserID == userID && i.DayName == DayName).DeleteAsync();
+        }
+
+
     }
 }
