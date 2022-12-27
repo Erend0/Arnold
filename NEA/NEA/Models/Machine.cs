@@ -6,7 +6,7 @@ namespace NEA.Models
     public class Machine
     {
         [AutoIncrement,PrimaryKey]
-        public int MachineId { get; set; }
+        public int MachineID { get; set; }
         public string MachineName { get; set; }
         
     }

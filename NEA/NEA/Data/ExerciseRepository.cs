@@ -48,24 +48,6 @@ namespace NEA.Data
             }
          
         }
-        public string GetExerciseName(int exerciseID)
-        {
-            // given the exerciseID the exercisename is returend, if not found "error" is returned
-            var exercise = _database.Table<Exercise>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result;
-            if(exercise != null)
-            {
-                return exercise.ExerciseName;
-            }
-            else
-            {
-                return "error";
-            }
-
-
-
-
-        }
-
         // return the machine id given the exercise id
         public int GetMachineID(int exerciseID)
         {
@@ -80,12 +62,18 @@ namespace NEA.Data
                 return -1;
             }
         }
-
         
         public Exercise GetExercise(int exerciseID)
         {
             var exercise = _database.Table<Exercise>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result;
             return exercise;
         }
+        public Exercise[] GetAllExercises()
+        {
+            var exercises = _database.Table<Exercise>().ToListAsync().Result;
+            Exercise[] exerciseArray = exercises.ToArray();
+            return exerciseArray;
+        }
+
     }
 }

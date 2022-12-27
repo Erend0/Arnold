@@ -29,7 +29,7 @@ namespace NEA.Pages.TabbedPage
             var exerciserepo = new ExerciseRepository();
             var userdatarepo = new UserDataRepository();
             
-            int[] exercises = scheduleRepo.GetSchedule(UserID, DayName);
+            int[] exercises = scheduleRepo.GetSchedule(UserID, DayName,0);
             string useraim = userdatarepo.GetUserData(UserID)[0];
             int resttime = 60;
             if (useraim == "Muscle Strength")

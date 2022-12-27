@@ -268,7 +268,7 @@ namespace NEA.Tasks
                 {
                     DayNames[0] = ("Chest,Tricep,Legs");
                     DayNames[1] = ("Back,Biceps,Shoulders");
-                    DayNames[2] = ("Biceps,legs,chest");
+                    DayNames[2] = ("Biceps,Legs,Chest");
                 }
                 if (UserDays == 4 || UserDays == 5)
                 {
@@ -297,11 +297,10 @@ namespace NEA.Tasks
                     {
                         UserID = UserID,
                         ExerciseID = exercise,
-                        DayName = DayNames[x] ,
-
+                        DayName = DayNames[x],
+                        Type = 0,
                     };
                     _ScheduleRepo.CreateSchedule(schedule);
-                    
                 }
                 x++;
             }

@@ -31,7 +31,7 @@
     <EmbeddedResource Update="Pages\LoginPages\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\TabbedPage\AutoPage.xaml">
+    <EmbeddedResource Update="Pages\TabbedPage\AutoPage\AutoPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\TabbedPage\CustomPage\CreateRoutinePage.xaml">
@@ -46,10 +46,13 @@
     <EmbeddedResource Update="Pages\LoginPages\RegisterPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\TabbedPage\DayOverviewPage.xaml">
+    <EmbeddedResource Update="Pages\TabbedPage\AutoPage\DayOverviewPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\TabbedPage\TrackPage.xaml">
+    <EmbeddedResource Update="Pages\TabbedPage\CustomPage\ExerciseSearchPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\TabbedPage\TrackPage\TrackPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\LoginPages\UserDataPage.xaml">

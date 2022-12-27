@@ -1,11 +1,11 @@
 ﻿using NEA.Data;
-using NEA.Models;
 using System;
 using NEA.Pages.TabbedPage;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NEA.Tasks;
+using NEA.Models.ListViewModels;
 
 namespace NEA
 {
@@ -13,6 +13,7 @@ namespace NEA
     public partial class AutoPage : ContentPage
     {
         public ObservableCollection<Day> Days { get; set; }
+        ScheduleRepository _ScheduleRepo = new ScheduleRepository();
         int UserID { get; set; }
         int UserDays { get; set; }
         
@@ -32,31 +33,16 @@ namespace NEA
         }
         public void Populatecollection()
         {
-            string[] DayNames = new string[5];
-            if (UserDays == 3)
+            string[] daynames = _ScheduleRepo.GetDays(UserID, 0);
+            foreach (string day in daynames)
             {
-                DayNames[1] = ("Chest,Tricep,Legs");
-                DayNames[2] = ("Back,Biceps,Shoulders");
-                DayNames[3] = ("Biceps,Legs,Chest");
-            }
-            if (UserDays == 4 || UserDays == 5)
-            {
-                DayNames[1] = ("Chest,Triceps");
-                DayNames[2] = ("Back,Biceps");
-                DayNames[3] = ("Shoulders");
-                DayNames[4] = ("Legs");
-            }
-            if (UserDays == 5)
-            {
-                DayNames[5] = ("Cardio");
-            }
-            foreach (string day in DayNames)
-            {
-                if(day != null)
+                if (day != null)
                 {
+
                     Days.Add(new Day { DayName = day });
                 }
             }
+            
         }
         private void ListofDays_ItemTapped(object sender, ItemTappedEventArgs e)
         {
@@ -66,8 +52,7 @@ namespace NEA
 
         private void Regenerate_Clicked(object sender, EventArgs e)
         {
-            var schedulerepo = new ScheduleRepository();
-            schedulerepo.DeleteSchedule(UserID);
+            _ScheduleRepo.DeleteSchedule(UserID);
             DisplayAlert("Success", "All days have been regenerated", "Ok");
             Workout workout = new Workout("all");
         }

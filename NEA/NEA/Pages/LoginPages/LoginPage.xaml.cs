@@ -21,7 +21,7 @@ namespace NEA.Pages
             // The LoginUser function in the database functions is called and the username and pin are passed to it
             // If the details are valid the user is logged in and the homepage is changed to the autopage
             // If not the user is prompted with an error message, and allowed to retry 
-            if (userRepo.LoginUser(UserName.Text, UserPin.Text))
+            if (userRepo.LoginUser(UserName.Text, Convert.ToInt32(UserPin.Text)))
             {
                 Application.Current.MainPage = new NavigationPage(new HomePage());
             }

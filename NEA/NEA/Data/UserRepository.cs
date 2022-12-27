@@ -34,18 +34,24 @@ namespace NEA.Data
             _database.InsertAsync(user);
         }
         // Checks if a user with username and userpin has hasloggedin set as 1
-        public bool LoginUser(string username, string userpin)
+        public bool LoginUser(string username, int userpin)
         {
-            int pin = int.Parse(userpin);
-            var user = _database.Table<User>().Where(i => i.UserName == username && i.UserPin == pin && i.HasLoggedIn == 1).FirstOrDefaultAsync().Result;
+            // given the username and userpin converted to int check if an record is present 
+            // sets the has logged in value to 1 
+            // and returns true if logged in 
+            // else returns false
+            var user = _database.Table<User>().Where(i => i.UserName == username && i.UserPin == userpin ).FirstOrDefaultAsync().Result;
             if (user != null)
             {
+                user.HasLoggedIn = 1;
+                _database.UpdateAsync(user);
                 return true;
             }
             else
             {
                 return false;
             }
+
         }
 
         // returns a list of all users 

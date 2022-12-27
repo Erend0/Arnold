@@ -5,24 +5,29 @@
              BackgroundColor="Black"
              >
     <ContentPage.Content>
-        <StackLayout>
-            <Button HorizontalOptions="Start" Text="Delete Routine" BackgroundColor="PaleVioletRed" Margin="20" Padding="5" CornerRadius="5"/>
-
-            <StackLayout Margin="30">
-                <Entry x:Name="ExericiseName" Placeholder="ExerciseName" />
-                <Entry x:Name="Sets" Placeholder="4" Keyboard="Numeric"/>
-                <Entry x:Name="Reps" Placeholder="10" Keyboard="Numeric"/>
+        <StackLayout Padding="10">
+            <StackLayout x:Name="ExerciseAdd" Margin="20">
+                <!--- View -->
+                <Entry x:Name="Sets" Placeholder="Sets" Keyboard="Numeric"/>
+                <Entry x:Name="Reps" Placeholder="Reps" Keyboard="Numeric"/>
+                <Button Text="Add Exercise" BackgroundColor="SlateBlue" Pressed="AddExercise_Pressed"/>
             </StackLayout>
-            
-            <Button x:Name="AddExercise" Text="Add Exercise" Pressed="AddExercise_Pressed" BackgroundColor="SlateBlue" Margin="30" CornerRadius="5"/>
-            
-            <StackLayout>
-                <ListView x:Name="AddedExericisesView">
 
-                </ListView>
-            </StackLayout>
-            
-            
+            <ListView x:Name="ListofExercises"
+                      HasUnevenRows="True"
+                      Margin="20">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding ExerciseName}" />
+                                <Label Text="{Binding Sets}" />
+                                <Label Text="{Binding Reps}" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

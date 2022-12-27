@@ -1,36 +1,38 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NEA.Data;
-using NEA.Pages.TabbedPage.CustomPage;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using NEA.Pages.TabbedPage.CustomPage;
+using NEA.Data;
+using NEA.Models.ListViewModels;
 
 namespace NEA
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CustomPage : ContentPage
     {
-        public bool created = false;
-
+        public ObservableCollection<Day> Days { get; set; }
         public CustomPage()
         {
-            
             InitializeComponent();
+            Days = new ObservableCollection<Day>();
+            ListofCustomDays.ItemsSource = Days;
+            var schedulerepo = new ScheduleRepository();
+
+            var userrepo = new UserRepository();
+            int UserID = userrepo.GetLoggedInUser().UserID;
+            string[] daynames = schedulerepo.GetDays(UserID, 1);
+            foreach(string day in daynames)
+            {
+                if(day != null)
+                {
+                    Days.Add(new Day { DayName = day });
+                }
+            }
         }
         private void Routine_Pressed(object sender, EventArgs e)
         {
-            App.Current.MainPage = new CreateRoutinePage();
-            if (created)
-            {
-                App.Current.MainPage = new NavigationPage(new HomePage());
-            }
-
+            Navigation.PushAsync(new NavigationPage(new ExerciseSearchPage()));
         }
     }
 }

@@ -4,12 +4,13 @@ using System.IO;
 using NEA.Models;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NEA.Data
 {
     internal class ScheduleRepository
     {
-        static SQLiteAsyncConnection _database; 
+        static SQLiteAsyncConnection _database;
         public ScheduleRepository()
         {
             string DbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GymDatabase.db");
@@ -37,10 +38,10 @@ namespace NEA.Data
         {
             _database.DeleteAllAsync<Schedule>();
         }
-       
-        public int[] GetSchedule(int userID, string dayname)
+
+        public int[] GetSchedule(int userID, string dayname, int type)
         {
-            var schedule = _database.Table<Schedule>().Where(i => i.UserID == userID && i.DayName == dayname).ToListAsync().Result;
+            List<Schedule> schedule = _database.Table<Schedule>().Where(x => x.UserID == userID && x.DayName == dayname && x.Type == type).ToListAsync().Result;
             int[] exerciseIDS = new int[schedule.Count];
             for (int i = 0; i < schedule.Count; i++)
             {
@@ -54,12 +55,24 @@ namespace NEA.Data
         {
             _database.Table<Schedule>().Where(i => i.UserID == userID).DeleteAsync();
         }
-        
+
         public void DeleteDay(int userID, string DayName)
         {
             _database.Table<Schedule>().Where(i => i.UserID == userID && i.DayName == DayName).DeleteAsync();
         }
-
-
+        public string[] GetDays(int userID, int type)
+        {
+            // select the dayname given the userID and type, and store all the daynames in an array if its not already in the array
+            List<Schedule> schedule = _database.Table<Schedule>().Where(x => x.UserID == userID && x.Type == type).ToListAsync().Result;
+            string[] daynames = new string[20];
+            foreach(Schedule record in schedule)
+            {
+                if (!daynames.Contains(record.DayName))
+                {
+                    daynames[Array.IndexOf(daynames, null)] = record.DayName;
+                }
+            }
+            return daynames;
+        }
     }
 }

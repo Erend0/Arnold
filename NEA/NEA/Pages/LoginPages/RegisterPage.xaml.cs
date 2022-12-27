@@ -36,8 +36,10 @@ namespace NEA
             // Statement below is required to check string details
             string checkpin = ((Entry)UserPin).Text;
             // Error : Pin is too short
-            if (checkpin.Length < 4)
+            if ( checkpin == null ||checkpin.Length < 4)
             {
+                // check if checping is  null
+
                 DisplayAlert("Error", "The Pin is too short: It should be 4 digits", "OK");
             }
             // Error : Pin is too long
@@ -64,7 +66,7 @@ namespace NEA
             // Used in the elif statement
             bool NameDuplicateError = doesExist();
             // check if it is larger than 0 characters 
-            if (checkUserName.Length < 0)
+            if ( checkUserName == null|| checkUserName.Length < 0)
             {
                 DisplayAlert("Error", "The Username is too short: It should be 1 or more characters", "OK");
             }

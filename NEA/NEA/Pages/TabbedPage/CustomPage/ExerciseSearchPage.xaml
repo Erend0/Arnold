@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NEA.Pages.TabbedPage.CustomPage.ExerciseSearchPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <SearchBar Placeholder="Search" TextColor="White"/>
+            <ListView x:Name="ListofExercises"
+                      HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10" BackgroundColor="SlateGray" Margin="15">
+                                <Label Text="{Binding ExerciseName}" TextColor="White"/>
+                                <Label Text="{Binding RecomendedSets,StringFormat='{0} Sets'}" />
+                                <Label Text="{Binding RecomendedReps,StringFormat='{0} Reps'}"/>
+                                <Label Text="{Binding MajorMuscle}"/>
+                                <Label Text="{Binding MinorMuscle}"/>
+                                <Label Text="{Binding MachineName, StringFormat='Equipment: {0}'}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+           
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

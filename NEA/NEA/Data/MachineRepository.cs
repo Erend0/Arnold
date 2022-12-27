@@ -27,6 +27,18 @@ namespace NEA.Data
             _database = new SQLiteAsyncConnection(DbPath);
             _database.CreateTableAsync<Machine>().Wait();
         }
+        public string GetMachineName(int machineID)
+        {
+            var machine = _database.Table<Machine>().Where(i => i.MachineID == machineID).FirstOrDefaultAsync().Result;
+            if (machine != null)
+            {
+                return machine.MachineName;
+            }
+            else
+            {
+                return "Error";
+            }
+        }
 
     }
 }
