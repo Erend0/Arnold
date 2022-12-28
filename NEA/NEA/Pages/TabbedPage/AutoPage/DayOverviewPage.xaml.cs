@@ -1,7 +1,7 @@
 ﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NEA.Data;
-using NEA.Models;
+using NEA.Models.ListViewModels;
 using System.Collections.ObjectModel;
 using System;
 using NEA.Tasks;
@@ -12,7 +12,7 @@ namespace NEA.Pages.TabbedPage
     public partial class DayOverviewPage : ContentPage
     {
         
-        public ObservableCollection<Exercise> Exercises { get; set; }
+        protected ObservableCollection<ExerciseData> Exercises { get; set; }
         private int UserID { get; set; }
         private int TimeTaken {get; set; }
         private string DayName { get; set; }
@@ -20,7 +20,7 @@ namespace NEA.Pages.TabbedPage
         public DayOverviewPage(int userID,string dayname)
         {
             InitializeComponent();
-            Exercises = new ObservableCollection<Exercise>();
+            Exercises = new ObservableCollection<ExerciseData>();
             ExerciseList.ItemsSource = Exercises;
             DayName = dayname;
             UserID = userID;
@@ -42,7 +42,7 @@ namespace NEA.Pages.TabbedPage
             }
             foreach (int exercise in exercises)
             {
-                Exercises.Add(exerciserepo.GetExercise(exercise));
+                Exercises.Add(new ExerciseData { ExerciseName = exerciserepo.GetExercise(exercise).ExerciseName, Sets = exerciserepo.GetExercise(exercise).Sets, Reps = exerciserepo.GetExercise(exercise).Reps });
                 int[] exercisedata = exerciserepo.GetExerciseData(exercise);
                 TimeTaken += exercisedata[0] * (exercisedata[1] * 5 + resttime);
 

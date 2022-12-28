@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -33,7 +34,7 @@ namespace NEA.Data
         public int[] GetExerciseData(int exerciseID)
         {
             var exercise = _database.Table<Exercise>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result;
-            if(exercise != null)
+            if (exercise != null)
             {
                 int[] data = new int[2];
                 data[0] = exercise.Sets;
@@ -46,12 +47,12 @@ namespace NEA.Data
                 return error;
 
             }
-         
+
         }
         // return the machine id given the exercise id
         public int GetMachineID(int exerciseID)
         {
-            
+
             var exercise = _database.Table<Exercise>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result;
             if (exercise != null)
             {
@@ -62,18 +63,23 @@ namespace NEA.Data
                 return -1;
             }
         }
-        
+
         public Exercise GetExercise(int exerciseID)
         {
             var exercise = _database.Table<Exercise>().Where(i => i.ExerciseID == exerciseID).FirstOrDefaultAsync().Result;
             return exercise;
         }
-        public Exercise[] GetAllExercises()
+        public List<Exercise> GetAllExercises()
         {
             var exercises = _database.Table<Exercise>().ToListAsync().Result;
-            Exercise[] exerciseArray = exercises.ToArray();
-            return exerciseArray;
+            return exercises;
         }
+        // makes a search of all exercises given a string exercise, case is not sensitive
+        public List<Exercise> SearchExercises(string exercise)
+        {
+            var exercises = _database.Table<Exercise>().Where(i => i.ExerciseName.ToLower().Contains(exercise.ToLower())).ToListAsync().Result;
+            return exercises;
 
+        }
     }
 }

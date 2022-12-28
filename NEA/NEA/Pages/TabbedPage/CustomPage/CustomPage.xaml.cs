@@ -11,7 +11,7 @@ namespace NEA
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CustomPage : ContentPage
     {
-        public ObservableCollection<Day> Days { get; set; }
+        protected ObservableCollection<Day> Days { get; set; }
         public CustomPage()
         {
             InitializeComponent();

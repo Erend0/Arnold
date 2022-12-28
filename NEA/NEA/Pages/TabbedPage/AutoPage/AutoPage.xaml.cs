@@ -12,7 +12,7 @@ namespace NEA
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AutoPage : ContentPage
     {
-        public ObservableCollection<Day> Days { get; set; }
+        protected ObservableCollection<Day> Days { get; set; }
         ScheduleRepository _ScheduleRepo = new ScheduleRepository();
         int UserID { get; set; }
         int UserDays { get; set; }

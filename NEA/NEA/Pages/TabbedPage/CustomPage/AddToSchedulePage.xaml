@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NEA.Pages.TabbedPage.CustomPage.AddToSchedulePage"
+             BackgroundColor="Black">
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry Placeholder="DayName"/>
+            <ListView>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label Text="{Binding ExerciseName}"/>
+                                <Entry Placeholder="Sets"/>
+                                <Entry Placeholder="Reps"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

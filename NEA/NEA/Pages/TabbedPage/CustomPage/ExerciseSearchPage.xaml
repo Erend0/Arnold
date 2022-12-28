@@ -1,28 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NEA.Pages.TabbedPage.CustomPage.ExerciseSearchPage">
+             x:Class="NEA.Pages.TabbedPage.CustomPage.ExerciseSearchPage"
+             BackgroundColor="Black">
     <ContentPage.Content>
         <StackLayout>
-            <SearchBar Placeholder="Search" TextColor="White"/>
+            <SearchBar x:Name="SearchText" Placeholder="Search" TextChanged="SearchBar_TextChanged" TextColor="Black"  BackgroundColor="White" Margin="15"/>
+            <Label Text="Press Once to choose an exercises, Press Twice to remove a selected Exercise" TextColor="White" FontSize="11" HorizontalTextAlignment="Center" Margin="15"/>
             <ListView x:Name="ListofExercises"
                       HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="10" BackgroundColor="SlateGray" Margin="15">
-                                <Label Text="{Binding ExerciseName}" TextColor="White"/>
-                                <Label Text="{Binding RecomendedSets,StringFormat='{0} Sets'}" />
-                                <Label Text="{Binding RecomendedReps,StringFormat='{0} Reps'}"/>
-                                <Label Text="{Binding MajorMuscle}"/>
-                                <Label Text="{Binding MinorMuscle}"/>
-                                <Label Text="{Binding MachineName, StringFormat='Equipment: {0}'}"/>
+                            <StackLayout Padding="10" BackgroundColor="White" Margin="15">
+                                <Label Text="{Binding ExerciseName}" TextColor="Black" FontSize="Medium" TextDecorations="Underline"/>
+                                <Label Text="{Binding RecomendedSets,StringFormat='{0} Sets'}" TextColor="Black" />
+                                <Label Text="{Binding RecomendedReps,StringFormat='{0} Reps'}" TextColor="Black"/>
+                                <Label Text="{Binding MajorMuscle}" TextColor="Black"/>
+                                <Label Text="{Binding MinorMuscle}" TextColor="Black"/>
+                                <Label Text="{Binding MachineName, StringFormat='Equipment: {0}'}" TextColor="Black"/>
+                                <CheckBox  CheckedChanged="CheckBox_CheckedChanged"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-           
+            <Button Pressed="Continue_Pressed" Text="Continue" BackgroundColor="White" TextColor="Black" HorizontalOptions="End" Margin="15" HeightRequest="35" WidthRequest="100" Padding="5"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
