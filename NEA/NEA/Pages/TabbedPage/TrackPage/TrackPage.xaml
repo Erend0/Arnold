@@ -4,7 +4,7 @@
              x:Class="NEA.TrackPage">
     <ContentPage.Content>
         <StackLayout>
-            <Button Text="Logout" Clicked="Button_Clicked"  />
+            <Button Text="Log out" Clicked="Button_Clicked" VerticalOptions="End" CornerRadius="15"/>
 
         </StackLayout>
     </ContentPage.Content>

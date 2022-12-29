@@ -81,5 +81,24 @@ namespace NEA.Data
             return exercises;
 
         }
+        // given the exercise name return the sets and reps
+        public int[] GetSetsandReps(string exerciseName)
+        {
+            var exercise = _database.Table<Exercise>().Where(i => i.ExerciseName == exerciseName).FirstOrDefaultAsync().Result;
+            if (exercise != null)
+            {
+                int[] data = new int[2];
+                data[0] = exercise.Sets;
+                data[1] = exercise.Reps;
+                return data;
+            }
+            else
+            {
+                int[] error = { -1 };
+                return error;
+
+            }
+
+        }
     }
 }

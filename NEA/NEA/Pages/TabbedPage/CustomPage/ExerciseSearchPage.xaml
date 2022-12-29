@@ -6,9 +6,9 @@
     <ContentPage.Content>
         <StackLayout>
             <SearchBar x:Name="SearchText" Placeholder="Search" TextChanged="SearchBar_TextChanged" TextColor="Black"  BackgroundColor="White" Margin="15"/>
-            <Label Text="Press Once to choose an exercises, Press Twice to remove a selected Exercise" TextColor="White" FontSize="11" HorizontalTextAlignment="Center" Margin="15"/>
             <ListView x:Name="ListofExercises"
-                      HasUnevenRows="True">
+                      HasUnevenRows="True"
+                      SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

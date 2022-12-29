@@ -24,7 +24,7 @@
             <Label Text="How many days you can workout in a week?" TextColor="White" HorizontalOptions="Center" Padding="20" />
             <!--The data is binded to the source to be accessed in the .xaml.cs code -->
             <Label Text="{Binding Source={x:Reference Days}, Path=Value, StringFormat='{0} Days'}" HorizontalOptions="Center" Padding="20" />
-            <Stepper x:Name="Days" Minimum="3" Maximum="6" Increment="1" HorizontalOptions="Center"  />
+            <Stepper x:Name="Days" Minimum="3" Maximum="5" Increment="1" HorizontalOptions="Center"  />
             
             
 

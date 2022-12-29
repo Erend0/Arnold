@@ -36,8 +36,6 @@ namespace NEA.Pages.TabbedPage.CustomPage
             {
                 ExerciseData currentexercise = new ExerciseData();
                 currentexercise.ExerciseName = exercise.ExerciseName;
-                currentexercise.Sets = exercise.Sets;
-                currentexercise.Reps = exercise.Reps;
                 currentexercise.MachineName = _MachineRepo.GetMachineName(exercise.MachineID);
                 string[] musclenames = _MuscleRepo.GetMuscleName(_MuscleTargetedRepo.GetMuscleID(exercise.ExerciseID));
                 currentexercise.MajorMuscle = musclenames[0];
@@ -56,11 +54,7 @@ namespace NEA.Pages.TabbedPage.CustomPage
         
         private void Continue_Pressed(object sender, System.EventArgs e)
         {
-            // display alert all the values of listview
-            foreach(ExerciseData x in SelectedExercises)
-            {
-                DisplayAlert("Selected Exercises", x.ExerciseName, "OK");
-            }
+            App.Current.MainPage = new AddToSchedulePage(SelectedExercises);
 
         }
 

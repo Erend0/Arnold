@@ -5,15 +5,18 @@
              BackgroundColor="Black">
     <ContentPage.Content>
         <StackLayout>
-            <Entry Placeholder="DayName"/>
-            <ListView>
+            <Button Text="Cancel" HorizontalOptions="Start" Pressed="Cancel_Pressed" />
+            <Button Text="Save Schedule" HorizontalOptions="End" Pressed="Save_Pressed"/>
+            <Entry x:Name="DayName" Placeholder="DayName"/>
+            <ListView x:Name="ListofExercises"
+                      HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout>
-                                <Label Text="{Binding ExerciseName}"/>
-                                <Entry Placeholder="Sets"/>
-                                <Entry Placeholder="Reps"/>
+                                <Label Text="{Binding ExerciseName}" FontSize="Medium" TextColor="White"/>
+                                <Entry Placeholder="Sets" TextChanged="Sets_TextChanged" Keyboard="Numeric"/>
+                                <Entry Placeholder="Reps" TextChanged="Reps_TextChanged" Keyboard="Numeric"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

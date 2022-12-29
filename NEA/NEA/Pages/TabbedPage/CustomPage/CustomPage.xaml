@@ -4,20 +4,33 @@
              x:Class="NEA.CustomPage">
     <ContentPage.Content>
         <StackLayout Padding="10">
-            <Label Text="Routines" TextColor="White" FontSize="Large" HorizontalTextAlignment="Center"/>
+            <Label Text="Custom Routines" TextColor="White" FontSize="Large" HorizontalTextAlignment="Center" TextDecorations="Underline"/>
             <ListView x:Name="ListofCustomDays"
                       HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout>
-                                <Label Text="{Binding DayName}" />
+                                <Label Text="{Binding DayName}"
+                                       TextColor="Black"
+                                       FontSize="Large" 
+                                       Padding="10"
+                                       BackgroundColor="White"
+                                       Margin="20"
+                                       />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="Add Routine" TextColor="White" BackgroundColor="Black" Pressed="Routine_Pressed"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button Text="Add Routine" TextColor="White" Pressed="Routine_Pressed" Padding="12.5" HorizontalOptions="Start" CornerRadius="20" WidthRequest="160"/>
+                <Button Text="Remove Routines" TextColor="White" HorizontalOptions="End" BackgroundColor="Red" Padding="12.5" CornerRadius="12" />
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

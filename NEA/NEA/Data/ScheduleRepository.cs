@@ -74,5 +74,17 @@ namespace NEA.Data
             }
             return daynames;
         }
+        public bool CheckDayName(int userID, string dayname)
+        {
+            List<Schedule> schedule = _database.Table<Schedule>().Where(x => x.UserID == userID && x.DayName == dayname).ToListAsync().Result;
+            if (schedule.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

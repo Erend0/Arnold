@@ -6,7 +6,7 @@
              BackgroundColor="Black">
     <ContentPage.Content>
         <StackLayout Padding="10">
-            <Label Text="Auto Routines" TextColor="White" FontSize="Large" HorizontalTextAlignment="Center"/>
+            <Label Text="Auto Routines" TextColor="White" FontSize="Large" HorizontalTextAlignment="Center" TextDecorations="Underline"/>
             <!-- Create a list view with the observable collection exercises as the source-->
             <ListView x:Name="ListofDays" 
                       HasUnevenRows="True"
@@ -27,7 +27,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="Regenerate All Days" Clicked="Regenerate_Clicked"/>
+            <Button Text="Regenerate All Days" Clicked="Regenerate_Clicked" CornerRadius="15"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
