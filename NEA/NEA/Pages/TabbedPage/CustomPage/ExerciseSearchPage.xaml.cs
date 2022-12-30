@@ -40,6 +40,9 @@ namespace NEA.Pages.TabbedPage.CustomPage
                 string[] musclenames = _MuscleRepo.GetMuscleName(_MuscleTargetedRepo.GetMuscleID(exercise.ExerciseID));
                 currentexercise.MajorMuscle = musclenames[0];
                 currentexercise.MinorMuscle = musclenames[1];
+                currentexercise.Sets = _ExerciseRepo.GetSetsandReps(exercise.ExerciseName)[0];
+                currentexercise.Reps = _ExerciseRepo.GetSetsandReps(exercise.ExerciseName)[1];
+
 
                 ListOfAllExercises.Add(currentexercise);
             }
@@ -54,7 +57,7 @@ namespace NEA.Pages.TabbedPage.CustomPage
         
         private void Continue_Pressed(object sender, System.EventArgs e)
         {
-            App.Current.MainPage = new AddToSchedulePage(SelectedExercises);
+            Navigation.PushAsync(new AddToSchedulePage(SelectedExercises));
 
         }
 

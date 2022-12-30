@@ -39,15 +39,10 @@ namespace NEA.Data
             _database.DeleteAllAsync<Schedule>();
         }
 
-        public int[] GetSchedule(int userID, string dayname, int type)
+        public List<Schedule> GetSchedule(int userID, string dayname, int type)
         {
             List<Schedule> schedule = _database.Table<Schedule>().Where(x => x.UserID == userID && x.DayName == dayname && x.Type == type).ToListAsync().Result;
-            int[] exerciseIDS = new int[schedule.Count];
-            for (int i = 0; i < schedule.Count; i++)
-            {
-                exerciseIDS[i] = schedule[i].ExerciseID;
-            }
-            return exerciseIDS;
+            return schedule;
         }
 
         // delete every single schedule for a given userid

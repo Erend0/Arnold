@@ -10,12 +10,6 @@ namespace NEA
         public App()
         {
             InitializeComponent();
-
-
-
-
-
-
             var userRepo = new UserRepository();
             bool hasloggedin = userRepo.CheckLoggedInUser();
             // checks if there is a user logged in

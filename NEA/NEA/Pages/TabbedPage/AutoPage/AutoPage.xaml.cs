@@ -47,7 +47,7 @@ namespace NEA
         private void ListofDays_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var day = e.Item as Day;
-            Navigation.PushAsync(new DayOverviewPage(UserID, day.DayName));
+            Navigation.PushAsync(new DayOverviewPage(UserID, day.DayName,0));
         }
 
         private void Regenerate_Clicked(object sender, EventArgs e)

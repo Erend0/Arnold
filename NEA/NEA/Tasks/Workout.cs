@@ -298,6 +298,8 @@ namespace NEA.Tasks
                         UserID = UserID,
                         ExerciseID = exercise,
                         DayName = DayNames[x],
+                        Sets = _ExerciseRepo.GetSetsandReps(_ExerciseRepo.GetExercise(exercise).ExerciseName)[0],
+                        Reps = _ExerciseRepo.GetSetsandReps(_ExerciseRepo.GetExercise(exercise).ExerciseName)[1],
                         Type = 0,
                     };
                     _ScheduleRepo.CreateSchedule(schedule);

@@ -1,6 +1,5 @@
 ﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using TabbedPage = Xamarin.Forms.TabbedPage;
 
 namespace NEA
 {

@@ -5,7 +5,7 @@
              BackgroundColor="Black"
              Padding="10">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout x:Name="Stack">
             <Label x:Name="Time_Taken" Text=""/>
             <ListView x:Name="ExerciseList" HasUnevenRows="True">
                 <ListView.ItemTemplate>

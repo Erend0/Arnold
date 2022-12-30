@@ -1,10 +1,14 @@
-﻿using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using NEA.Data;
-using NEA.Models.ListViewModels;
+﻿using System;
 using System.Collections.ObjectModel;
-using System;
+using System.Collections.Generic;
+
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+using NEA.Data;
 using NEA.Tasks;
+using NEA.Models;
+using NEA.Models.ListViewModels;
 
 namespace NEA.Pages.TabbedPage
 {
@@ -13,23 +17,34 @@ namespace NEA.Pages.TabbedPage
     {
         
         protected ObservableCollection<ExerciseData> Exercises { get; set; }
+        private ScheduleRepository _ScheduleRepo = new ScheduleRepository();
         private int UserID { get; set; }
         private int TimeTaken {get; set; }
         private string DayName { get; set; }
 
-        public DayOverviewPage(int userID,string dayname)
+        public DayOverviewPage(int userID,string dayname,int type)
         {
             InitializeComponent();
+            if(type == 1)
+            {
+                var button = new Button();
+                button.Text = "Delete custom day";
+                button.Clicked += Button_Clicked;
+                Stack.Children.Add(button); 
+                
+
+
+
+            }
             Exercises = new ObservableCollection<ExerciseData>();
             ExerciseList.ItemsSource = Exercises;
             DayName = dayname;
             UserID = userID;
-
-            var scheduleRepo = new ScheduleRepository();
+            
             var exerciserepo = new ExerciseRepository();
             var userdatarepo = new UserDataRepository();
             
-            int[] exercises = scheduleRepo.GetSchedule(UserID, DayName,0);
+            List<Schedule> exercises = _ScheduleRepo.GetSchedule(UserID, DayName,type);
             string useraim = userdatarepo.GetUserData(UserID)[0];
             int resttime = 60;
             if (useraim == "Muscle Strength")
@@ -40,18 +55,25 @@ namespace NEA.Pages.TabbedPage
             {
                 resttime = 45;
             }
-            foreach (int exercise in exercises)
+            foreach (Schedule exercise in exercises)
             {
-                Exercises.Add(new ExerciseData { ExerciseName = exerciserepo.GetExercise(exercise).ExerciseName, Sets = exerciserepo.GetExercise(exercise).Sets, Reps = exerciserepo.GetExercise(exercise).Reps });
-                int[] exercisedata = exerciserepo.GetExerciseData(exercise);
-                TimeTaken += exercisedata[0] * (exercisedata[1] * 5 + resttime);
+                Exercises.Add(new ExerciseData { ExerciseName = exerciserepo.GetExercise(exercise.ExerciseID).ExerciseName, Sets = exercise.Sets, Reps = exercise.Reps });
+                TimeTaken += exercise.Sets * (exercise.Reps * 5 + resttime);
 
             }
             Time_Taken.Text = "Estimate time taken: " + (TimeTaken/60).ToString() + " minutes";
         }
 
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            _ScheduleRepo.DeleteDay(UserID, DayName);
+            App.Current.MainPage = new NavigationPage(new HomePage());
+
+        }
+
         private void StartDay_Clicked(object sender, System.EventArgs e)
         {
+           // App.Current.MainPage = new NavigationPage (new CompanionPage(Exercises));
 
         }
 
@@ -61,7 +83,7 @@ namespace NEA.Pages.TabbedPage
             schedulerepo.DeleteDay(UserID, DayName);
             Workout regeneratedday = new Workout(DayName);
             DisplayAlert("Regenerated", "Day has been succesfully regenerated", "Ok");
-            App.Current.MainPage = new NavigationPage(new HomePage());
+            Navigation.PopAsync();
         }
     }
 }

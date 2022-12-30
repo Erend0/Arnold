@@ -6,7 +6,8 @@
         <StackLayout Padding="10">
             <Label Text="Custom Routines" TextColor="White" FontSize="Large" HorizontalTextAlignment="Center" TextDecorations="Underline"/>
             <ListView x:Name="ListofCustomDays"
-                      HasUnevenRows="True">
+                      HasUnevenRows="True"
+                      ItemTapped="ListofCustomDays_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -23,14 +24,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Button Text="Add Routine" TextColor="White" Pressed="Routine_Pressed" Padding="12.5" HorizontalOptions="Start" CornerRadius="20" WidthRequest="160"/>
-                <Button Text="Remove Routines" TextColor="White" HorizontalOptions="End" BackgroundColor="Red" Padding="12.5" CornerRadius="12" />
-            </Grid>
+            <Button Text="Add Routine" TextColor="White" Pressed="AddRoutine_Pressed" Padding="12.5" HorizontalOptions="Start" CornerRadius="20" WidthRequest="160"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

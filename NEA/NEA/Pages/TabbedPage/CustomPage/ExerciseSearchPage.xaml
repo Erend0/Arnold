@@ -14,8 +14,8 @@
                         <ViewCell>
                             <StackLayout Padding="10" BackgroundColor="White" Margin="15">
                                 <Label Text="{Binding ExerciseName}" TextColor="Black" FontSize="Medium" TextDecorations="Underline"/>
-                                <Label Text="{Binding RecomendedSets,StringFormat='{0} Sets'}" TextColor="Black" />
-                                <Label Text="{Binding RecomendedReps,StringFormat='{0} Reps'}" TextColor="Black"/>
+                                <Label Text="{Binding Sets,StringFormat='{0} Sets'}" TextColor="Black" />
+                                <Label Text="{Binding Reps,StringFormat='{0} Reps'}" TextColor="Black"/>
                                 <Label Text="{Binding MajorMuscle}" TextColor="Black"/>
                                 <Label Text="{Binding MinorMuscle}" TextColor="Black"/>
                                 <Label Text="{Binding MachineName, StringFormat='Equipment: {0}'}" TextColor="Black"/>
