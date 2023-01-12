@@ -31,10 +31,6 @@ namespace NEA.Pages.TabbedPage
                 button.Text = "Delete custom day";
                 button.Clicked += Button_Clicked;
                 Stack.Children.Add(button); 
-                
-
-
-
             }
             Exercises = new ObservableCollection<ExerciseData>();
             ExerciseList.ItemsSource = Exercises;
@@ -43,7 +39,8 @@ namespace NEA.Pages.TabbedPage
             
             var exerciserepo = new ExerciseRepository();
             var userdatarepo = new UserDataRepository();
-            
+            var machinerepo = new MachineRepository();
+
             List<Schedule> exercises = _ScheduleRepo.GetSchedule(UserID, DayName,type);
             string useraim = userdatarepo.GetUserData(UserID)[0];
             int resttime = 60;
@@ -57,9 +54,9 @@ namespace NEA.Pages.TabbedPage
             }
             foreach (Schedule exercise in exercises)
             {
-                Exercises.Add(new ExerciseData { ExerciseName = exerciserepo.GetExercise(exercise.ExerciseID).ExerciseName, Sets = exercise.Sets, Reps = exercise.Reps });
+                string machinename = machinerepo.GetMachineName(exerciserepo.GetExercise(exercise.ExerciseID).MachineID);
+                Exercises.Add(new ExerciseData { ExerciseName = exerciserepo.GetExercise(exercise.ExerciseID).ExerciseName, Sets = exercise.Sets, Reps = exercise.Reps, MachineName=machinename});
                 TimeTaken += exercise.Sets * (exercise.Reps * 5 + resttime);
-
             }
             Time_Taken.Text = "Estimate time taken: " + (TimeTaken/60).ToString() + " minutes";
         }
@@ -73,8 +70,12 @@ namespace NEA.Pages.TabbedPage
 
         private void StartDay_Clicked(object sender, System.EventArgs e)
         {
-           // App.Current.MainPage = new NavigationPage (new CompanionPage(Exercises));
-
+            List<ExerciseData> collectionaslist = new List<ExerciseData>();
+            foreach (ExerciseData exercise in Exercises)
+            {
+                collectionaslist.Add(exercise);
+            }
+            Navigation.PushAsync(new CompanionPage(collectionaslist));
         }
 
         private void Regenerate_Clicked(object sender, EventArgs e)

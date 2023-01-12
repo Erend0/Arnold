@@ -18,6 +18,7 @@ namespace NEA
         public TrackPage()
         {
             InitializeComponent();
+            AddContent();
         }
 
         private void Button_Clicked(object sender, EventArgs e)
@@ -28,7 +29,27 @@ namespace NEA
             Application.Current.MainPage = new LoginPage();
 
         }
-        
+        private void AddContent()
+        {
+            var userdatarepo = new UserDataRepository();
+            
+            
+        }
+
+        private void Settings_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RemoveLatest_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AlterData_Clicked(object sender, EventArgs e)
+        {
+
+        }
     }
 
    

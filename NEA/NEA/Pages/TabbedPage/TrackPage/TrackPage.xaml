@@ -4,8 +4,24 @@
              x:Class="NEA.TrackPage">
     <ContentPage.Content>
         <StackLayout>
-            <Button Text="Log out" Clicked="Button_Clicked" VerticalOptions="End" CornerRadius="15"/>
+            
+            <Label x:Name="TotalSets" Text="" HorizontalOptions="Start"/>
+            <Label x:Name="TotalReps" Text="" HorizontalOptions="End"/>
+            <Label x:Name="TotalTime" Text="" HorizontalOptions="Start"/>
+            <Label x:Name="TotalVolume" Text="" HorizontalOptions="End"/>
 
+            <StackLayout Padding="20">
+                <Label Text="Latest Workout" FontSize="Header"/>
+                <Label Text="Sets" HorizontalOptions="Start"/>
+                <Label Text="Reps" HorizontalOptions="Center"/>
+                <Label Text="TotalTime" HorizontalOptions="End"/>
+                <Button Text="Remove Workout Data" Clicked="RemoveLatest_Clicked"/>
+            </StackLayout>
+            <Button Text="Add or remove data" Clicked="AlterData_Clicked" />
+
+            <Button Text="Log out" Clicked="Button_Clicked" VerticalOptions="End" CornerRadius="15"/>
+            <Button x:Name ="Settings" Text="Settings" Clicked="Settings_Clicked" CornerRadius="15"/>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

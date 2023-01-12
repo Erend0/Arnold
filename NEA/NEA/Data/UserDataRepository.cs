@@ -46,5 +46,18 @@ namespace NEA.Data
             userdata[2] = user.DaysAvailable.ToString();
             return userdata;
         }
+        
+        public int[] GetWorkoutData(int UserData)
+        {
+            var user = _database.Table<UserData>().Where(i => i.UserID == UserData).FirstOrDefaultAsync().Result;
+            int[] workoutdata = new int[5];
+            workoutdata[0] = user.TotalSets;
+            workoutdata[1] = user.TotalRep;
+            workoutdata[2] = user.Volume;
+            workoutdata[3] = user.TotalTime;
+            workoutdata[4] = user.NumerOfWorkout;
+            return workoutdata;
+
+        }
     }
 }

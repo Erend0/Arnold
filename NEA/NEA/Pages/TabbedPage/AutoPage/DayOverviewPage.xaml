@@ -12,9 +12,15 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout BackgroundColor="White" Margin="2.5">
-                                <Label Text="{Binding ExerciseName}" TextColor="Black" TextTransform="Uppercase"  TextDecorations="Underline"/>
-                                <Label Text="{Binding Sets, StringFormat='{0} sets'}" TextColor="Black"/>
-                                <Label Text="{Binding Reps, StringFormat='{0} reps'}" TextColor="Black"/>
+                                <Label Text="{Binding ExerciseName}" TextColor="Black" TextTransform="Uppercase"  TextDecorations="Underline" FontSize="17"/>
+                                <Label Text="{Binding MachineName}" TextColor="Black"/>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Text="{Binding Sets, StringFormat='{0} sets'}" TextColor="Black" HorizontalOptions="Start"/>
+                                    <Label Text="{Binding Reps, StringFormat='{0} reps'}" TextColor="Black" HorizontalOptions="Center"/>
+                                </Grid>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NEA.Pages.TabbedPage.CompanionPage"
+             BackgroundColor="Black">
+    <ContentPage.Content>
+        <StackLayout>
+            
+            <Button x:Name="Back" Text="Back" IsVisible="false" Clicked="Back_Clicked" HorizontalOptions="Start" />
+            <Button x:Name="Skip" Text="Next Exercise" Clicked="Skip_Clicked" HorizontalOptions="End"/>
+            
+            <Label x:Name="ExerciseName" Text="" TextColor="White" FontSize="Large" HorizontalOptions="Start" VerticalOptions="Center" FontAttributes="Bold"/>
+            <CheckBox CheckedChanged="Exercise_CheckedChanged" HorizontalOptions="End"/>
+
+            <Grid x:Name="Sets">
+                
+            </Grid>
+            
+            <Button x:Name="AddSet" Clicked="AddSet_Clicked" Text="Add Set" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
+            <Button x:Name="Pause" Text="Pause Workout" Clicked="Pause_Clicked" HorizontalOptions="Start" VerticalOptions="Center"/>
+            <Button x:Name="Quit" Text="Quit Workout" Clicked="Quit_Clicked" HorizontalOptions="End" VerticalOptions="Center"/>
+
+            <Button x:Name="Complete" Text="Complete Workout" FontSize="Large" IsVisible="false" BackgroundColor="LightGreen" Clicked="Complete_Clicked"/>
+
+
+        </StackLayout>
+        
+    </ContentPage.Content>
+</ContentPage>

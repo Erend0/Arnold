@@ -2,7 +2,7 @@
  
     <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-            xmlns:NEA="clr-namespace:NEA" xmlns:NEA1="clr-namespace:NEA.Pages.TabbedPage"
+            xmlns:NEA="clr-namespace:NEA" 
             x:Class="NEA.HomePage"
             BarBackgroundColor="#141414"
             Padding="10"
@@ -12,7 +12,6 @@
         <NEA:AutoPage x:Name="Auto" Title="Auto"/>
         <NEA:CustomPage x:Name="Custom" Title="Custom"/>
         <NEA:TrackPage x:Name="Track" Title="Tracker"/>
-        <NEA1:SettingsPage x:Name="Settings" Title="Settings"/>
     </TabbedPage.Children>
         
 
