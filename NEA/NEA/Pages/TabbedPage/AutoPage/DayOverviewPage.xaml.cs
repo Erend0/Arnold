@@ -25,7 +25,7 @@ namespace NEA.Pages.TabbedPage
         public DayOverviewPage(int userID,string dayname,int type)
         {
             InitializeComponent();
-            if(type == 1)
+            if (type == 1)
             {
                 var button = new Button();
                 button.Text = "Delete custom day";

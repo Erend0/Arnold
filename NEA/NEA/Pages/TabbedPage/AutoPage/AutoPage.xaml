@@ -2,12 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NEA.AutoPage"
-             Padding="10"
              BackgroundColor="Black">
     <ContentPage.Content>
-        <StackLayout Padding="10">
-            <Label Text="Auto Routines" TextColor="White" FontSize="Large" HorizontalTextAlignment="Center" TextDecorations="Underline"/>
-            <!-- Create a list view with the observable collection exercises as the source-->
+        <StackLayout>
+            <Label Text="Training" HorizontalOptions="Start" TextColor="White" FontSize="22" Padding="10" FontAttributes="Bold"/>
             <ListView x:Name="ListofDays" 
                       HasUnevenRows="True"
                       ItemTapped="ListofDays_ItemTapped">
@@ -17,17 +15,16 @@
                             <StackLayout>
                                 <Label Text="{Binding DayName}"
                                        TextColor="Black"
-                                       FontSize="Large" 
-                                       Padding="10"
+                                       FontSize="22.5" 
+                                       Padding="32.5"
                                        BackgroundColor="White"
-                                       Margin="20"
-                                       />
+                                       Margin="20"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="Regenerate All Days" Clicked="Regenerate_Clicked" CornerRadius="15"/>
+            <Button Text="Regenerate All Days" Clicked="Regenerate_Clicked" CornerRadius="15" BackgroundColor="OrangeRed" HorizontalOptions="Center"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

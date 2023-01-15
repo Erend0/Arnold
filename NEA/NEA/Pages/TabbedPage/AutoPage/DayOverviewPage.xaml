@@ -6,12 +6,13 @@
              Padding="10">
     <ContentPage.Content>
         <StackLayout x:Name="Stack">
-            <Label x:Name="Time_Taken" Text=""/>
+            <Label Text="Day Overview" TextColor="White" FontAttributes="Bold" FontSize="22.5"/>
+            <Label x:Name="Time_Taken" Text="" TextColor="White"/>
             <ListView x:Name="ExerciseList" HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout BackgroundColor="White" Margin="2.5">
+                            <StackLayout BackgroundColor="White" Margin="2.5" Padding="10">
                                 <Label Text="{Binding ExerciseName}" TextColor="Black" TextTransform="Uppercase"  TextDecorations="Underline" FontSize="17"/>
                                 <Label Text="{Binding MachineName}" TextColor="Black"/>
                                 <Grid>
@@ -26,8 +27,8 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="Start Day" Clicked="StartDay_Clicked"/>
-            <Button Text="Regenerate day" Clicked="Regenerate_Clicked"/>
+            <Button Text="Start Day" Clicked="StartDay_Clicked" BackgroundColor="OrangeRed" HorizontalOptions="Center"/>
+            <Button Text="Regenerate day" Clicked="Regenerate_Clicked" BackgroundColor="DarkSlateGray" HorizontalOptions="Center"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -4,7 +4,7 @@
              x:Class="NEA.CustomPage">
     <ContentPage.Content>
         <StackLayout Padding="10">
-            <Label Text="Custom Routines" TextColor="White" FontSize="Large" HorizontalTextAlignment="Center" TextDecorations="Underline"/>
+            <Label Text="Custom" TextColor="White" FontSize="Large" HorizontalTextAlignment="Start" FontAttributes="Bold"/>
             <ListView x:Name="ListofCustomDays"
                       HasUnevenRows="True"
                       ItemTapped="ListofCustomDays_ItemTapped">
@@ -24,7 +24,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="Add Routine" TextColor="White" Pressed="AddRoutine_Pressed" Padding="12.5" HorizontalOptions="Start" CornerRadius="20" WidthRequest="160"/>
+            <Button Text="Add Routine" TextColor="White" Pressed="AddRoutine_Pressed" Padding="12.5" HorizontalOptions="Center" CornerRadius="20" WidthRequest="160" BackgroundColor="OrangeRed"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NEA.Tasks;
 using NEA.Models.ListViewModels;
+using NEA.Models;
 
 namespace NEA
 {
@@ -38,10 +39,14 @@ namespace NEA
             {
                 if (day != null)
                 {
-
                     Days.Add(new Day { DayName = day });
+                    
                 }
             }
+            
+        }
+        private void CalculateTimeTaken(string dayname)
+        {
             
         }
         private void ListofDays_ItemTapped(object sender, ItemTappedEventArgs e)
