@@ -1,6 +1,7 @@
 ﻿using System;
 using NEA.Data;
 using NEA.Pages;
+using NEA.Pages.TabbedPage;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -40,7 +41,7 @@ namespace NEA
 
         private void Settings_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new SettingsPage());
         }
 
         private void RemoveLatest_Clicked(object sender, EventArgs e)

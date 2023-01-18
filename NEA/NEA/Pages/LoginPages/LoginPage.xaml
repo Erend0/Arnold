@@ -11,7 +11,7 @@
                   HorizontalOptions="CenterAndExpand"
                   FontSize="70"
                   Padding="20"
-                  TextColor="DarkSlateBlue" 
+                  TextColor="OrangeRed" 
                    
                   />
             
@@ -35,7 +35,7 @@
             
             <!-- The button below is used to change the current page to the register page -->
             <Button 
-                BackgroundColor="DarkSlateBlue"
+                BackgroundColor="OrangeRed"
                 Text="Register Instead"
                 Clicked="Register_Clicked"
                 CornerRadius="5"

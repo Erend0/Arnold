@@ -7,7 +7,8 @@
         <StackLayout>
             <Label
                 Text="Please enter your details"
-                FontSize="Medium"
+                FontAttributes="Bold"
+                FontSize="22.5"
                 HorizontalOptions="Center"
                 Padding="15"
                 TextColor="White"
@@ -42,7 +43,7 @@
                 CornerRadius="10"
                 Padding="20"
                 Margin="50"
-                BackgroundColor="Blue"/>
+                BackgroundColor="OrangeRed"/>
 
         </StackLayout>
     </ContentPage.Content>

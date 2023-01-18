@@ -76,9 +76,9 @@ namespace NEA
                 DisplayAlert("Error", "The Username already exists", "OK");
             }
             // checks if the username is too long
-            else if (checkUserName.Length > 6)
+            else if (checkUserName.Length > 8)
             {
-                DisplayAlert("Error", "The Username is too long: It should be 6 or less characters", "OK");
+                DisplayAlert("Error", "The Username is too long: It should be 8 or less characters", "OK");
             }
             // Accept : Correct Username format
             else

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO.Pipes;
-using System.Linq;
-using System.Runtime.Versioning;
+using NEA.Models;
 using NEA.Models.ListViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,7 +13,7 @@ namespace NEA.Pages.TabbedPage
         private int index = 0;
         Dictionary<Tuple<int, int>, int[]> EntryData = new Dictionary<Tuple<int, int>, int[]>();
         Dictionary<int, int> AddedSets = new Dictionary<int, int>();
-        private List<ExerciseData> Exercises;
+        public List<ExerciseData> Exercises;
         
         public CompanionPage(List<ExerciseData> exercises)
         {
@@ -31,87 +29,111 @@ namespace NEA.Pages.TabbedPage
             }
             Sets.Children.Clear();
             ExerciseName.Text = exercise.ExerciseName;
-            for (int i = 0; i < exercise.Sets; i++)
+            for (int i = 0; i < exercise.Sets + AddedSets[index]; i++)
             {
-                // add new entry for reps, and weight with a checkbox for each set in each row of grid
-                Sets.Children.Add(new Entry
-                {
+                Entry Reps = new Entry {
                     Placeholder = exercise.Reps.ToString() + " Reps",
                     Keyboard = Keyboard.Numeric
-                }, 0, i);
-                Sets.Children.Add(new Entry
+                };
+                Reps.TextChanged += RepsEntry_TextChanged;
+                Sets.Children.Add(Reps,0,i);
+
+                Entry Weight = new Entry
                 {
                     Placeholder = "Weigth",
-                    Keyboard = Keyboard.Numeric
-                }, 1, i);;
-                Sets.Children.Add(new CheckBox
-                {
-                }, 2, i);
+                    Keyboard = Keyboard.Numeric,
+                };
+                Weight.TextChanged += WeightEntry_TextChanged;
+                Sets.Children.Add(Weight, 1, i);
             }
+            
         }
-        private void Exercise_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        private void RepsEntry_TextChanged(object sender, TextChangedEventArgs e)
         {
-            index++;
-            PopulateSetLayout(Exercises[index]);
+            try
+            {
+                int row = Grid.GetRow((Entry)sender);
+                int value = int.Parse(e.NewTextValue);
+                Console.WriteLine(value);
+                Console.WriteLine(row);
+                if (EntryData.ContainsKey(new Tuple<int, int>(index, row)))
+                {
+                    EntryData[new Tuple<int, int>(index, row)][0] = value;
+                }
+                else
+                {
+                    EntryData.Add(new Tuple<int, int>(index, row), new int[] { value, 0, 0 });
+                }
+            }
+            catch (Exception)
+            {
+                if (((Entry)sender).Text.Length > 0)
+                {
+                    ((Entry)sender).Text = ((Entry)sender).Text.Remove(((Entry)sender).Text.Length - 1);
+                }
+                else
+                {
+                    ((Entry)sender).Text = "";
+                }
+            }
+           
+        }
+        private void WeightEntry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                // check if the new input is a number if not remove 1 character from the text if possible
+                int row = Grid.GetRow((Entry)sender);
+                int value = int.Parse(e.NewTextValue);
+                Console.WriteLine(value);
+                Console.WriteLine(row);
+                if (EntryData.ContainsKey(new Tuple<int, int>(index, row)))
+                {
+                    EntryData[new Tuple<int, int>(index, row)][1] = value;
+                }
+                else
+                {
+                    EntryData.Add(new Tuple<int, int>(index, row), new int[] { 0, value, 0 });
+                }
+            }
+            catch (Exception)
+            {
+                if (((Entry)sender).Text.Length > 0)
+                {
+                    ((Entry)sender).Text = ((Entry)sender).Text.Remove(((Entry)sender).Text.Length - 1);
+                }
+                else
+                {
+                    ((Entry)sender).Text = "";
+                }
+            }
         }
         private void Skip_Clicked(object sender, EventArgs e)
         {
-            bool missing = false;
-            for (int i = 0; i < Sets.Children.Count; i++)
-            {
-                if (Sets.Children[i] is Entry)
-                {
-                    if (string.IsNullOrEmpty(((Entry)Sets.Children[i]).Text))
-                    {
-                        missing = true;
-                    }
-                }
-            }
-            if (!missing)
+            if (index < Exercises.Count - 1)
             {
                 index++;
-                if (index == 1)
-                {
-                    Back.IsVisible = true;
-                }
                 PopulateSetLayout(Exercises[index]);
-                if (index == Exercises.Count - 1)
-                {
-                    Skip.IsVisible = false;
-                    Complete.IsVisible = true;
-                }
-                for (int i = 0; i < Sets.Children.Count; i++)
-                {
-                    if (Sets.Children[i] is Entry)
-                    {
-                        /////////////////////////////////////////
-                        //////////////////////////////////////////
-                        ////
-                        ///////////////////////////////////////
-                        ///////////////////////////////////////
-                        /// 
-                        /// 
-                        ///
-                        ///
-                        ///
-                        ///
-                        ///
-                        ///
-
-                    }
-
-
-
-                }
-            
-
-
-
-        }
+                FillEntries();
+                Back.IsVisible = true;
+            }
             else
             {
-                DisplayAlert("Missing Data", "Please fill in all the data", "OK");
+                Complete.IsVisible = true;
             }
+
+        }
+        private void FillEntries()
+        {
+            for (int i = 0; i < Exercises[index].Sets + AddedSets[index]; i++)
+            {
+                if (EntryData.ContainsKey(new Tuple<int, int>(index, i)))
+                {
+                    ((Entry)Sets.Children[i * 2]).Text = EntryData[new Tuple<int, int>(index, i)][0].ToString();
+                    ((Entry)Sets.Children[i * 2 + 1]).Text = EntryData[new Tuple<int, int>(index, i)][1].ToString();
+                }
+            }
+
         }
         private void Back_Clicked(object sender, EventArgs e)
         {
@@ -128,27 +150,10 @@ namespace NEA.Pages.TabbedPage
                 Complete.IsVisible = false;
             }
             PopulateSetLayout(Exercises[index]);
-            // add the extra set using the dictionary 
-            for (int i = 0; i < Exercises[index].Sets + AddedSets[index]; i++)
-            {
-                Sets.Children.Add(new Entry
-                {
-                    Text = EntryData[new Tuple<int, int>(index, i)][0].ToString()
-
-                }, 0, i);
-                Sets.Children.Add(new Entry
-                {
-                    Text = EntryData[new Tuple<int, int>(index, i)][1].ToString()
-                }, 1, i);
-                Sets.Children.Add(new CheckBox
-                {
-                }, 2, i);
-            }
-            
+            FillEntries();
         }
         private void Quit_Clicked(object sender, EventArgs e)
         {
-
         }
         private void Pause_Clicked(object sender, EventArgs e)
         {
@@ -158,24 +163,32 @@ namespace NEA.Pages.TabbedPage
         {
             // get the added sets for the current exercise in the added sets dictionary 
             int addedSets = AddedSets[index];
-            int row = Exercises[index].Sets + addedSets + 1;
-            Sets.Children.Add(new Entry
+            int row = Exercises[index].Sets + addedSets;
+
+            Entry Reps = new Entry
             {
                 Placeholder = Exercises[index].Reps.ToString() + " Reps",
                 Keyboard = Keyboard.Numeric
-            }, 0, row);
-            Sets.Children.Add(new Entry
+            };
+            Reps.TextChanged += RepsEntry_TextChanged;
+            Sets.Children.Add(Reps, 0, row);
+
+            Entry Weight = new Entry
             {
                 Placeholder = "Weight",
-                Keyboard= Keyboard.Numeric
-                
-            }, 1, row);
-            Sets.Children.Add(new CheckBox
-            {
-            }, 2, row);
+                Keyboard = Keyboard.Numeric
+            };
+            Weight.TextChanged += WeightEntry_TextChanged;
+            Sets.Children.Add(Weight, 1, row);
+
+            
             AddedSets[index] = addedSets + 1;
         }
         private void Complete_Clicked(object sender, EventArgs e)
+        {
+
+        }
+        private void UpdateDB()
         {
 
         }
