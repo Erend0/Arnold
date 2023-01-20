@@ -16,5 +16,20 @@ namespace NEA.Pages.TabbedPage
         {
             InitializeComponent();
         }
+
+        private void UserDataChange_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PinChange_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Blacklist_Clicked(object sender, EventArgs e)
+        {
+
+        }
     }
 }

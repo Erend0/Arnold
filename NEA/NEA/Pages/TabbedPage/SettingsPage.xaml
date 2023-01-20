@@ -1,12 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NEA.Pages.TabbedPage.SettingsPage">
+             x:Class="NEA.Pages.TabbedPage.SettingsPage"
+             BackgroundColor="Black">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            
+            <Label  Text="Account Settings" TextColor="White" FontSize="Large" TextDecorations="Underline" />
+            <Button Text="Change Pin" Clicked="PinChange_Clicked"/>
+            <Button Text="Change Aim, Time and Days" Clicked="UserDataChange_Clicked"/>
+
+            <Label  Text="Workout Settings" TextColor="White" FontSize="Large" TextDecorations="Underline" />
+            <Button Text="Change Blacklist" Clicked="Blacklist_Clicked"/>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

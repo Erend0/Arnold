@@ -98,7 +98,18 @@ namespace NEA.Data
                 return error;
 
             }
-
+        }
+        public int GetExerciseID(string exerciseName)
+        {
+            var exercise = _database.Table<Exercise>().Where(i => i.ExerciseName == exerciseName).FirstOrDefaultAsync().Result;
+            if (exercise != null)
+            {
+                return exercise.ExerciseID;
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 }

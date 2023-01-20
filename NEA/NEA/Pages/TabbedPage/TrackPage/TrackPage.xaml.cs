@@ -35,6 +35,8 @@ namespace NEA
             // logout user
             var userrepo = new UserRepository();
             userrepo.LogoutUser();
+            var WorkoutRepo = new WorkoutRepository();
+            WorkoutRepo.DeleteAll();
             Application.Current.MainPage = new LoginPage();
 
         }
