@@ -21,9 +21,13 @@ namespace NEA.Pages.TabbedPage
         private int UserID { get; set; }
         private int TimeTaken {get; set; }
         private string DayName { get; set; }
+        private int Type { get; set; }
 
         public DayOverviewPage(int userID,string dayname,int type)
         {
+            Type = type;
+            UserID = userID;
+            DayName = dayname;
             InitializeComponent();
             if (type == 1)
             {
@@ -75,7 +79,7 @@ namespace NEA.Pages.TabbedPage
             {
                 collectionaslist.Add(exercise);
             }
-            Navigation.PushAsync(new CompanionPage(collectionaslist));
+            Navigation.PushAsync(new CompanionPage(collectionaslist, false, UserID, Type, DayName));
         }
 
         private void Regenerate_Clicked(object sender, EventArgs e)

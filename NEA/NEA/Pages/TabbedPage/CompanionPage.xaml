@@ -5,7 +5,6 @@
              BackgroundColor="Black">
     <ContentPage.Content>
         <StackLayout>
-            
             <Button x:Name="Back" Text="Back" IsVisible="false" Clicked="Back_Clicked" HorizontalOptions="Start" />
             <Button x:Name="Skip" Text="Next Exercise" Clicked="Skip_Clicked" HorizontalOptions="End"/>
             

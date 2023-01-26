@@ -57,7 +57,16 @@ namespace NEA.Data
             workoutdata[3] = user.TotalTime;
             workoutdata[4] = user.NumerOfWorkout;
             return workoutdata;
-
+        }
+        public void LogWorkoutData(int sets, int reps, int volume, int time)
+        {
+            var user = _database.Table<UserData>().Where(i => i.UserID == 1).FirstOrDefaultAsync().Result;
+            user.TotalSets += sets;
+            user.TotalRep += reps;
+            user.Volume += volume;
+            user.TotalTime += time;
+            user.NumerOfWorkout += 1;
+            _database.UpdateAsync(user);
         }
     }
 }

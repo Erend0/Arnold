@@ -25,6 +25,7 @@
                 </ListView.ItemTemplate>
             </ListView>
             <Button Text="Add Routine" TextColor="White" Pressed="AddRoutine_Pressed" Padding="12.5" HorizontalOptions="Center" CornerRadius="20" WidthRequest="160" BackgroundColor="OrangeRed"/>
+            <Button x:Name="Resume" Text="Resume Workout" Clicked="Resume_Clicked"  BackgroundColor="LightGreen" HorizontalOptions="CenterAndExpand" IsVisible="false"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

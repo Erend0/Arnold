@@ -25,7 +25,7 @@
                 </ListView.ItemTemplate>
             </ListView>
             <Button Text="Regenerate All Days" Clicked="Regenerate_Clicked" CornerRadius="15" BackgroundColor="OrangeRed" HorizontalOptions="Center"/>
-            <Button Text="Resume Workout" BackgroundColor="LightGreen" HorizontalOptions="CenterAndExpand" IsVisible="false"/>
+            <Button x:Name="Resume" Text="Resume Workout" Clicked="Resume_Clicked" BackgroundColor="LightGreen" HorizontalOptions="CenterAndExpand" IsVisible="false"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

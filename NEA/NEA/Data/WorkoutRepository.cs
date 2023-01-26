@@ -43,7 +43,6 @@ namespace NEA.Data
             {
                 if (entry.Key.Item1 == index)
                 {
-                    Console.WriteLine("Inserted");
                     _database.InsertAsync(new WorkoutTracker { Index = entry.Key.Item1, Set = entry.Key.Item2, Weight = entry.Value[1], Reps = entry.Value[0] }).Wait();
                 }
             }

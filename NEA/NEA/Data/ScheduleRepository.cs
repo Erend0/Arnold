@@ -41,8 +41,7 @@ namespace NEA.Data
 
         public List<Schedule> GetSchedule(int userID, string dayname, int type)
         {
-            List<Schedule> schedule = _database.Table<Schedule>().Where(x => x.UserID == userID && x.DayName == dayname && x.Type == type).ToListAsync().Result;
-            return schedule;
+            return _database.Table<Schedule>().Where(x => x.UserID == userID && x.DayName == dayname && x.Type == type).ToListAsync().Result;
         }
 
         // delete every single schedule for a given userid
