@@ -53,5 +53,12 @@ namespace NEA.Data
         {
             _database.DeleteAllAsync<WorkoutTracker>();
         }
+
+        // returns all the data in the table
+        public WorkoutTracker[] GetAll()
+        {
+            var logs = _database.Table<WorkoutTracker>().ToArrayAsync().Result;
+            return logs;
+        }
     }
 }

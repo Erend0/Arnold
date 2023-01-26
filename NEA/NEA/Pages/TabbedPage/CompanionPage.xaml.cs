@@ -5,7 +5,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NEA.Data;
 using NEA.Models.OtherModels;
-using System.Timers;
 using System.Diagnostics;
 
 namespace NEA.Pages.TabbedPage
@@ -231,7 +230,9 @@ namespace NEA.Pages.TabbedPage
         }
         private void Pause_Clicked(object sender, EventArgs e)
         {
+            ResumeRepo.ChangeDayToResume(UserID, DayName, Type);
             UpdateDB();
+            ResumeRepo.UpdateTime(UserID, Stopwatch.Elapsed.Seconds);
             Stopwatch.Stop();
             Application.Current.MainPage = new NavigationPage(new HomePage());
     
@@ -270,6 +271,7 @@ namespace NEA.Pages.TabbedPage
         // If they are the user is given the option to disregard those sets, or go back and fix them
         private async void Complete_Clicked(object sender, EventArgs e)
         {
+            UpdateDB();
             // Each exercise is checked to see if they have an entry for each set, and if they do if each entry has been recorded for the exercise 
             int traverse = 0;
             bool incomplete = false;
@@ -324,29 +326,23 @@ namespace NEA.Pages.TabbedPage
         private void RecordProgress()
         {
             UserDataRepository userdatarepo = new UserDataRepository();
-
+            WorkoutTracker[] workouts = WorkoutRepo.GetAll();
             
             int set = 0;
-            for (int i = 0; i < Exercises.Count; i++)
-            {
-                set += Exercises[i].Sets + AddedSets[i];
-            }
-            
             int reps = 0;
-            foreach (KeyValuePair<Tuple<int, int>, int[]> entry in EntryData)
-            {
-                reps += entry.Value[0];
-            }
-            
-            int totaltime = Stopwatch.Elapsed.Seconds;
-
             int volume = 0;
-            foreach (KeyValuePair<Tuple<int, int>, int[]> entry in EntryData)
+            
+            foreach (WorkoutTracker workout in workouts)
             {
-                volume += entry.Value[0] * entry.Value[1];
+                if (workout.Reps != 0 && workout.Weight != 0)
+                {
+                    set++;
+                }
+                reps += workout.Reps;
+                volume += workout.Reps * workout.Weight;
             }
-
-            userdatarepo.LogWorkoutData(set, reps, totaltime, volume);
+            int totaltime = Stopwatch.Elapsed.Seconds;
+            userdatarepo.LogWorkoutData(UserID,set, reps, volume,totaltime);
 
         }
         

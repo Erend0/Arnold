@@ -15,17 +15,18 @@
                 <Label x:Name="NumberofWorkouts" HorizontalOptions="CenterAndExpand" TextColor="Black"/>
             </StackLayout>
 
-            <StackLayout Padding="20" Margin="25" BackgroundColor="White">
+            <StackLayout Padding="20" Margin="25" BackgroundColor="White" >
                 <Label Text="Latest Workout" FontSize="Medium" TextColor="Black"/>
-                <Label Text="Sets" HorizontalOptions="Start" TextColor="Black"/>
-                <Label Text="Reps" HorizontalOptions="Center" TextColor="Black"/>
-                <Label Text="TotalTime" HorizontalOptions="End" TextColor="Black"/>
-                <Button Text="Remove this data" Clicked="RemoveLatest_Clicked" CornerRadius="15" BackgroundColor="OrangeRed"/>
+                <Label x:Name="Sets" HorizontalOptions="Center" TextColor="Black"/>
+                <Label x:Name="Reps" HorizontalOptions="Center" TextColor="Black"/>
+                <Label x:Name="Volume" HorizontalOptions="Center" TextColor="Black"/>
+                <Label x:Name="Time" HorizontalOptions="Center" TextColor="Black"/>
+                <Button x:Name="Remove" Text="Remove this data" Clicked="RemoveLatest_Clicked" CornerRadius="15" BackgroundColor="OrangeRed"/>
             </StackLayout>
             
             <Button Text="Add or remove data" Clicked="AlterData_Clicked" CornerRadius="15" BackgroundColor="OrangeRed"/>
             <Button x:Name ="Settings" Text="Settings" Clicked="Settings_Clicked" CornerRadius="15" BackgroundColor="OrangeRed"/>
-                <Button Text="Log out" Clicked="LogOut_Clicked" VerticalOptions="End" CornerRadius="15" BackgroundColor="OrangeRed"/>
+            <Button Text="Log out" Clicked="LogOut_Clicked" VerticalOptions="End" CornerRadius="15" BackgroundColor="OrangeRed"/>
            
 
         </StackLayout>

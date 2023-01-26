@@ -1,9 +1,8 @@
-﻿using NEA.Models;
+﻿using NEA.Models.OtherModels;
 using SQLite;
+using System;
 using System.IO;
 using System.Reflection;
-using System;
-using NEA.Models.OtherModels;
 
 namespace NEA.Data
 {
@@ -28,18 +27,19 @@ namespace NEA.Data
             _database.CreateTableAsync<AddedSets>().Wait();
         }
         // This method is used to allow workouts to be continued in the companion page
-        public void ChangeDayToResume(int UserID,string dayname)
+        public void ChangeDayToResume(int UserID,string dayname,int type)
         {
             // The db is checked to see if there is an entry for the user
             // If not one is created and the dayname is added to the table
             var check = _database.Table<ResumePage>().Where(i => i.UserID == UserID).FirstOrDefaultAsync().Result;
             if (check == null)
             {
-                _database.InsertAsync(new ResumePage { UserID = UserID, DayName = dayname, DataGrab = 0 }).Wait();
+                _database.InsertAsync(new ResumePage { UserID = UserID, DayName = dayname, DataGrab = 0, Type= type}).Wait();
             }
             else
             {
-                _database.ExecuteAsync("UPDATE ResumePage SET DayName = ? WHERE UserID = ?", dayname, UserID).Wait();
+                // If there is an entry for the user, the dayname and type is updated
+                _database.UpdateAsync(new ResumePage { UserID = UserID, DayName = dayname, DataGrab = 0, Type = type }).Wait();
             }
 
         }
@@ -122,12 +122,52 @@ namespace NEA.Data
         // update the time
         public void UpdateTime(int UserID, int time)
         {
-            int timetaken = _database.Table<ResumePage>().Where(i => i.UserID == UserID).FirstOrDefaultAsync().Result.Time;
-            _database.ExecuteAsync("UPDATE ResumePage SET Time = ? WHERE UserID = ?", time + timetaken, UserID).Wait();
+            var check = _database.Table<ResumePage>().Where(i => i.UserID == UserID).FirstOrDefaultAsync().Result;
+            if (check == null)
+            {
+                _database.InsertAsync(new ResumePage { UserID = UserID, DayName = null, DataGrab = time, Type = 0 }).Wait();
+            }
+            else
+            {
+                _database.ExecuteAsync("UPDATE ResumePage SET Time = ? WHERE UserID = ?", time, UserID).Wait();
+            }
         }
         public void ResetTime(int UserID)
         {
             _database.ExecuteAsync("UPDATE ResumePage SET Time = ? WHERE UserID = ?", 0, UserID).Wait();
+        }
+
+        public bool CheckData(int index,int set)
+        {
+            // given the index and set the workout is checked to see if weight and reps entrys are greater than one
+            var check = _database.Table<WorkoutTracker>().Where(i => i.Index == index && i.Set == set).FirstOrDefaultAsync().Result;
+            if (check != null)
+            {
+                if (check.Reps > 0 || check.Weight > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public int GetTime(int UserID)
+        {
+            var check = _database.Table<ResumePage>().Where(i => i.UserID == UserID).FirstOrDefaultAsync().Result;
+            if (check == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return check.Time;
+            }
         }
 
 

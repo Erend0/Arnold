@@ -3,6 +3,7 @@ using NEA.Models;
 using NEA.Models.ListViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Security.Cryptography;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,6 +20,9 @@ namespace NEA.Pages.TabbedPage.CustomPage
         private MuscleTargetedRepository _MuscleTargetedRepo = new MuscleTargetedRepository();
         private MuscleRepository  _MuscleRepo = new MuscleRepository();
         private MachineRepository _MachineRepo = new MachineRepository();
+
+        private Dictionary<string, int> Checkboxes = new Dictionary<string, int>();
+        
 
         public ExerciseSearchPage()
         {
@@ -68,11 +72,13 @@ namespace NEA.Pages.TabbedPage.CustomPage
             if (checkbox.IsChecked)
             {
                 SelectedExercises.Add(exercise);
-               
+
+
             }
             else if(!checkbox.IsChecked)
             {
                 SelectedExercises.Remove(exercise);
+                
             }
         }
     }
