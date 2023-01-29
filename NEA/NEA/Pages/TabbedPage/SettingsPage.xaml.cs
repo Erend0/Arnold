@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NEA.Pages.TabbedPage.TrackPage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,16 +20,19 @@ namespace NEA.Pages.TabbedPage
 
         private void UserDataChange_Clicked(object sender, EventArgs e)
         {
+            Navigation.PushAsync(new SettingsDataPage(1));
 
         }
 
         private void PinChange_Clicked(object sender, EventArgs e)
         {
+            Navigation.PushAsync(new SettingsDataPage(2));
 
         }
 
         private void Blacklist_Clicked(object sender, EventArgs e)
         {
+            Navigation.PushAsync(new SettingsDataPage(3));
 
         }
     }

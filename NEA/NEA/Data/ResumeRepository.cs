@@ -170,6 +170,36 @@ namespace NEA.Data
             }
         }
 
+        public bool HasQuitEarly(int UserID)
+        {
+            int x = _database.Table<ResumePage>().Where(i => i.UserID == UserID).FirstOrDefaultAsync().Result.DataGrab;
+            if (x == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+           
+        }
+        
+        public void ChangeQuitEarly(int UserID,int hasquit)
+        {
+            // check if the database has an entry 
+            // if so change
+            // else create table
+            var check = _database.Table<ResumePage>().Where(i => i.UserID == UserID).FirstOrDefaultAsync().Result;
+            if (check == null)
+            {
+                _database.InsertAsync(new ResumePage { UserID = UserID, DayName = null, DataGrab = hasquit, Type = 0 }).Wait();
+            }
+            else
+            {
+                _database.ExecuteAsync("UPDATE ResumePage SET DataGrab = ? WHERE UserID = ?", hasquit, UserID).Wait();
+            }
+        }
+
 
     }
 }

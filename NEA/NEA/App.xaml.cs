@@ -1,6 +1,8 @@
 ﻿using NEA.Data;
-using Xamarin.Forms;
+using NEA.Pages;
 using System;
+using Xamarin.Forms;
+
 
 namespace NEA
 {
@@ -15,8 +17,18 @@ namespace NEA
             // checks if there is a user logged in
             if (hasloggedin)
             {
-                // if a user has logged in before, go to main page
-                MainPage = new NavigationPage(new HomePage());
+                int UserID = userRepo.GetLoggedInUser().UserID;
+                var resumerepo = new ResumeRepository();
+                bool quitearly = resumerepo.HasQuitEarly(UserID);
+                
+                if (quitearly)
+                {
+                    MainPage = new UserDataPage();
+                }
+                else
+                {
+                    MainPage = new NavigationPage(new HomePage());
+                }
             }
             else
             {

@@ -14,9 +14,14 @@ namespace NEA.Pages
     public partial class UserDataPage : ContentPage
     {
         private int UserID { get; set; }
+        private ResumeRepository  _ResumeRepository = new ResumeRepository();
         public UserDataPage()
         {
             InitializeComponent();
+            var userRepo = new UserRepository();
+            UserID = userRepo.GetLoggedInUser().UserID;
+            _ResumeRepository.ChangeQuitEarly(UserID, 1);
+
         }
         private void Submit_Pressed(object sender, EventArgs e)
         {
@@ -33,8 +38,7 @@ namespace NEA.Pages
                 string aim = Aim.SelectedItem.ToString();
 
                 // The User's data is inserted into the database
-                var userRepo = new UserRepository();
-                UserID = userRepo.GetLoggedInUser().UserID;
+                
                 var userdataRepo = new UserDataRepository();
                 userdataRepo.InsertUserData(UserID,time,days,aim);
 
@@ -42,10 +46,11 @@ namespace NEA.Pages
                 // The class which will generate the workout is instantiated
                 // The "all" parameter means all of the days will be generated
                 Workout workout = new Workout("all");
-             
-                
-                
+
+
+
                 // The current page is changed to the main tabbed page
+                _ResumeRepository.ChangeQuitEarly(UserID, 0);
                 App.Current.MainPage = new NavigationPage(new HomePage());
             }
         }

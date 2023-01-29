@@ -80,5 +80,15 @@ namespace NEA.Data
             user.NumerOfWorkout -= 1;
             _database.UpdateAsync(user);
         }
+        
+        public void UpdateUserData(int userID, int time, int days, string aim)
+        {
+            var user = _database.Table<UserData>().Where(i => i.UserID == userID).FirstOrDefaultAsync().Result;
+            user.Aim = aim;
+            user.TimeAvailable = time;
+            user.DaysAvailable = days;
+            _database.UpdateAsync(user);
+        }
     }
+    
 }
