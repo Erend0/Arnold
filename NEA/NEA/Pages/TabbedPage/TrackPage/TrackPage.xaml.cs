@@ -3,6 +3,7 @@ using NEA.Data;
 using NEA.Models.OtherModels;
 using NEA.Pages;
 using NEA.Pages.TabbedPage;
+using NEA.Pages.TabbedPage.TrackPage;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -125,6 +126,10 @@ namespace NEA
 
         private void AlterData_Clicked(object sender, EventArgs e)
         {
+            // create a popup which retrieves data
+            // and updates the database
+            Navigation.PushAsync(new SettingsDataPage(4));
+            
 
         }
     }

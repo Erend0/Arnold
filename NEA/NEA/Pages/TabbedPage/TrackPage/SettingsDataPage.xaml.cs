@@ -18,19 +18,23 @@ namespace NEA.Pages.TabbedPage.TrackPage
             InitializeComponent();
             if(action == 1)
             {
-                ChangeData();
+                ChangeUserData();
             }
-            if (action == 2)
+            else if (action == 2)
             {
                 ChangePin();
             }
-            if (action == 3)
+            else if (action == 3)
             {
                 ChangeBlacklist();
             }
+            else if(action == 4)
+            {
+                ChangeWorkoutData();
+            }
         }
         // This method allows the user to change their aim, time available and day available 
-        private void ChangePin()
+        private void ChangeUserData()
         {
             Picker aimpicker = new Picker
             {
@@ -87,7 +91,7 @@ namespace NEA.Pages.TabbedPage.TrackPage
             ///userdatarepo.UpdateUserData(userID, aimpicker.SelectedIndex, daypicker.SelectedIndex, timestepper.Value);
 
         }
-        private void ChangeData()
+        private void ChangePin()
         {
             
         }
@@ -95,9 +99,14 @@ namespace NEA.Pages.TabbedPage.TrackPage
         {
             
         }
+        private void ChangeWorkoutData()
+        {
+            
+        }
         private void ClearGrid()
         {
             
         }
+        
     }
 }

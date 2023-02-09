@@ -27,6 +27,14 @@
   </ItemGroup>
 
 
+
+  <ItemGroup>
+    <Compile Update="Pages\TabbedPage\TrackPage\SettingsDataPage.xaml.cs">
+      <DependentUpon>SettingsDataPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+
   <ItemGroup>
     <EmbeddedResource Update="Pages\LoginPages\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
