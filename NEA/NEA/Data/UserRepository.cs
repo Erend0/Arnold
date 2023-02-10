@@ -93,6 +93,14 @@ namespace NEA.Data
             user.HasLoggedIn = 0;
             _database.UpdateAsync(user);
         }
+        // The users pin is changed
+        public void ChangeUserPin(int newpin)
+        {
+            var user = _database.Table<User>().Where(i => i.HasLoggedIn == 1).FirstOrDefaultAsync().Result;
+            user.UserPin = newpin;
+            _database.UpdateAsync(user);
+        }
     }
+    
 }
 

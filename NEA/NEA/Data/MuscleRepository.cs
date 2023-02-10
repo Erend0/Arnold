@@ -51,5 +51,10 @@ namespace NEA.Data
                 return muscleerror;
             }
         }
+        public Muscle[] GetAllMuscles()
+        {
+            var muscles = _database.Table<Muscle>().ToListAsync().Result.ToArray();
+            return muscles;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using NEA.Models;
 using SQLite;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -66,6 +67,25 @@ namespace NEA.Data
             {
                 return false;
             }
+        }
+
+        // return a list of all the muscles in the muscle blacklist table
+        public List<MuscleBlacklist> GetMuscleBlacklist(int UserID)
+        {
+            var getmuscleblacklist = _database.Table<MuscleBlacklist>().Where(i => i.UserID == UserID).ToListAsync().Result;
+            return getmuscleblacklist;
+        }
+        // return a list of all the exercises in the exercise blacklist table
+        public List<ExerciseBlacklist> GetExerciseBlacklist(int UserID)
+        {
+            var getexerciseblacklist = _database.Table<ExerciseBlacklist>().Where(i => i.UserID == UserID).ToListAsync().Result;
+            return getexerciseblacklist;
+        }
+        // return a list of all the machines in the machine blacklist table
+        public List<MachineBlacklist> GetMachineBlacklist(int UserID)
+        {
+            var getmachineblacklist = _database.Table<MachineBlacklist>().Where(i => i.UserID == UserID).ToListAsync().Result;
+            return getmachineblacklist;
         }
     }
 }

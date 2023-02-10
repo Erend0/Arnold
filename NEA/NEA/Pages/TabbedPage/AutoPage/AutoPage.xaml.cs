@@ -64,6 +64,8 @@ namespace NEA
             _ScheduleRepo.DeleteSchedule(UserID);
             DisplayAlert("Success", "All days have been regenerated", "Ok");
             Workout workout = new Workout("all");
+            Days.Clear();
+            Populatecollection();
         }
         private void CheckResume()
         {

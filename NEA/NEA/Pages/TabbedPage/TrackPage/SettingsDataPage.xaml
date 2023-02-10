@@ -5,7 +5,20 @@
              BackgroundColor="Black">
     <ContentPage.Content>
         <StackLayout>
-            
+            <StackLayout x:Name="contentframe"></StackLayout>
+            <ListView x:Name="BlackListView" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label Text="{Binding Name}" />
+                                <CheckBox/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
+        
     </ContentPage.Content>
 </ContentPage>

@@ -1,6 +1,9 @@
 ﻿using NEA.Data;
+using NEA.Models;
+using NEA.Models.ListViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +16,16 @@ namespace NEA.Pages.TabbedPage.TrackPage
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingsDataPage : ContentPage
     {
+        public int UserID { get; set; }
         public SettingsDataPage(int action)
         {
             InitializeComponent();
-            if(action == 1)
+            var userepo = new UserRepository();
+            UserID = userepo.GetLoggedInUser().UserID;
+                
+
+
+            if (action == 1)
             {
                 ChangeUserData();
             }
@@ -34,21 +43,26 @@ namespace NEA.Pages.TabbedPage.TrackPage
             }
         }
         // This method allows the user to change their aim, time available and day available 
+        // Note that the user is given the choice to manually regenerate their workout
         private void ChangeUserData()
         {
             Picker aimpicker = new Picker
             {
                 Title = "Select an aim",
-                VerticalOptions = LayoutOptions.CenterAndExpand
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                SelectedIndex = 1
+
             };
             aimpicker.Items.Add("Muscle Mass");
             aimpicker.Items.Add("Endurance");
             aimpicker.Items.Add("Muscle Strength");
+            
 
             Picker daypicker = new Picker
             {
                 Title = "Select the number of days you can workout",
-                VerticalOptions = LayoutOptions.CenterAndExpand
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                SelectedIndex = 1
             };
             daypicker.Items.Add("3");
             daypicker.Items.Add("4");
@@ -56,13 +70,25 @@ namespace NEA.Pages.TabbedPage.TrackPage
 
             // time selector which goes up in increments of two
             // the initial and minimum value is 30 and maximum value is 90
+            Label steppertext = new Label
+            {
+                Text = "30",
+                TextColor = Color.White,
+            };
+               
             Stepper timestepper = new Stepper
             {
+               
                 Minimum = 30,
                 Maximum = 90,
                 Increment = 5,
                 Value = 30,
                 VerticalOptions = LayoutOptions.CenterAndExpand
+            };
+            // stepper value changed
+            timestepper.ValueChanged += (sender, e) =>
+            {
+                steppertext.Text = string.Format(Convert.ToString(e.NewValue)+" minutes");
             };
 
             Button submit = new Button
@@ -70,43 +96,150 @@ namespace NEA.Pages.TabbedPage.TrackPage
                 Text = "Submit",
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
-            submit.Clicked += Submit_Clicked;
+            submit.Clicked += (sender, e) => Submit_Clicked(sender, e, aimpicker.Items[aimpicker.SelectedIndex], Convert.ToInt32(timestepper.Value), Convert.ToInt32(daypicker.Items[daypicker.SelectedIndex]));
 
-            // All of the items are added to the stacklayout
-            StackLayout layout = new StackLayout
-            {
-                Children = { aimpicker, daypicker, timestepper, submit }
-            };
+
+
+            contentframe.Children.Add(aimpicker);
+            contentframe.Children.Add(daypicker);
+            contentframe.Children.Add(steppertext);
+            contentframe.Children.Add(timestepper);
+            contentframe.Children.Add(submit);
+            
+
         }
 
         // The userdata table is updated with the new data, and the workout is regenerated with the new data
-        private void Submit_Clicked(object sender, EventArgs e)
+        private void Submit_Clicked(object sender, EventArgs e, string aim, int time,int days)
         {
-            /////////////////////////////////////////
-            /// /////////////////////////////////////////
-            ///  /////////////////////////////////////////
-            ///   /////////////////////////////////////////
-            UserDataRepository userdatarepo = new UserDataRepository();
-            UserRepository userrepo = new UserRepository();
-            ///userdatarepo.UpdateUserData(userID, aimpicker.SelectedIndex, daypicker.SelectedIndex, timestepper.Value);
+            UserDataRepository userDataRepo = new UserDataRepository();
+            userDataRepo.UpdateUserData(UserID,time*60,days,aim);
+            DisplayAlert("Success",
+                "Your data has been updated, Please regenerate your auto generated workout to see the effect",
+                "OK") ;
+            Navigation.PopAsync();
 
         }
         private void ChangePin()
         {
-            
+            // create a numberic password entry 
+            Entry pinentry = new Entry
+            {
+                Placeholder = "Enter your new pin",
+                IsPassword = true,
+                Keyboard = Keyboard.Numeric,
+                VerticalOptions = LayoutOptions.CenterAndExpand
+            };
+            // create a button to submit the new pin
+            Button submit = new Button
+            {
+                Text = "Submit",
+                VerticalOptions = LayoutOptions.CenterAndExpand
+            };
+            // if button is clicked and pin is not null update db
+            submit.Clicked += (sender, e) => SubmitPin_Clicked(sender, e, pinentry.Text);
+            contentframe.Children.Add(pinentry);
+            contentframe.Children.Add(submit);
+        }
+        private void SubmitPin_Clicked(object sender, EventArgs e, string pin)
+        {
+            if (pin != null)
+            {
+                UserRepository userRepo = new UserRepository();
+                userRepo.ChangeUserPin(Convert.ToInt32(pin));
+                DisplayAlert("Success",
+                    "Your pin has been updated",
+                    "OK");
+                Navigation.PopAsync();
+            }
+            // if pin is not 4 digits error
+            else if (pin.Length != 4)
+            {
+                DisplayAlert("Error",
+                    "Please enter a 4 digit pin",
+                    "OK");
+            }
+            else
+            {
+                DisplayAlert("Error",
+                    "Please enter a pin",
+                    "OK");
+            }
         }
         private void ChangeBlacklist()
         {
+            Label header = new Label
+            {
+                Text = "Pick a blacklist to access",
+                TextColor = Color.White,
+                FontSize = 20,
+                FontAttributes = FontAttributes.Bold,
+                HorizontalOptions = LayoutOptions.Center
+            };
+            Button muscle = new Button
+            {
+                Text = "Muscle Blacklist",
+            };
+
+            Button exercise = new Button
+            {
+                Text = "Exercise Blacklist"
+            };
+            Button machine = new Button
+            {
+                Text = "Machine Blacklist"
+            };
+            muscle.Clicked += (sender, e) => MuscleBlacklist_Clicked(sender, e);
+            exercise.Clicked += (sender, e) => ExerciseBlacklist_Clicked(sender, e);
+            machine.Clicked += (sender, e) => MachineBlacklist_Clicked(sender, e);
+            contentframe.Children.Add(header);
+            contentframe.Children.Add(muscle);
+            contentframe.Children.Add(exercise);
+
+        }
+        private void MuscleBlacklist_Clicked(object sender, EventArgs e)
+        {
+            contentframe.Children.Clear();
+            var musclerepo = new MuscleRepository();
+
+            foreach (Muscle muscle in musclerepo.GetAllMuscles())
+            {
+
+
+            }
+
+            var blacklistrepo = new BlacklistRepository();
+            List<MuscleBlacklist> blacklist = blacklistrepo.GetMuscleBlacklist(UserID);
             
+
+        }
+        private void ExerciseBlacklist_Clicked(object sender, EventArgs e)
+        {
+            // get the exercise blacklist
+            // display the exercise blacklist
+            // allow the user to add to the exercise blacklist
+            // allow the user to remove from the exercise blacklist
+            // update the db
+        }
+        private void MachineBlacklist_Clicked(object sender, EventArgs e)
+        {
+            // get the machine blacklist
+            // display the machine blacklist
+            // allow the user to add to the machine blacklist
+            // allow the user to remove from the machine blacklist
+            // update the db
         }
         private void ChangeWorkoutData()
         {
+           
             
-        }
-        private void ClearGrid()
-        {
             
+            
+            
+            
+            
+
         }
-        
+
     }
 }
