@@ -12,7 +12,8 @@
 
             <Label  Text="Workout Settings" TextColor="White" FontSize="Large" TextDecorations="Underline" />
             <Button Text="Change Blacklist" Clicked="Blacklist_Clicked"/>
-            
+            <Button Text="Change Workout Data" Clicked="WorkoutChange_Clicked"/>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

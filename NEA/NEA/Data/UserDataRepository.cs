@@ -55,7 +55,7 @@ namespace NEA.Data
             workoutdata[1] = user.TotalRep;
             workoutdata[2] = user.Volume;
             workoutdata[3] = user.TotalTime;
-            workoutdata[4] = user.NumerOfWorkout;
+            workoutdata[4] = user.NumberOfWorkout;
             return workoutdata;
         }
         public void LogWorkoutData(int UserID,int sets, int reps, int volume, int time)
@@ -65,9 +65,15 @@ namespace NEA.Data
             user.TotalRep += reps;
             user.Volume += volume;
             user.TotalTime += time;
-            user.NumerOfWorkout += 1;
+            user.NumberOfWorkout += 1;
             Console.WriteLine("volume" + user.Volume );
             Console.WriteLine(volume);
+            _database.UpdateAsync(user);
+        }
+        public void ChangeNumberofWorkouts(int UserID,int numberofworkouts)
+        {
+            var user = _database.Table<UserData>().Where(i => i.UserID == UserID).FirstOrDefaultAsync().Result;
+            user.NumberOfWorkout = numberofworkouts;
             _database.UpdateAsync(user);
         }
         public void RemoveWorkoutData(int UserID,int sets,int reps,int volume,int time)
@@ -77,7 +83,7 @@ namespace NEA.Data
             user.TotalRep -= reps;
             user.Volume -= volume;
             user.TotalTime -= time;
-            user.NumerOfWorkout -= 1;
+            user.NumberOfWorkout -= 1;
             _database.UpdateAsync(user);
         }
         

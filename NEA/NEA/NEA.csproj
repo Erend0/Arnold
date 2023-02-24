@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\BlacklistRepository.cs~RF6cc3a4b7.TMP" />
     <None Remove="GymDatabase.db" />
   </ItemGroup>
 

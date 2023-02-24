@@ -4,7 +4,6 @@ using NEA.Models.ListViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,33 +14,37 @@ namespace NEA.Pages.TabbedPage.TrackPage
     public partial class SettingsDataPage : ContentPage
     {
         public int UserID { get; set; }
+        // The blacklist type variable is set when a user selects a blacklist type in the ChangeBlacklist method
+        // This variable is used to determine which blacklist type the user is currently viewing, in order to update the right DB table
+        public string BlacklistType { get; set; }
         public SettingsDataPage(int action)
         {
             InitializeComponent();
             var userepo = new UserRepository();
             UserID = userepo.GetLoggedInUser().UserID;
-                
+            // Depending on the parameter, different functions will populate the page with different UI items to fullfill their purpose
+            switch (action)
+            {
+                case 1:
+                    ChangeUserData();
+                    break;
+                case 2:
+                    ChangePin();
+                    break;
+                case 3:
+                    ChangeBlacklist();
+                    break;
+                case 4:
+                    ChangeWorkoutData();
+                    break;
+                    
 
 
-            if (action == 1)
-            {
-                ChangeUserData();
-            }
-            else if (action == 2)
-            {
-                ChangePin();
-            }
-            else if (action == 3)
-            {
-                ChangeBlacklist();
-            }
-            else if(action == 4)
-            {
-                ChangeWorkoutData();
             }
         }
         // This method allows the user to change their aim, time available and day available 
-        // Note that the user is given the choice to manually regenerate their workout
+        // Note that the user is given the choice to manually regenerate their workout 
+        // Rather than generating it automatically
         private void ChangeUserData()
         {
             Picker aimpicker = new Picker
@@ -121,7 +124,7 @@ namespace NEA.Pages.TabbedPage.TrackPage
         }
         private void ChangePin()
         {
-            // create a numberic password entry 
+            // creates a numberic password entry 
             Entry pinentry = new Entry
             {
                 Placeholder = "Enter your new pin",
@@ -129,13 +132,13 @@ namespace NEA.Pages.TabbedPage.TrackPage
                 Keyboard = Keyboard.Numeric,
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
-            // create a button to submit the new pin
+            // creates a button to submit the new pin
             Button submit = new Button
             {
                 Text = "Submit",
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
-            // if button is clicked and pin is not null update db
+            // if button is clicked and pin is not null db is updated
             submit.Clicked += (sender, e) => SubmitPin_Clicked(sender, e, pinentry.Text);
             root.Children.Add(pinentry);
             root.Children.Add(submit);
@@ -167,6 +170,7 @@ namespace NEA.Pages.TabbedPage.TrackPage
         }
         private void ChangeBlacklist()
         {
+            // Provides buttons for user to select which db they want to edit
             Label header = new Label
             {
                 Text = "Pick a blacklist to access",
@@ -188,15 +192,19 @@ namespace NEA.Pages.TabbedPage.TrackPage
             {
                 Text = "Machine Blacklist"
             };
-            muscle.Clicked += (sender, e) => MuscleBlacklist_Clicked(sender, e);
-            //exercise.Clicked += (sender, e) => ExerciseBlacklist_Clicked(sender, e);
-            //machine.Clicked += (sender, e) => MachineBlacklist_Clicked(sender, e);
+            
+            // Sets the handler for the clicked of each button to the function below 
+            // The third paramter determines which db tables will be accessed
+            muscle.Clicked += (sender, e) => BlacklistButton_Clicked(sender, e, "Muscle");
+            exercise.Clicked += (sender, e) => BlacklistButton_Clicked(sender, e, "Exercise");
+            machine.Clicked += (sender, e) => BlacklistButton_Clicked(sender, e, "Machine");
+
             root.Children.Add(header);
             root.Children.Add(muscle);
             root.Children.Add(exercise);
             root.Children.Add(machine);
 
-            // delete all blaclists button
+            // deletes all blaclists button
             Button deleteall = new Button
             {
                 Text = "Reset all blacklists"
@@ -206,45 +214,130 @@ namespace NEA.Pages.TabbedPage.TrackPage
 
         }
 
-        private void MuscleBlacklist_Clicked(object sender, EventArgs e)
+        private void BlacklistButton_Clicked(object sender, EventArgs e, string blacklistType)
         {
             root.Children.Clear();
+            BlacklistType = blacklistType;
 
-            MuscleRepository muscleRepo = new MuscleRepository();
-            List<Muscle> muscles = muscleRepo.GetAllMuscleNames();
-
-            BlacklistRepository blacklistrepo = new BlacklistRepository();
-            List<string> blacklistedmuscles = blacklistrepo.GetBlacklistedMuscles(UserID);
-
-            ObservableCollection<Blacklist> listviewitems = new ObservableCollection<Blacklist>();
-            foreach(Muscle m in muscles)
+            switch (blacklistType)
             {
-                
-                listviewitems.Add(new Blacklist
-                {
-                    Name = m.MinorMuscle,
-                    IsChecked = blacklistedmuscles.Contains(m.MinorMuscle)
-                });
+                case "Muscle":
+                    // The listview is populated with all the muscles
+                    // The checkboxes for the muscles are checked if they are in the blacklist table
+                    
+                    MuscleRepository muscleRepo = new MuscleRepository();
+                    List<Muscle> muscles = muscleRepo.GetAllMuscleNames();
 
+                    BlacklistRepository muscleBlacklistRepo = new BlacklistRepository();
+                    List<string> blacklistedMuscles = muscleBlacklistRepo.GetBlacklistedMuscles(UserID);
+
+                    ObservableCollection<Blacklist> muscleListViewItems = new ObservableCollection<Blacklist>();
+                    foreach (Muscle m in muscles)
+                    {
+                        muscleListViewItems.Add(new Blacklist
+                        {
+                            Name = m.MinorMuscle,
+                            IsChecked = blacklistedMuscles.Contains(m.MinorMuscle)
+                        });
+                    }
+                    BlacklistView.ItemsSource = muscleListViewItems;
+                    break;
+
+                case "Exercise":
+                    // The listview is populated with all the exercises
+                    // The checkboxes for the exercises are checked if they are in the blacklist table
+                    
+                    ExerciseRepository exerciseRepo = new ExerciseRepository();
+                    List<Exercise> exercises = exerciseRepo.GetAllExercises();
+
+                    BlacklistRepository exerciseBlacklistRepo = new BlacklistRepository();
+                    List<string> blacklistedExercises = exerciseBlacklistRepo.GetBlacklistedExercises(UserID);
+
+                    ObservableCollection<Blacklist> exerciseListViewItems = new ObservableCollection<Blacklist>();
+                    foreach (Exercise ex in exercises)
+                    {
+                        exerciseListViewItems.Add(new Blacklist
+                        {
+                            Name = ex.ExerciseName,
+                            IsChecked = blacklistedExercises.Contains(ex.ExerciseName)
+                        });
+                    }
+                    BlacklistView.ItemsSource = exerciseListViewItems;
+                    break;
+
+                case "Machine":
+                    // The listview is populated with all the machines
+                    // The checkboxes for the machines are checked if they are in the blacklist table
+                    
+                    MachineRepository machineRepo = new MachineRepository();
+                    List<Machine> machines = machineRepo.GetAllMachines();
+
+                    BlacklistRepository machineBlacklistRepo = new BlacklistRepository();
+                    List<string> blacklistedMachines = machineBlacklistRepo.GetBlacklistedMachines(UserID);
+
+                    ObservableCollection<Blacklist> machineListViewItems = new ObservableCollection<Blacklist>();
+                    foreach (Machine m in machines)
+                    {
+                        machineListViewItems.Add(new Blacklist
+                        {
+                            Name = m.MachineName,
+                            IsChecked = blacklistedMachines.Contains(m.MachineName)
+                        });
+                    }
+                    BlacklistView.ItemsSource = machineListViewItems;
+                    break;
             }
-            BlacklistView.ItemsSource = listviewitems;
         }
+
+
         private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
+            // This is the handler for the checkboxes in the listview
+            // The name of the muscle/exercise/machine is obtained from the binding context
+            // And using the name necessary database tables are updated to add/remove the muscle/exercise/machine from the blacklist
+            
             var label = ((CheckBox)sender).BindingContext as Blacklist;
             var cb = (CheckBox)sender;
-            
-            
             BlacklistRepository blacklistrepo = new BlacklistRepository();
-            if (cb.IsChecked)
+
+            switch (BlacklistType)
             {
-                blacklistrepo.AddMuscleToBlacklist(UserID, label.Name);
-            }
-            else
-            {
-                blacklistrepo.RemoveMuscleFromBlacklist(UserID, label.Name);
+                case "Muscle":
+                    if (cb.IsChecked)
+                    {
+                        blacklistrepo.AddMuscleToBlacklist(UserID, label.Name);
+                    }
+                    else
+                    {
+                        blacklistrepo.RemoveMuscleFromBlacklist(UserID, label.Name);
+                    }
+                    break;
+
+                case "Exercise":
+                    if (cb.IsChecked)
+                    {
+                        blacklistrepo.AddExerciseToBlacklist(UserID, label.Name);
+                    }
+                    else
+                    {
+                        blacklistrepo.RemoveExerciseFromBlacklist(UserID, label.Name);
+                    }
+                    break;
+
+                case "Machine":
+                    if (cb.IsChecked)
+                    {
+                        blacklistrepo.AddMachineToBlacklist(UserID, label.Name);
+                    }
+                    else
+                    {
+                        blacklistrepo.RemoveMachineFromBlacklist(UserID, label.Name);
+                    }
+                    break;
             }
         }
+
+
 
         private void DeleteAllBlacklists_Clicked(object sender, EventArgs e)
         {
@@ -256,10 +349,86 @@ namespace NEA.Pages.TabbedPage.TrackPage
             Navigation.PopAsync();
         }
             
+        // This method allows the changing of userdata related to workouts manually
         private void ChangeWorkoutData()
         {
+            mainroot.Children.Clear();
+
+
+            UserDataRepository userdatarepo = new UserDataRepository();
+            int[] workoutdata = userdatarepo.GetWorkoutData(UserID);
+
+            // Create necessary UI elements
+            Label setsLabel = new Label { Text = "Sets: " + workoutdata[0].ToString() };
+            Label repsLabel = new Label { Text = "Reps: " + workoutdata[1].ToString() };
+            Label volumeLabel = new Label { Text = "Volume: " + workoutdata[2].ToString() };
+            Label timeLabel = new Label { Text = "Time: " + workoutdata[3].ToString() };
+            Label workoutsLabel = new Label { Text = "Number of Workouts: " + workoutdata[4].ToString() };
+
+            Stepper setsStepper = new Stepper { Minimum = 0, Maximum = 100000, Increment = 1, Value = workoutdata[0] };
+            Stepper repsStepper = new Stepper { Minimum = 0, Maximum = 100000, Increment = 1, Value = workoutdata[1] };
+            Stepper volumeStepper = new Stepper { Minimum = 0, Maximum = 10000000000, Increment = 10, Value = workoutdata[2] };
+            Stepper timeStepper = new Stepper { Minimum = 0, Maximum = 3600000000000, Increment = 10, Value = workoutdata[3] };
+            Stepper workoutsStepper = new Stepper { Minimum = 0, Maximum = 1000000, Increment = 1, Value = workoutdata[4] };
+
+            Button saveButton = new Button { Text = "Save" };
+            Button cancelButton = new Button { Text = "Cancel" };
+
+            // Create a stack layout to hold the UI elements
+            StackLayout root = new StackLayout { Padding = new Thickness(20) };
+
+
+            // Add the UI elements to the stack layout
+            mainroot.Children.Add(setsLabel);
+            mainroot.Children.Add(setsStepper);
+            mainroot.Children.Add(repsLabel);
+            mainroot.Children.Add(repsStepper);
+            mainroot.Children.Add(volumeLabel);
+            mainroot.Children.Add(volumeStepper);
+            mainroot.Children.Add(timeLabel);
+            mainroot.Children.Add(timeStepper);
+            mainroot.Children.Add(workoutsLabel);
+            mainroot.Children.Add(workoutsStepper);
+            mainroot.Children.Add(saveButton);
+
+
+            // Handle stepper value changes to update labels
+            setsStepper.ValueChanged += (sender, e) =>
+            {
+                setsLabel.Text = "Sets: " + setsStepper.Value.ToString();
+            };
+
+            repsStepper.ValueChanged += (sender, e) =>
+            {
+                repsLabel.Text = "Reps: " + repsStepper.Value.ToString();
+            };
+
+            volumeStepper.ValueChanged += (sender, e) =>
+            {
+                volumeLabel.Text = "Volume: " + volumeStepper.Value.ToString()+"kg";
+            };
+
+            timeStepper.ValueChanged += (sender, e) =>
+            {
+                timeLabel.Text = "Time: " + timeStepper.Value.ToString() +" seconds";
+            };
+
+            workoutsStepper.ValueChanged += (sender, e) =>
+            {
+                workoutsLabel.Text = "Number of Workouts: " + workoutsStepper.Value.ToString();
+            };
+
+            saveButton.Clicked += (sender, e) =>
+            {
+                // Update the workout data in the database
+                userdatarepo.LogWorkoutData(UserID, (int)setsStepper.Value - workoutdata[0], (int)repsStepper.Value - workoutdata[1], (int)volumeStepper.Value - workoutdata[2], (int)timeStepper.Value - workoutdata[3]);
+                userdatarepo.ChangeNumberofWorkouts(UserID, (int)workoutsStepper.Value);
+                Application.Current.MainPage = new NavigationPage(new HomePage());
+            };
+
         }
 
-       
+
+
     }
 }

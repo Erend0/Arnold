@@ -4,11 +4,11 @@
              x:Class="NEA.Pages.TabbedPage.TrackPage.SettingsDataPage"
              BackgroundColor="Black">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout x:Name="mainroot">
             <StackLayout x:Name="root">
                 
             </StackLayout>
-            <ListView x:Name="BlacklistView" HasUnevenRows="True">
+            <ListView x:Name="BlacklistView" HasUnevenRows="True" SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

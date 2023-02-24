@@ -111,6 +111,68 @@ namespace NEA.Data
             }
         }
 
+        public List<string> GetBlacklistedExercises(int UserID)
+        {
+            List<string> blacklistedexercises = new List<string>();
+            var getblacklistedexercises = _database.Table<ExerciseBlacklist>().Where(i => i.UserID == UserID).ToListAsync().Result;
+            foreach (var exercise in getblacklistedexercises)
+            {
+                var getexercise = _database.Table<Exercise>().Where(i => i.ExerciseID == exercise.ExerciseID).FirstOrDefaultAsync().Result;
+                blacklistedexercises.Add(getexercise.ExerciseName);
+            }
+            return blacklistedexercises;
+        }
+        public void AddExerciseToBlacklist(int UserID, string exercisename)
+        {
+            var getexerciseid = _database.Table<Exercise>().Where(i => i.ExerciseName == exercisename).FirstOrDefaultAsync().Result.ExerciseID;
+            bool exists = CheckExerciseBlacklist(UserID, getexerciseid);
+            if (exists == false)
+            {
+                _database.InsertAsync(new ExerciseBlacklist { UserID = UserID, ExerciseID = getexerciseid }).Wait();
+            }
+        }
+        public void RemoveExerciseFromBlacklist(int UserID, string exercisename)
+        {
+            var getexerciseid = _database.Table<Exercise>().Where(i => i.ExerciseName == exercisename).FirstOrDefaultAsync().Result;
+            bool exists = CheckExerciseBlacklist(UserID, getexerciseid.ExerciseID);
+            if (exists)
+            {
+                string deleteQuery = $"DELETE FROM ExerciseBlacklist WHERE UserID = {UserID} AND ExerciseID = {getexerciseid.ExerciseID}";
+                _database.ExecuteAsync(deleteQuery).Wait();
+            }
+        }
+
+        public List<string> GetBlacklistedMachines(int UserID)
+        {
+            List<string> blacklistedmachines = new List<string>();
+            var getblacklistedmachines = _database.Table<MachineBlacklist>().Where(i => i.UserID == UserID).ToListAsync().Result;
+            foreach (var machine in getblacklistedmachines)
+            {
+                var getmachine = _database.Table<Machine>().Where(i => i.MachineID == machine.MachineID).FirstOrDefaultAsync().Result;
+                blacklistedmachines.Add(getmachine.MachineName);
+            }
+            return blacklistedmachines;
+        }
+        public void AddMachineToBlacklist(int UserID, string machinename)
+        {
+            var getmachineid = _database.Table<Machine>().Where(i => i.MachineName == machinename).FirstOrDefaultAsync().Result.MachineID;
+            bool exists = CheckMachineBlacklist(UserID, getmachineid);
+            if (exists == false)
+            {
+                _database.InsertAsync(new MachineBlacklist { UserID = UserID, MachineID = getmachineid }).Wait();
+            }
+        }
+        public void RemoveMachineFromBlacklist(int UserID, string machinename)
+        {
+            var getmachineid = _database.Table<Machine>().Where(i => i.MachineName == machinename).FirstOrDefaultAsync().Result;
+            bool exists = CheckMachineBlacklist(UserID, getmachineid.MachineID);
+            if (exists)
+            {
+                string deleteQuery = $"DELETE FROM MachineBlacklist WHERE UserID = {UserID} AND MachineID = {getmachineid.MachineID}";
+                _database.ExecuteAsync(deleteQuery).Wait();
+            }
+        }
+        
 
     }
 }

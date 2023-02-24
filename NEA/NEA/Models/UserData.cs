@@ -15,6 +15,6 @@ namespace NEA.Models
         public int Volume { get; set; }
         // the TotalTime will in the format of seconds
         public int TotalTime { get; set; }
-        public int NumerOfWorkout { get; set; }
+        public int NumberOfWorkout { get; set; }
     }
 }

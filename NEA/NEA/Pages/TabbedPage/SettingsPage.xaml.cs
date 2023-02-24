@@ -35,5 +35,10 @@ namespace NEA.Pages.TabbedPage
             Navigation.PushAsync(new SettingsDataPage(3));
 
         }
+        private void WorkoutChange_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new SettingsDataPage(4));
+
+        }
     }
 }
