@@ -14,66 +14,63 @@ namespace NEA
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AutoPage : ContentPage
     {
-        protected ObservableCollection<Day> Days { get; set; }
-        ScheduleRepository _ScheduleRepo = new ScheduleRepository();
-        int UserID { get; set; }
-        int UserDays { get; set; }
-        
-
+        private ObservableCollection<Day> Days { get; set; }
+        private ScheduleRepository _scheduleRepo;
+        private UserRepository _userRepo;
+        private UserDataRepository _userDataRepo;
+        private ResumeRepository _resumeRepo;
+        private MachineRepository _machineRepo;
+        private ExerciseRepository _exerciseRepo;
+        private int UserID { get; set; }
+        private int UserDays { get; set; }
 
         public AutoPage()
         {
-           
             InitializeComponent();
             Days = new ObservableCollection<Day>();
             ListofDays.ItemsSource = Days;
-            var userRepo = new UserRepository();
-            UserID = userRepo.GetLoggedInUser().UserID;
+            _userRepo = new UserRepository();
+            UserID = _userRepo.GetLoggedInUser().UserID;
             CheckResume();
-            var userdataRepo = new UserDataRepository();
-            UserDays = Convert.ToInt32(userdataRepo.GetUserData(UserID)[2]);
-            Populatecollection();
-
-            // The resume page database table is checked to see if there is any workout to continue
+            _userDataRepo = new UserDataRepository();
+            UserDays = Convert.ToInt32(_userDataRepo.GetUserData(UserID)[2]);
+            PopulateCollection();
         }
-        public void Populatecollection()
+
+        private void PopulateCollection()
         {
-            string[] daynames = _ScheduleRepo.GetDays(UserID, 0);
+            _scheduleRepo = new ScheduleRepository();
+            string[] daynames = _scheduleRepo.GetDays(UserID, 0);
+
             foreach (string day in daynames)
             {
                 if (day != null)
                 {
                     Days.Add(new Day { DayName = day });
-                    
                 }
             }
-            
         }
-        private void CalculateTimeTaken(string dayname)
-        {
-            
-        }
+
         private void ListofDays_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var day = e.Item as Day;
-            Navigation.PushAsync(new DayOverviewPage(UserID, day.DayName,0));
+            Navigation.PushAsync(new DayOverviewPage(UserID, day.DayName, 0));
         }
 
         private void Regenerate_Clicked(object sender, EventArgs e)
         {
-            _ScheduleRepo.DeleteSchedule(UserID);
+            _scheduleRepo.DeleteSchedule(UserID);
             DisplayAlert("Success", "All days have been regenerated", "Ok");
             Workout workout = new Workout("all");
             Days.Clear();
-            Populatecollection();
+            PopulateCollection();
         }
+
         private void CheckResume()
         {
-            // Checks the database table to see if there is a workout to continue 
-            // If so the button to enable the workout resuming function is enabled
-            ResumeRepository resumerepo = new ResumeRepository();
-            string daytoresume = resumerepo.CheckResume(UserID);
-            if (daytoresume != null)
+            _resumeRepo = new ResumeRepository();
+            string dayToResume = _resumeRepo.CheckResume(UserID);
+            if (dayToResume != null)
             {
                 Resume.IsVisible = true;
             }
@@ -81,23 +78,29 @@ namespace NEA
 
         private void Resume_Clicked(object sender, EventArgs e)
         {
-            ResumeRepository resumerepo = new ResumeRepository();
-            MachineRepository machinerepo = new MachineRepository();
-            ExerciseRepository exerciserepo = new ExerciseRepository();
+            var _resumerepo = new ResumeRepository();
+            var _machinerepo = new MachineRepository();
+            var _exerciserepo = new ExerciseRepository();
+            string dayToResume = _resumerepo.CheckResume(UserID);
+            int workoutType = _resumerepo.ReturnType(UserID);
+            List<Schedule> exercises = _scheduleRepo.GetSchedule(UserID, dayToResume, workoutType);
 
-            string daytoresume = resumerepo.CheckResume(UserID);
-            int type = resumerepo.ReturnType(UserID);
-            List<Schedule> exercises = _ScheduleRepo.GetSchedule(UserID, daytoresume,type);
+            List<ExerciseData> exerciseDataList = new List<ExerciseData>();
 
-            List<ExerciseData> exercises2 = new List<ExerciseData>();
-            
-            
-            foreach (Schedule exercise in exercises)
+            foreach (var exercise in exercises)
             {
-                string machinename = machinerepo.GetMachineName(exerciserepo.GetExercise(exercise.ExerciseID).MachineID);
-                exercises2.Add(new ExerciseData { ExerciseName = exerciserepo.GetExercise(exercise.ExerciseID).ExerciseName, Sets = exercise.Sets, Reps = exercise.Reps, MachineName = machinename });
+                string machineName = _machinerepo.GetMachineName(_exerciserepo.GetExercise(exercise.ExerciseID).MachineID);
+                exerciseDataList.Add(new ExerciseData
+                {
+                    ExerciseName = _exerciserepo.GetExercise(exercise.ExerciseID).ExerciseName,
+                    Sets = exercise.Sets,
+                    Reps = exercise.Reps,
+                    MachineName = machineName
+                });
             }
-            Navigation.PushAsync(new CompanionPage(exercises2,true, UserID,type,daytoresume));
+
+            Navigation.PushAsync(new CompanionPage(exerciseDataList, true, UserID, workoutType, dayToResume));
+
         }
     }
 }

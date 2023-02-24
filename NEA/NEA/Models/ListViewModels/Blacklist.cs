@@ -1,7 +1,8 @@
 ﻿namespace NEA.Models.ListViewModels
 {
-    internal class Blacklist
+    public class Blacklist
     {
-        private string Name { get; set; } 
+        public string Name { get; set; }
+        public bool IsChecked { get; set; }
     }
 }

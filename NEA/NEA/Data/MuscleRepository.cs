@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using NEA.Models;
@@ -51,10 +52,13 @@ namespace NEA.Data
                 return muscleerror;
             }
         }
-        public Muscle[] GetAllMuscles()
+
+      
+        public List<Muscle> GetAllMuscleNames()
         {
-            var muscles = _database.Table<Muscle>().ToListAsync().Result.ToArray();
-            return muscles;
+            var muscle = _database.Table<Muscle>().ToListAsync().Result;
+            return muscle;
         }
+        
     }
 }

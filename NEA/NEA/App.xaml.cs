@@ -1,5 +1,6 @@
 ﻿using NEA.Data;
 using NEA.Pages;
+using NEA.Tasks;
 using System;
 using Xamarin.Forms;
 
@@ -12,6 +13,8 @@ namespace NEA
         public App()
         {
             InitializeComponent();
+
+
             var userRepo = new UserRepository();
             bool hasloggedin = userRepo.CheckLoggedInUser();
             // checks if there is a user logged in

@@ -5,20 +5,22 @@
              BackgroundColor="Black">
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout x:Name="contentframe"></StackLayout>
-            <ListView x:Name="BlackListView" HasUnevenRows="True">
+            <StackLayout x:Name="root">
+                
+            </StackLayout>
+            <ListView x:Name="BlacklistView" HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout>
+
                                 <Label Text="{Binding Name}" />
-                                <CheckBox/>
+                                <CheckBox IsChecked="{Binding IsChecked}" CheckedChanged="CheckBox_CheckedChanged" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
-        
     </ContentPage.Content>
 </ContentPage>

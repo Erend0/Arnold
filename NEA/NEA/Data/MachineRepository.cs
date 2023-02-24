@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using NEA.Models;
@@ -39,6 +40,13 @@ namespace NEA.Data
                 return "Error";
             }
         }
+        
+        public List<Machine> GetAllMachines()
+        {
+            return _database.Table<Machine>().ToListAsync().Result;
+        }
+
+
 
     }
 }

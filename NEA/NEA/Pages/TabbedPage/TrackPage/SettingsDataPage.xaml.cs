@@ -5,11 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
 
 namespace NEA.Pages.TabbedPage.TrackPage
 {
@@ -100,12 +98,13 @@ namespace NEA.Pages.TabbedPage.TrackPage
 
 
 
-            contentframe.Children.Add(aimpicker);
-            contentframe.Children.Add(daypicker);
-            contentframe.Children.Add(steppertext);
-            contentframe.Children.Add(timestepper);
-            contentframe.Children.Add(submit);
+            root.Children.Add(aimpicker);
+            root.Children.Add(daypicker);
+            root.Children.Add(timestepper);
+            root.Children.Add(steppertext);
+            root.Children.Add(submit);
             
+
 
         }
 
@@ -138,8 +137,8 @@ namespace NEA.Pages.TabbedPage.TrackPage
             };
             // if button is clicked and pin is not null update db
             submit.Clicked += (sender, e) => SubmitPin_Clicked(sender, e, pinentry.Text);
-            contentframe.Children.Add(pinentry);
-            contentframe.Children.Add(submit);
+            root.Children.Add(pinentry);
+            root.Children.Add(submit);
         }
         private void SubmitPin_Clicked(object sender, EventArgs e, string pin)
         {
@@ -190,56 +189,77 @@ namespace NEA.Pages.TabbedPage.TrackPage
                 Text = "Machine Blacklist"
             };
             muscle.Clicked += (sender, e) => MuscleBlacklist_Clicked(sender, e);
-            exercise.Clicked += (sender, e) => ExerciseBlacklist_Clicked(sender, e);
-            machine.Clicked += (sender, e) => MachineBlacklist_Clicked(sender, e);
-            contentframe.Children.Add(header);
-            contentframe.Children.Add(muscle);
-            contentframe.Children.Add(exercise);
+            //exercise.Clicked += (sender, e) => ExerciseBlacklist_Clicked(sender, e);
+            //machine.Clicked += (sender, e) => MachineBlacklist_Clicked(sender, e);
+            root.Children.Add(header);
+            root.Children.Add(muscle);
+            root.Children.Add(exercise);
+            root.Children.Add(machine);
+
+            // delete all blaclists button
+            Button deleteall = new Button
+            {
+                Text = "Reset all blacklists"
+            };
+            deleteall.Clicked += (sender, e) => DeleteAllBlacklists_Clicked(sender, e);
+            root.Children.Add(deleteall);
 
         }
+
         private void MuscleBlacklist_Clicked(object sender, EventArgs e)
         {
-            contentframe.Children.Clear();
-            var musclerepo = new MuscleRepository();
+            root.Children.Clear();
 
-            foreach (Muscle muscle in musclerepo.GetAllMuscles())
+            MuscleRepository muscleRepo = new MuscleRepository();
+            List<Muscle> muscles = muscleRepo.GetAllMuscleNames();
+
+            BlacklistRepository blacklistrepo = new BlacklistRepository();
+            List<string> blacklistedmuscles = blacklistrepo.GetBlacklistedMuscles(UserID);
+
+            ObservableCollection<Blacklist> listviewitems = new ObservableCollection<Blacklist>();
+            foreach(Muscle m in muscles)
             {
-
+                
+                listviewitems.Add(new Blacklist
+                {
+                    Name = m.MinorMuscle,
+                    IsChecked = blacklistedmuscles.Contains(m.MinorMuscle)
+                });
 
             }
-
-            var blacklistrepo = new BlacklistRepository();
-            List<MuscleBlacklist> blacklist = blacklistrepo.GetMuscleBlacklist(UserID);
+            BlacklistView.ItemsSource = listviewitems;
+        }
+        private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            var label = ((CheckBox)sender).BindingContext as Blacklist;
+            var cb = (CheckBox)sender;
             
+            
+            BlacklistRepository blacklistrepo = new BlacklistRepository();
+            if (cb.IsChecked)
+            {
+                blacklistrepo.AddMuscleToBlacklist(UserID, label.Name);
+            }
+            else
+            {
+                blacklistrepo.RemoveMuscleFromBlacklist(UserID, label.Name);
+            }
+        }
 
-        }
-        private void ExerciseBlacklist_Clicked(object sender, EventArgs e)
+        private void DeleteAllBlacklists_Clicked(object sender, EventArgs e)
         {
-            // get the exercise blacklist
-            // display the exercise blacklist
-            // allow the user to add to the exercise blacklist
-            // allow the user to remove from the exercise blacklist
-            // update the db
+            BlacklistRepository blacklistrepo = new BlacklistRepository();
+            blacklistrepo.DeleteAllBlacklists(UserID);
+            DisplayAlert("Success",
+                "All blacklists have been reset",
+                "OK");
+            Navigation.PopAsync();
         }
-        private void MachineBlacklist_Clicked(object sender, EventArgs e)
-        {
-            // get the machine blacklist
-            // display the machine blacklist
-            // allow the user to add to the machine blacklist
-            // allow the user to remove from the machine blacklist
-            // update the db
-        }
+            
         private void ChangeWorkoutData()
         {
-           
-            
-            
-            
-            
-            
-            
-
         }
 
+       
     }
 }

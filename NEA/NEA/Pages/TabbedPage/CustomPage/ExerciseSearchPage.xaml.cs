@@ -72,8 +72,6 @@ namespace NEA.Pages.TabbedPage.CustomPage
             if (checkbox.IsChecked)
             {
                 SelectedExercises.Add(exercise);
-
-
             }
             else if(!checkbox.IsChecked)
             {

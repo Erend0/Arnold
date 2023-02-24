@@ -1,4 +1,4 @@
-﻿using SQLite;
+﻿
 
 namespace NEA.Models.ListViewModels
 {
