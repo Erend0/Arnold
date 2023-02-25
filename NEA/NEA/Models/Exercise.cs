@@ -12,5 +12,6 @@ namespace NEA.Models
             public int MachineID { get; set; }
             public int Sets { get; set; }
             public int Reps { get; set; }
+        
     }
 }

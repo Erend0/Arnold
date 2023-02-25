@@ -106,9 +106,6 @@ namespace NEA.Pages.TabbedPage.TrackPage
             root.Children.Add(timestepper);
             root.Children.Add(steppertext);
             root.Children.Add(submit);
-            
-
-
         }
 
         // The userdata table is updated with the new data, and the workout is regenerated with the new data
@@ -229,15 +226,15 @@ namespace NEA.Pages.TabbedPage.TrackPage
                     List<Muscle> muscles = muscleRepo.GetAllMuscleNames();
 
                     BlacklistRepository muscleBlacklistRepo = new BlacklistRepository();
+                    
                     List<string> blacklistedMuscles = muscleBlacklistRepo.GetBlacklistedMuscles(UserID);
-
                     ObservableCollection<Blacklist> muscleListViewItems = new ObservableCollection<Blacklist>();
                     foreach (Muscle m in muscles)
                     {
                         muscleListViewItems.Add(new Blacklist
                         {
                             Name = m.MinorMuscle,
-                            IsChecked = blacklistedMuscles.Contains(m.MinorMuscle)
+                            IsChecked = blacklistedMuscles.Contains(m.MinorMuscle),
                         });
                     }
                     BlacklistView.ItemsSource = muscleListViewItems;

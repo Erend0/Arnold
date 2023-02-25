@@ -45,11 +45,11 @@ namespace NEA.Data
             var checkmuscleblacklist = _database.Table<MuscleBlacklist>().Where(i => i.UserID == UserID && i.MuscleID == MuscleID).FirstOrDefaultAsync().Result;
             if (checkmuscleblacklist != null)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
         // checks for a record with the userid UserID and exercise id ExerciseID in the exercise blacklist table
@@ -58,11 +58,11 @@ namespace NEA.Data
             var checkmyexerciseblacklist = _database.Table<ExerciseBlacklist>().Where(i => i.UserID == UserID && i.ExerciseID == ExerciseID).FirstOrDefaultAsync().Result;
             if (checkmyexerciseblacklist != null)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
         // checks for a record with the userid UserID and machine id MachineID in the machine blacklist table
@@ -71,11 +71,11 @@ namespace NEA.Data
             var checkmachineblacklist = _database.Table<MachineBlacklist>().Where(i => i.UserID == UserID && i.MachineID == MachineID).FirstOrDefaultAsync().Result;
             if (checkmachineblacklist != null)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
 

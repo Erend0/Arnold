@@ -1,6 +1,5 @@
 ﻿using NEA.Data;
 using NEA.Models; 
-
 using System; 
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +19,7 @@ namespace NEA.Tasks
         private readonly string[] Biceps = { "LongHead", "ShortHead" };
         private readonly string[] Shoulders = { "Anteriordelts", "Medialdelts", "Posteriordelts" };
         private readonly string[] Legs = { "Quadriceps", "Hamstrings", "Glutes", "Calves"};
-        private readonly string[] Cardio = {"Cardio" };
+        private readonly string[] Abs = {"upper","lower","Obliques" };
       
         private readonly MuscleRepository _MuscleRepo = new MuscleRepository();
         private readonly MuscleTargetedRepository _MuscleTargetedRepo = new MuscleTargetedRepository();
@@ -89,11 +88,6 @@ namespace NEA.Tasks
                 {
                     FillSplit(new string[][] { Legs });
                 }
-                else if (togenerate == "Cardio")
-                {
-                    FillSplit(new string[][] { Cardio });
-
-                }
                 else if (togenerate == "Chest,Tricep,Legs")
                 {
                     FillSplit(new string[][] { Chest, Triceps, Legs });
@@ -105,6 +99,10 @@ namespace NEA.Tasks
                 else if (togenerate == "Biceps,Legs,Chest")
                 {
                     FillSplit(new string[][] { Biceps, Legs, Chest });
+                }
+                else if(togenerate == "Abs")
+                {
+                    FillSplit(new string[][] {Abs});
                 }
             }
         }
@@ -137,7 +135,7 @@ namespace NEA.Tasks
                 NumberOfMuscles = 2;
                 if (UserDays == 5)
                 {
-                    string[][] day5 = { Cardio };
+                    string[][] day5 = { Abs };
                     split.Enqueue(day5);
                     return split;
                 }
@@ -217,11 +215,11 @@ namespace NEA.Tasks
             bool machineblacklisted = _BlacklistRepo.CheckMachineBlacklist(UserID, machineID);
             if (muscleblacklisted || exerciseblacklisted || machineblacklisted)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
       
@@ -261,7 +259,7 @@ namespace NEA.Tasks
         private int x = 0;
         public void UpdateDB (string dayname)
         {
-            string[] DayNames = new string[4];
+            string[] DayNames = new string[5];
             if(dayname == "all")
             {
                 if (UserDays == 3)
@@ -279,7 +277,7 @@ namespace NEA.Tasks
                 }
                 if (UserDays == 5)
                 {
-                    DayNames[4] = ("Cardio");
+                    DayNames[4] = ("Abs");
                 }
 
             }
