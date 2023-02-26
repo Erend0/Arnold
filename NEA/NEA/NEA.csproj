@@ -13,10 +13,12 @@
   <ItemGroup>
     <None Remove="Data\BlacklistRepository.cs~RF6cc3a4b7.TMP" />
     <None Remove="GymDatabase.db" />
+    <None Remove="Images\loginphoto.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="GymDatabase.db" />
+    <EmbeddedResource Include="Images\loginphoto.jpg" />
   </ItemGroup>
 
 

@@ -11,7 +11,7 @@
                   FontSize="75"
                   HorizontalTextAlignment="Center"
                   Padding="20"
-                  TextColor="OrangeRed"
+                  TextColor="White"
                   Margin="10"
              />
                 
@@ -39,7 +39,8 @@
                 Clicked="Register_Clicked"
                 CornerRadius="5"
                 Margin="25"
-                BackgroundColor="DarkSlateGray"
+                BackgroundColor="Beige"
+                TextColor="Black"
              />
             <!-- This button is used to prompt the user to the register page-->
             <Button
@@ -48,8 +49,9 @@
                 Margin="25"
                 VerticalOptions="EndAndExpand"
                 Pressed="Login_Pressed"
-                BackgroundColor="OrangeRed"
+                BackgroundColor="#575958"
                 CornerRadius="5"
+                
              />
          </StackLayout>
         </StackLayout>

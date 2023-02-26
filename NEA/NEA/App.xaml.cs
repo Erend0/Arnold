@@ -1,18 +1,16 @@
 ﻿using NEA.Data;
 using NEA.Pages;
-using NEA.Tasks;
-using System;
 using Xamarin.Forms;
-
 
 namespace NEA
 {
     public partial class App : Application
     {
-
         public App()
         {
             InitializeComponent();
+            // keep the screen on
+            Xamarin.Essentials.DeviceDisplay.KeepScreenOn = true;
 
 
             var userRepo = new UserRepository();

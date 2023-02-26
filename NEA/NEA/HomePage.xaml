@@ -7,7 +7,7 @@
             x:Class="NEA.HomePage"
             BarBackgroundColor="Black"
             Padding="10"
-            SelectedTabColor="OrangeRed"
+            SelectedTabColor="Beige"
             UnselectedTabColor="White"
             android:TabbedPage.ToolbarPlacement="Bottom"
             BackgroundColor="Black">

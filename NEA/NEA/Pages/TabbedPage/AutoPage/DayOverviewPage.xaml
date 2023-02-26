@@ -3,32 +3,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NEA.Pages.TabbedPage.DayOverviewPage"
              BackgroundColor="Black"
+             
              Padding="10">
     <ContentPage.Content>
         <StackLayout x:Name="Stack">
             <Label Text="Day Overview" TextColor="White" FontAttributes="Bold" FontSize="22.5"/>
             <Label x:Name="Time_Taken" Text="" TextColor="White"/>
-            <ListView x:Name="ExerciseList" HasUnevenRows="True">
+            <ListView x:Name="ExerciseList" 
+                      HasUnevenRows="True"
+                      SelectionMode="None"
+                      SeparatorVisibility="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout BackgroundColor="White" Margin="2.5" Padding="10">
-                                <Label Text="{Binding ExerciseName}" TextColor="Black" TextTransform="Uppercase"  TextDecorations="Underline" FontSize="17"/>
-                                <Label Text="{Binding MachineName}" TextColor="Black"/>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Label Text="{Binding Sets, StringFormat='{0} sets'}" TextColor="Black" HorizontalOptions="Start"/>
-                                    <Label Text="{Binding Reps, StringFormat='{0} reps'}" TextColor="Black" HorizontalOptions="Center"/>
-                                </Grid>
-                            </StackLayout>
+                            <Frame CornerRadius="10" Margin="10" Padding="5">
+                                <StackLayout BackgroundColor="White">
+                                    <Label Text="{Binding ExerciseName}" TextColor="Black" TextTransform="Uppercase"  TextDecorations="Underline" FontSize="17"/>
+                                    <Label Text="{Binding MachineName}" TextColor="Black"/>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Text="{Binding Sets, StringFormat='{0} sets'}" TextColor="Black" HorizontalOptions="Start"/>
+                                        <Label Text="{Binding Reps, StringFormat='{0} reps'}" TextColor="Black" HorizontalOptions="Center"/>
+                                    </Grid>
+                                </StackLayout>
+                            </Frame>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="Start Day" Clicked="StartDay_Clicked" BackgroundColor="OrangeRed" HorizontalOptions="Center"/>
-            <Button Text="Regenerate day" Clicked="Regenerate_Clicked" BackgroundColor="DarkSlateGray" HorizontalOptions="Center"/>
+            <Button Text="Start Day" Clicked="StartDay_Clicked" BackgroundColor="Beige" HorizontalOptions="Center" TextColor="Black" CornerRadius="10"/>
+            <Button Text="Regenerate day" Clicked="Regenerate_Clicked" BackgroundColor="#575958" HorizontalOptions="Center" TextColor="White" CornerRadius="10"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
