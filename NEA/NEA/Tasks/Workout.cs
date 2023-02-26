@@ -27,6 +27,7 @@ namespace NEA.Tasks
         private readonly UserDataRepository _UserDataRepo = new UserDataRepository();
         private readonly BlacklistRepository _BlacklistRepo = new BlacklistRepository();
         private readonly ScheduleRepository _ScheduleRepo = new ScheduleRepository();
+        
         // Used as a counter across multiple classes to keep track of the current exercise being added to the workout
         private int x = 0;
 
@@ -146,7 +147,7 @@ namespace NEA.Tasks
                 }
              }  
         }
-        
+
         private void FillSplit(string[][] day)
         {
             int timeforeachfocus = UserTime / day.Length;
@@ -164,9 +165,9 @@ namespace NEA.Tasks
                     // This can happen if the database doesn't have an exercise to target the minor muscle
                     // In this case next minor muscle will be attempted to be filled 
                     int flag = 0;
-                    while ( (hasblacklisted || hasduplicate )&& flag<10)
+                    while ((hasblacklisted || hasduplicate) && flag < 10)
                     {
-                        ExerciseFound = FindExerciseforMinorMuscle(day[i][index]);
+                        ExerciseFound = FindExerciseForMinorMuscle(day[i][index]);
                         if (ExerciseFound != -1)
                         {
                             hasblacklisted = CheckBlackLists(ExerciseFound);
@@ -174,11 +175,11 @@ namespace NEA.Tasks
                         }
                         flag++;
                     }
-                    if(ExerciseFound != 1)
+                    if (ExerciseFound != 1)
                     {
                         UpdateTimeTaken(ExerciseFound);
                     }
-                    
+
                     // if index is over the size reset is to zero, if not increment
                     if (index == day[i].Length - 1)
                     {
@@ -198,35 +199,33 @@ namespace NEA.Tasks
             }
             GeneratedWorkout.Add(exercises);
         }
-        private int FindExerciseforMinorMuscle(string minormuscle)
+        // Find a random exercise that targets the minor muscle passed as parameter
+        private int FindExerciseForMinorMuscle(string minormuscle)
         {
-            //The MuscleID for the parameter minormuscle is found
+            // The MuscleID for the parameter minormuscle is found
             CurrentMuscleID = _MuscleRepo.FindMuscleID(minormuscle);
-            //The MuscleID is used to find a random Exercise that targets that muscle
+            // The MuscleID is used to find a random Exercise that targets that muscle
             int exercise = _MuscleTargetedRepo.GetExerciseID(CurrentMuscleID);
-            return exercise;  
+            return exercise;
         }
+
+        // Check if the exercise is blacklisted by the user
         private bool CheckBlackLists(int exerciseID)
         {
-            
-            // The blacklist tables for muscle, exercise and machine are checkted to find if the user has blacklisted details relating to the found exercise
+            // Get the machine ID of the exercise
             int machineID = _ExerciseRepo.GetMachineID(exerciseID);
-            // the methods below return true if there is a blacklist found 
+            // Check if the user has blacklisted the current muscle, exercise or machine
             bool muscleblacklisted = _BlacklistRepo.CheckMuscleBlacklist(UserID, CurrentMuscleID);
             bool exerciseblacklisted = _BlacklistRepo.CheckExerciseBlacklist(UserID, exerciseID);
             bool machineblacklisted = _BlacklistRepo.CheckMachineBlacklist(UserID, machineID);
-            if (muscleblacklisted || exerciseblacklisted || machineblacklisted)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            // Return true if there is a blacklist found, otherwise return false
+            return (muscleblacklisted || exerciseblacklisted || machineblacklisted);
         }
-      
+
+        // Update the total time taken by the user for the given exercise
         public void UpdateTimeTaken(int exerciseID)
         {
+            // Get the number of sets and reps for the exercise
             int[] setsandreps = _ExerciseRepo.GetExerciseData(exerciseID);
             // Note that the rest times are in seconds 
             // It is determined by the Aim of the user
@@ -235,80 +234,74 @@ namespace NEA.Tasks
             {
                 resttime = 90;
             }
-            else if(UserAim == "Endurance")
+            else if (UserAim == "Endurance")
             {
                 resttime = 45;
             }
             if (setsandreps[0] != -1)
             {
-                // the formula below assumed that the time for each rep is 5 seconds 
+                // The formula below assumes that the time for each rep is 5 seconds 
                 int timeforexercise = setsandreps[0] * (setsandreps[1] * 5 + resttime);
                 TotalTimeTaken += timeforexercise;
             }
-        }      
+        }
+
+        // Check if an exercise already exists in the list of exercises
         public bool CheckDuplicates(List<int> exercises, int exerciseID)
         {
-            if (exercises.Contains(exerciseID))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return exercises.Contains(exerciseID);
         }
-        
-        public void UpdateDB (string dayname)
+
+        public void UpdateDB(string dayname)
         {
-            string[] DayNames = new string[5];
-            if(dayname == "all")
+            string[] DayNames = new string[5]; // Initialize an array of day names
+            int x = 0; // Initialize a counter variable for day names
+
+            // If the argument is "all"
+            if (dayname == "all")
             {
+                // Assign day names based on the number of workout days selected by the user
                 if (UserDays == 3)
                 {
-                    DayNames[0] = ("Chest,Tricep,Legs");
-                    DayNames[1] = ("Back,Biceps,Shoulders");
-                    DayNames[2] = ("Biceps,Legs,Chest");
+                    DayNames[0] = "Chest,Tricep,Legs";
+                    DayNames[1] = "Back,Biceps,Shoulders";
+                    DayNames[2] = "Biceps,Legs,Chest";
                 }
-                if (UserDays == 4 || UserDays == 5)
+                else if (UserDays == 4 || UserDays == 5)
                 {
-                    DayNames[0] = ("Chest,Triceps");
-                    DayNames[1] = ("Back,Biceps");
-                    DayNames[2] = ("Shoulders");
-                    DayNames[3] = ("Legs");
+                    DayNames[0] = "Chest,Triceps";
+                    DayNames[1] = "Back,Biceps";
+                    DayNames[2] = "Shoulders";
+                    DayNames[3] = "Legs";
                 }
                 if (UserDays == 5)
                 {
-                    DayNames[4] = ("Abs");
+                    DayNames[4] = "Abs";
                 }
+            }
+            else // If a specific day name is given
+            {
+                DayNames[0] = dayname; // Assign the day name to the first index of the array
+            }
 
-            }
-            else
+            foreach (List<int> day in GeneratedWorkout) // Loop through the generated workout
             {
-                DayNames[0] = dayname;
-            }
-            
-            foreach (List<int> day in GeneratedWorkout)
-            {
-                foreach (int exercise in day)
+                foreach (int exercise in day) // Loop through the exercises of each day
                 {
-                    // An new record in the schedule table is created for each exercise in the generated day 
+                    // Create a new record in the schedule table for each exercise in the generated day 
                     Schedule schedule = new Schedule
                     {
                         UserID = UserID,
                         ExerciseID = exercise,
-                        DayName = DayNames[x],
+                        DayName = DayNames[x], // Assign the day name from the array based on the counter variable
                         Sets = _ExerciseRepo.GetSetsandReps(_ExerciseRepo.GetExercise(exercise).ExerciseName)[0],
                         Reps = _ExerciseRepo.GetSetsandReps(_ExerciseRepo.GetExercise(exercise).ExerciseName)[1],
                         Type = 0,
                     };
-                    _ScheduleRepo.CreateSchedule(schedule);
+                    _ScheduleRepo.CreateSchedule(schedule); // Add the schedule record to the database
                 }
-                x++;
+                x++; // Increment the counter variable
             }
-
-
         }
-
-
-    }   
+    }
 }

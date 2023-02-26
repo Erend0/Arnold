@@ -10,7 +10,6 @@ namespace NEA.Data
 {
     internal class ExerciseRepository
     {
-
         static SQLiteAsyncConnection _database;
         public ExerciseRepository()
         {
@@ -110,8 +109,6 @@ namespace NEA.Data
             {
                 return -1;
             }
-        }
-
-        
+        }  
     }
 }

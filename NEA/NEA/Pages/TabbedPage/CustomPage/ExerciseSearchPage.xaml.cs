@@ -42,7 +42,6 @@ namespace NEA.Pages.TabbedPage.CustomPage
                 ExerciseData currentexercise = new ExerciseData();
                 currentexercise.ExerciseName = exercise.ExerciseName;
                 currentexercise.MachineName = _MachineRepo.GetMachineName(exercise.MachineID);
-                Console.WriteLine("Exercise name" + exercise.ExerciseName + "MuscleID" + _MuscleTargetedRepo.GetMuscleID(exercise.ExerciseID));
                 string[] musclenames = _MuscleRepo.GetMuscleName(_MuscleTargetedRepo.GetMuscleID(exercise.ExerciseID));
                 currentexercise.MajorMuscle = musclenames[0];
                 currentexercise.MinorMuscle = musclenames[1];

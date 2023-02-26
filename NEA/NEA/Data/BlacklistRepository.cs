@@ -2,11 +2,8 @@
 using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace NEA.Data
 {
@@ -78,7 +75,7 @@ namespace NEA.Data
                 return false;
             }
         }
-
+        
         public List<string> GetBlacklistedMuscles(int UserID)
         {
             var table = _database.Table<MuscleBlacklist>().Where(i => i.UserID == UserID).ToListAsync().Result;
@@ -143,7 +140,6 @@ namespace NEA.Data
                 _database.ExecuteAsync(deleteQuery).Wait();
             }
         }
-
         public List<string> GetBlacklistedMachines(int UserID)
         {
             List<string> blacklistedmachines = new List<string>();
@@ -175,7 +171,5 @@ namespace NEA.Data
                 _database.ExecuteAsync(deleteQuery).Wait();
             }
         }
-        
-
     }
 }

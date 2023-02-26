@@ -36,7 +36,7 @@ namespace NEA.Data
         }
         public void Update(Dictionary<Tuple<int, int>, int[]> Entries,int index)
         {
-            //removes the entries for exerciseid
+            //Removes the entries for exerciseid
             _database.Table<WorkoutTracker>().Where(x => x.Index == index).DeleteAsync().Wait();
             // adds all the data where the first integer of the tupple is the exercise id
             foreach (var entry in Entries)
@@ -48,13 +48,13 @@ namespace NEA.Data
             }
         }
 
-        //Deletes all the contents of the table
+        //Deletes all the contents of the workout table
         public void DeleteAll()
         {
             _database.DeleteAllAsync<WorkoutTracker>();
         }
 
-        // returns all the data in the table
+        // Returns all the data in the workout table
         public WorkoutTracker[] GetAll()
         {
             var logs = _database.Table<WorkoutTracker>().ToArrayAsync().Result;
