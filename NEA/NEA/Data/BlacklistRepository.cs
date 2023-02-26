@@ -45,11 +45,11 @@ namespace NEA.Data
             var checkmuscleblacklist = _database.Table<MuscleBlacklist>().Where(i => i.UserID == UserID && i.MuscleID == MuscleID).FirstOrDefaultAsync().Result;
             if (checkmuscleblacklist != null)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
         // checks for a record with the userid UserID and exercise id ExerciseID in the exercise blacklist table
@@ -58,11 +58,11 @@ namespace NEA.Data
             var checkmyexerciseblacklist = _database.Table<ExerciseBlacklist>().Where(i => i.UserID == UserID && i.ExerciseID == ExerciseID).FirstOrDefaultAsync().Result;
             if (checkmyexerciseblacklist != null)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
         // checks for a record with the userid UserID and machine id MachineID in the machine blacklist table
@@ -71,26 +71,31 @@ namespace NEA.Data
             var checkmachineblacklist = _database.Table<MachineBlacklist>().Where(i => i.UserID == UserID && i.MachineID == MachineID).FirstOrDefaultAsync().Result;
             if (checkmachineblacklist != null)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
 
         public List<string> GetBlacklistedMuscles(int UserID)
         {
-            List<string> blacklistedmuscles = new List<string>();
-            var getblacklistedmuscles = _database.Table<MuscleBlacklist>().Where(i => i.UserID == UserID).ToListAsync().Result;
-            foreach (var muscle in getblacklistedmuscles)
+            var table = _database.Table<MuscleBlacklist>().Where(i => i.UserID == UserID).ToListAsync().Result;
+            foreach(var x in table)
             {
-                var getmuscle = _database.Table<Muscle>().Where(i => i.MuscleID == muscle.MuscleID).FirstOrDefaultAsync().Result;
-                blacklistedmuscles.Add(getmuscle.MinorMuscle);
+                Console.WriteLine(x.UserID);
+                Console.WriteLine(x.MuscleID);
+            }
+            List<string> blacklistedmuscles = new List<string>();
+
+            MuscleRepository musclerepo = new MuscleRepository();
+            foreach(MuscleBlacklist x in table)
+            {
+                blacklistedmuscles.Add(musclerepo.GetMuscleName(x.MuscleID)[1]);
             }
             return blacklistedmuscles;
         }
-        
         public void AddMuscleToBlacklist(int UserID, string minormuscle)
         {
             var getmuscleid = _database.Table<Muscle>().Where(i => i.MinorMuscle == minormuscle).FirstOrDefaultAsync().Result.MuscleID;
@@ -115,10 +120,12 @@ namespace NEA.Data
         {
             List<string> blacklistedexercises = new List<string>();
             var getblacklistedexercises = _database.Table<ExerciseBlacklist>().Where(i => i.UserID == UserID).ToListAsync().Result;
+            ExerciseRepository exerciserepo = new ExerciseRepository();
+            
             foreach (var exercise in getblacklistedexercises)
             {
-                var getexercise = _database.Table<Exercise>().Where(i => i.ExerciseID == exercise.ExerciseID).FirstOrDefaultAsync().Result;
-                blacklistedexercises.Add(getexercise.ExerciseName);
+               blacklistedexercises.Add( exerciserepo.GetExercise(exercise.ExerciseID).ExerciseName);
+                
             }
             return blacklistedexercises;
         }
@@ -146,10 +153,11 @@ namespace NEA.Data
         {
             List<string> blacklistedmachines = new List<string>();
             var getblacklistedmachines = _database.Table<MachineBlacklist>().Where(i => i.UserID == UserID).ToListAsync().Result;
+            MachineRepository machinerepo = new MachineRepository();
+                
             foreach (var machine in getblacklistedmachines)
             {
-                var getmachine = _database.Table<Machine>().Where(i => i.MachineID == machine.MachineID).FirstOrDefaultAsync().Result;
-                blacklistedmachines.Add(getmachine.MachineName);
+                blacklistedmachines.Add(machinerepo.GetMachineName(machine.MachineID));
             }
             return blacklistedmachines;
         }

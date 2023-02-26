@@ -4,6 +4,7 @@ using NEA.Models.ListViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -219,23 +220,27 @@ namespace NEA.Pages.TabbedPage.TrackPage
             switch (blacklistType)
             {
                 case "Muscle":
+                    
                     // The listview is populated with all the muscles
                     // The checkboxes for the muscles are checked if they are in the blacklist table
                     
                     MuscleRepository muscleRepo = new MuscleRepository();
                     List<Muscle> muscles = muscleRepo.GetAllMuscleNames();
 
-                    BlacklistRepository muscleBlacklistRepo = new BlacklistRepository();
+                    BlacklistRepository muscleblacklistrepo = new BlacklistRepository();
+
                     
-                    List<string> blacklistedMuscles = muscleBlacklistRepo.GetBlacklistedMuscles(UserID);
+                    List<string> blacklistedMuscles = muscleblacklistrepo.GetBlacklistedMuscles(UserID);
+
                     ObservableCollection<Blacklist> muscleListViewItems = new ObservableCollection<Blacklist>();
+
                     foreach (Muscle m in muscles)
                     {
                         muscleListViewItems.Add(new Blacklist
                         {
                             Name = m.MinorMuscle,
-                            IsChecked = blacklistedMuscles.Contains(m.MinorMuscle),
-                        });
+                            IsChecked = blacklistedMuscles.Contains(m.MinorMuscle)
+                        }) ;
                     }
                     BlacklistView.ItemsSource = muscleListViewItems;
                     break;

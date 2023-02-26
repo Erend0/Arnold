@@ -13,12 +13,10 @@
   <ItemGroup>
     <None Remove="Data\BlacklistRepository.cs~RF6cc3a4b7.TMP" />
     <None Remove="GymDatabase.db" />
-    <None Remove="Images\loginphoto.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="GymDatabase.db" />
-    <EmbeddedResource Include="Images\loginphoto.jpg" />
   </ItemGroup>
 
 
@@ -78,5 +76,10 @@
     <EmbeddedResource Update="Pages\LoginPages\UserDataPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Images\" />
   </ItemGroup>
 </Project>
