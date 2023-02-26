@@ -7,19 +7,21 @@
             <Label Text="Custom" TextColor="White" FontSize="Large" HorizontalTextAlignment="Start" FontAttributes="Bold"/>
             <ListView x:Name="ListofCustomDays"
                       HasUnevenRows="True"
-                      ItemTapped="ListofCustomDays_ItemTapped">
+                      ItemTapped="ListofCustomDays_ItemTapped"
+                      SelectionMode="None"
+                      SeparatorVisibility="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout>
-                                <Label Text="{Binding DayName}"
+                            <Frame CornerRadius="10" Margin="10">
+                                <StackLayout>
+                                    <Label Text="{Binding DayName}"
                                        TextColor="Black"
                                        FontSize="Large" 
-                                       Padding="10"
                                        BackgroundColor="White"
-                                       Margin="20"
                                        />
-                            </StackLayout>
+                                </StackLayout>
+                            </Frame>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

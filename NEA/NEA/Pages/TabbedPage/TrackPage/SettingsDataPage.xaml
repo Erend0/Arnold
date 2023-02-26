@@ -8,14 +8,16 @@
             <StackLayout x:Name="root">
                 
             </StackLayout>
-            <ListView x:Name="BlacklistView" HasUnevenRows="True" SelectionMode="None">
+            <ListView x:Name="BlacklistView" 
+                      HasUnevenRows="True" 
+                      SelectionMode="None"
+                      SeparatorVisibility="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout>
-
-                                <Label Text="{Binding Name}" />
-                                <CheckBox IsChecked="{Binding IsChecked}" CheckedChanged="CheckBox_CheckedChanged" />
+                                <Label Text="{Binding Name}" TextColor="White" FontAttributes="Bold"  HorizontalOptions="Center" VerticalOptions="Center"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" CheckedChanged="CheckBox_CheckedChanged" Color="Gray" VerticalOptions="Center"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

@@ -66,8 +66,6 @@ namespace NEA.Data
             user.Volume += volume;
             user.TotalTime += time;
             user.NumberOfWorkout += 1;
-            Console.WriteLine("volume" + user.Volume );
-            Console.WriteLine(volume);
             _database.UpdateAsync(user);
         }
         public void ChangeNumberofWorkouts(int UserID,int numberofworkouts)

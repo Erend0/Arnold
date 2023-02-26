@@ -4,6 +4,7 @@ using NEA.Models.ListViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -38,7 +39,7 @@ namespace NEA.Pages.TabbedPage.TrackPage
                 case 4:
                     ChangeWorkoutData();
                     break;
-                    
+
 
 
             }
@@ -216,6 +217,25 @@ namespace NEA.Pages.TabbedPage.TrackPage
         {
             root.Children.Clear();
             BlacklistType = blacklistType;
+
+           
+            Label header = new Label
+            {
+                Text = "Select the " + blacklistType + "s you want to blacklist",
+                TextColor = Color.White,
+                FontSize = 18,
+                FontAttributes = FontAttributes.Bold,
+                HorizontalOptions = LayoutOptions.Center
+            };
+            Label sub = new Label
+            {
+                Text = "Make sure to pick (Max 3) for the best generation",
+                TextColor = Color.White,
+                HorizontalOptions = LayoutOptions.Center,
+            };
+
+            root.Children.Add(header);
+            root.Children.Add(sub);
 
             switch (blacklistType)
             {
@@ -427,10 +447,6 @@ namespace NEA.Pages.TabbedPage.TrackPage
                 userdatarepo.ChangeNumberofWorkouts(UserID, (int)workoutsStepper.Value);
                 Application.Current.MainPage = new NavigationPage(new HomePage());
             };
-
         }
-
-
-
     }
 }

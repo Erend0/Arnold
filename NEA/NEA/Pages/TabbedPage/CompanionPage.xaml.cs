@@ -196,23 +196,29 @@ namespace NEA.Pages.TabbedPage
         }
         private void Back_Clicked(object sender, EventArgs e)
         {
-            
-            UpdateDB();
-            index--;
-            // Initially the back button is not visible to not go out of bounds for the index of the list this makes it visible
-            if (index == 0)
+            // The back button is made invisible when the index is made 0
+            // However if it is pressed too quickly the user can cause errors
+            // Hence, this function requires the check for the index in the if statement below
+            if(index != 0)
             {
-                Back.IsVisible = false;
+                UpdateDB();
+                index--;
+                // Initially the back button is not visible to not go out of bounds for the index of the list this makes it visible
+                if (index == 0)
+                {
+                    Back.IsVisible = false;
+                }
+                // Skip is made invisible at the last exercises, if the user goes back this makes it visible again
+                if (index == Exercises.Count - 2)
+                {
+                    Skip.IsVisible = true;
+                    Complete.IsVisible = false;
+                }
+                PopulateSetLayout(Exercises[index]);
+                FillEntries();
+                ResumeRepo.UpdateTime(UserID, Stopwatch.Elapsed.Seconds);
+
             }
-            // Skip is made invisible at the last exercises, if the user goes back this makes it visible again
-            if (index == Exercises.Count - 2)
-            {
-                Skip.IsVisible = true;
-                Complete.IsVisible = false;
-            }
-            PopulateSetLayout(Exercises[index]);
-            FillEntries();
-            ResumeRepo.UpdateTime(UserID, Stopwatch.Elapsed.Seconds);
         }
         private async void Quit_Clicked(object sender, EventArgs e)
         {

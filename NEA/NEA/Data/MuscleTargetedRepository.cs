@@ -58,6 +58,15 @@ namespace NEA.Data
                 return -1;
             }
         }
+        
+        public void AddMuscleTargeted(int MuscleID, int ExerciseID)
+        {
+            MuscleTargeted muscleTargeted = new MuscleTargeted();
+            muscleTargeted.MuscleID = MuscleID;
+            muscleTargeted.ExerciseID = ExerciseID;
+            _database.InsertAsync(muscleTargeted);
+
+        }
 
     }
 }

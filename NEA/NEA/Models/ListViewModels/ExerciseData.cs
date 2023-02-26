@@ -1,4 +1,6 @@
-﻿namespace NEA.Models.ListViewModels
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace NEA.Models.ListViewModels
 {
     public class ExerciseData
     {
@@ -8,5 +10,7 @@
         public string MachineName { get; set; }
         public string MinorMuscle { get; set; }
         public string MajorMuscle { get; set; }
+        public bool IsChecked { get; set; }
+        public bool IsCustom { get; set; }
     }
 }

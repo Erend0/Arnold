@@ -7,7 +7,6 @@ namespace NEA.Models
     {
             [AutoIncrement, PrimaryKey]
             public int ExerciseID { get; set; }
-        
             public string ExerciseName { get; set; }
             public int MachineID { get; set; }
             public int Sets { get; set; }

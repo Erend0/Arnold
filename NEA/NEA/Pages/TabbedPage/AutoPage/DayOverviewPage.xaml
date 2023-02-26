@@ -4,6 +4,7 @@
              x:Class="NEA.Pages.TabbedPage.DayOverviewPage"
              BackgroundColor="Black"
              
+             
              Padding="10">
     <ContentPage.Content>
         <StackLayout x:Name="Stack">

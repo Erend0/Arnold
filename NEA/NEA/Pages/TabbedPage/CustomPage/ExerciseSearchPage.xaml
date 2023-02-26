@@ -5,22 +5,25 @@
              BackgroundColor="Black">
     <ContentPage.Content>
         <StackLayout>
-            <SearchBar x:Name="SearchText" Placeholder="Search" TextChanged="SearchBar_TextChanged" TextColor="Black"  BackgroundColor="White" Margin="15"/>
+            <SearchBar x:Name="SearchText" Placeholder="Search" TextChanged="SearchBar_TextChanged" TextColor="White"  Margin="15"/>
             <ListView x:Name="ListofExercises"
                       HasUnevenRows="True"
                       SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="10" BackgroundColor="White" Margin="15">
-                                <Label Text="{Binding ExerciseName}" TextColor="Black" FontSize="Medium" TextDecorations="Underline"/>
-                                <Label Text="{Binding Sets,StringFormat='{0} Sets'}" TextColor="Black" />
-                                <Label Text="{Binding Reps,StringFormat='{0} Reps'}" TextColor="Black"/>
-                                <Label Text="{Binding MajorMuscle}" TextColor="Black"/>
-                                <Label Text="{Binding MinorMuscle}" TextColor="Black"/>
-                                <Label Text="{Binding MachineName, StringFormat='Equipment: {0}'}" TextColor="Black"/>
-                                <CheckBox  CheckedChanged="CheckBox_CheckedChanged"/>
-                            </StackLayout>
+                            <Frame CornerRadius="10" Margin="10" Padding="10">
+                                <StackLayout Padding="10" BackgroundColor="White" Margin="15">
+                                    <Label x:Name="IsCustom" Text="Custom Exercise" TextColor="Red" FontAttributes="Bold" FontSize="Large" IsVisible="{Binding IsCustom}"/>
+                                    <Label Text="{Binding ExerciseName}" TextColor="Black" FontSize="Medium" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Sets,StringFormat='> {0} Sets'}" TextColor="Black" />
+                                    <Label Text="{Binding Reps,StringFormat='> {0} Reps'}" TextColor="Black"/>
+                                    <Label Text="{Binding MajorMuscle,StringFormat='{0},'}" TextColor="Red"/>
+                                    <Label Text="{Binding MinorMuscle}" TextColor="Red"/>
+                                    <Label Text="{Binding MachineName, StringFormat='Equipment: {0}'}" TextColor="Black" FontAttributes="Italic"/>
+                                    <CheckBox  CheckedChanged="CheckBox_CheckedChanged" IsChecked="{Binding IsChecked}" Color="Gray"/>
+                                </StackLayout>
+                            </Frame>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

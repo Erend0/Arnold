@@ -9,7 +9,7 @@ namespace NEA
         public App()
         {
             InitializeComponent();
-            // keep the screen on
+            // keeps the screen on
             Xamarin.Essentials.DeviceDisplay.KeepScreenOn = true;
 
 

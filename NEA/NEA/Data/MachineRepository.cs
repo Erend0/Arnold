@@ -46,7 +46,21 @@ namespace NEA.Data
             return _database.Table<Machine>().ToListAsync().Result;
         }
 
-
+        // This method checks if a machine exists, if it does its exerciseID is returned
+        // If not the the method returns -1
+        public int CheckMachineExists(string MachineName)
+        {
+            var machine = _database.Table<Machine>().Where(i => i.MachineName == MachineName).FirstOrDefaultAsync().Result;
+            if (machine != null)
+            {
+                return machine.MachineID;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        
 
     }
 }

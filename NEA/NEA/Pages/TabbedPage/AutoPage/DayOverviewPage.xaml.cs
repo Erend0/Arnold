@@ -30,6 +30,7 @@ namespace NEA.Pages.TabbedPage
             DayName = dayname;
             InitializeComponent();
 
+
             if (type == 1)
             {
                 var button = new Button();

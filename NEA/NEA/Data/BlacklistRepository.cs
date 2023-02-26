@@ -82,11 +82,6 @@ namespace NEA.Data
         public List<string> GetBlacklistedMuscles(int UserID)
         {
             var table = _database.Table<MuscleBlacklist>().Where(i => i.UserID == UserID).ToListAsync().Result;
-            foreach(var x in table)
-            {
-                Console.WriteLine(x.UserID);
-                Console.WriteLine(x.MuscleID);
-            }
             List<string> blacklistedmuscles = new List<string>();
 
             MuscleRepository musclerepo = new MuscleRepository();

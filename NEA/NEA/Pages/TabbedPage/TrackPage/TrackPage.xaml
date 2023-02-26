@@ -6,27 +6,31 @@
         <StackLayout>
             <Label Text="Tracker" FontSize="22.5" FontAttributes="Bold" TextColor="white" HorizontalOptions="Start"/>
 
-            <StackLayout Padding="20" Margin="25" BackgroundColor="White">
-                <Label Text="Your Progress so far" FontSize="28" TextColor="Black" HorizontalOptions="Center" FontAttributes="Bold,Italic" TextDecorations="Underline" Margin="5"/>
-                <Label x:Name="TotalSets"   HorizontalOptions="CenterAndExpand" TextColor="Black"/>
-                <Label x:Name="TotalReps"   HorizontalOptions="CenterAndExpand" TextColor="Black"/>
-                <Label x:Name="TotalTime"   HorizontalOptions="CenterAndExpand" TextColor="Black"/>
-                <Label x:Name="TotalVolume" HorizontalOptions="CenterAndExpand" TextColor="Black"/>
-                <Label x:Name="NumberofWorkouts" HorizontalOptions="CenterAndExpand" TextColor="Black"/>
-            </StackLayout>
+            <Frame CornerRadius="10" Margin="10">
+                <StackLayout BackgroundColor="White">
+                    <Label Text="Your Progress so far" FontSize="28" TextColor="Black" HorizontalOptions="Start" FontAttributes="Bold,Italic" TextDecorations="Underline" Margin="5"/>
+                    <Label x:Name="TotalSets"   HorizontalOptions="CenterAndExpand" TextColor="Black"/>
+                    <Label x:Name="TotalReps"   HorizontalOptions="CenterAndExpand" TextColor="Black"/>
+                    <Label x:Name="TotalTime"   HorizontalOptions="CenterAndExpand" TextColor="Black"/>
+                    <Label x:Name="TotalVolume" HorizontalOptions="CenterAndExpand" TextColor="Black"/>
+                    <Label x:Name="NumberofWorkouts" HorizontalOptions="CenterAndExpand" TextColor="Black"/>
+                </StackLayout>
+            </Frame>
 
-            <StackLayout Padding="20" Margin="25" BackgroundColor="White" >
-                <Label Text="Latest Workout" FontSize="Medium" TextColor="Black"/>
-                <Label x:Name="Sets" HorizontalOptions="Center" TextColor="Black"/>
-                <Label x:Name="Reps" HorizontalOptions="Center" TextColor="Black"/>
-                <Label x:Name="Volume" HorizontalOptions="Center" TextColor="Black"/>
-                <Label x:Name="Time" HorizontalOptions="Center" TextColor="Black"/>
-                <Button x:Name="Remove" Text="Remove this data" Clicked="RemoveLatest_Clicked" CornerRadius="15" BackgroundColor="OrangeRed"/>
-            </StackLayout>
-            
-            <Button Text="Add or remove data" Clicked="AlterData_Clicked" CornerRadius="15" BackgroundColor="OrangeRed"/>
-            <Button x:Name ="Settings" Text="Settings" Clicked="Settings_Clicked" CornerRadius="15" BackgroundColor="OrangeRed"/>
-            <Button Text="Log out" Clicked="LogOut_Clicked" VerticalOptions="End" CornerRadius="15" BackgroundColor="OrangeRed"/>
+            <Frame CornerRadius="10" Margin="10">
+                <StackLayout>
+                    <Label Text="Latest Workout" FontSize="Medium" TextColor="Black"/>
+                    <Label x:Name="Sets" HorizontalOptions="Center" TextColor="Black"/>
+                    <Label x:Name="Reps" HorizontalOptions="Center" TextColor="Black"/>
+                    <Label x:Name="Volume" HorizontalOptions="Center" TextColor="Black"/>
+                    <Label x:Name="Time" HorizontalOptions="Center" TextColor="Black"/>
+                    <Button x:Name="Remove" Text="Remove this data" Clicked="RemoveLatest_Clicked"/>
+                </StackLayout>
+            </Frame>
+
+            <Button Text="Add or remove data" Clicked="AlterData_Clicked"/>
+            <Button x:Name ="Settings" Text="Settings" Clicked="Settings_Clicked"/>
+            <Button Text="Log out" Clicked="LogOut_Clicked" VerticalOptions="End"/>
            
 
         </StackLayout>

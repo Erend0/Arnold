@@ -1,6 +1,7 @@
 ﻿using NEA.Data;
 using NEA.Models;
 using NEA.Models.ListViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Security.Cryptography;
@@ -41,13 +42,21 @@ namespace NEA.Pages.TabbedPage.CustomPage
                 ExerciseData currentexercise = new ExerciseData();
                 currentexercise.ExerciseName = exercise.ExerciseName;
                 currentexercise.MachineName = _MachineRepo.GetMachineName(exercise.MachineID);
+                Console.WriteLine("Exercise name" + exercise.ExerciseName + "MuscleID" + _MuscleTargetedRepo.GetMuscleID(exercise.ExerciseID));
                 string[] musclenames = _MuscleRepo.GetMuscleName(_MuscleTargetedRepo.GetMuscleID(exercise.ExerciseID));
                 currentexercise.MajorMuscle = musclenames[0];
                 currentexercise.MinorMuscle = musclenames[1];
                 currentexercise.Sets = _ExerciseRepo.GetSetsandReps(exercise.ExerciseName)[0];
                 currentexercise.Reps = _ExerciseRepo.GetSetsandReps(exercise.ExerciseName)[1];
-
-
+                
+                foreach (ExerciseData selectedexercise in SelectedExercises)
+                {
+                    if (selectedexercise.ExerciseName == currentexercise.ExerciseName)
+                    {
+                        currentexercise.IsChecked = true;
+                    }
+                }
+                currentexercise.IsCustom = exercise.ExerciseID > 111;
                 ListOfAllExercises.Add(currentexercise);
             }
         }
@@ -69,6 +78,7 @@ namespace NEA.Pages.TabbedPage.CustomPage
         {
             var checkbox = (CheckBox)sender;
             var exercise = (ExerciseData)checkbox.BindingContext;
+            
             if (checkbox.IsChecked)
             {
                 SelectedExercises.Add(exercise);

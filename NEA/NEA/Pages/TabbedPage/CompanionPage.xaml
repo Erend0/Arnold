@@ -15,7 +15,7 @@
 
             </Grid>
 
-            <Button x:Name="AddSet" Clicked="AddSet_Clicked" Text="Add Set" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
+            <Button x:Name="AddSet" Clicked="AddSet_Clicked" Text="Add Set" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
             <Button x:Name="Pause" Text="Pause Workout" Clicked="Pause_Clicked" HorizontalOptions="Start" VerticalOptions="Center"/>
             <Button x:Name="Quit" Text="Quit Workout" Clicked="Quit_Clicked" HorizontalOptions="End" VerticalOptions="Center"/>
 

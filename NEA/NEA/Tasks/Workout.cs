@@ -26,7 +26,9 @@ namespace NEA.Tasks
         private readonly UserRepository _UserRepo = new UserRepository();
         private readonly UserDataRepository _UserDataRepo = new UserDataRepository();
         private readonly BlacklistRepository _BlacklistRepo = new BlacklistRepository();
-        private readonly ScheduleRepository _ScheduleRepo = new ScheduleRepository(); 
+        private readonly ScheduleRepository _ScheduleRepo = new ScheduleRepository();
+        // Used as a counter across multiple classes to keep track of the current exercise being added to the workout
+        private int x = 0;
 
 
         private int ExerciseFound { get; set; }
@@ -186,7 +188,7 @@ namespace NEA.Tasks
                     {
                         index++;
                     }
-                    if(ExerciseFound != -1)
+                    if (ExerciseFound != -1 && flag < 10)
                     {
 
                         exercises.Add(ExerciseFound);
@@ -209,16 +211,17 @@ namespace NEA.Tasks
             
             // The blacklist tables for muscle, exercise and machine are checkted to find if the user has blacklisted details relating to the found exercise
             int machineID = _ExerciseRepo.GetMachineID(exerciseID);
+            // the methods below return true if there is a blacklist found 
             bool muscleblacklisted = _BlacklistRepo.CheckMuscleBlacklist(UserID, CurrentMuscleID);
             bool exerciseblacklisted = _BlacklistRepo.CheckExerciseBlacklist(UserID, exerciseID);
             bool machineblacklisted = _BlacklistRepo.CheckMachineBlacklist(UserID, machineID);
             if (muscleblacklisted || exerciseblacklisted || machineblacklisted)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
       
@@ -255,7 +258,6 @@ namespace NEA.Tasks
             }
         }
         
-        private int x = 0;
         public void UpdateDB (string dayname)
         {
             string[] DayNames = new string[5];
