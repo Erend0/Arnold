@@ -11,6 +11,5 @@ namespace NEA.Models.ListViewModels
         public string MinorMuscle { get; set; }
         public string MajorMuscle { get; set; }
         public bool IsChecked { get; set; }
-        public bool IsCustom { get; set; }
     }
 }

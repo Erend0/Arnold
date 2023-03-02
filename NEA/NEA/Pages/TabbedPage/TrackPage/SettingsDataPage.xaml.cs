@@ -39,9 +39,6 @@ namespace NEA.Pages.TabbedPage.TrackPage
                 case 4:
                     ChangeWorkoutData();
                     break;
-
-
-
             }
         }
         // This method allows the user to change their aim, time available and day available 
@@ -65,7 +62,6 @@ namespace NEA.Pages.TabbedPage.TrackPage
             {
                 Title = "Select the number of days you can workout",
                 VerticalOptions = LayoutOptions.CenterAndExpand,
-                SelectedIndex = 1
             };
             daypicker.Items.Add("3");
             daypicker.Items.Add("4");
@@ -99,8 +95,22 @@ namespace NEA.Pages.TabbedPage.TrackPage
                 Text = "Submit",
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
-            submit.Clicked += (sender, e) => Submit_Clicked(sender, e, aimpicker.Items[aimpicker.SelectedIndex], Convert.ToInt32(timestepper.Value), Convert.ToInt32(daypicker.Items[daypicker.SelectedIndex]));
-
+            // submit button clicked
+            submit.Clicked += (sender, e) =>
+            {
+                // if stepper and picker values are not selected, the user is alerted
+                if (aimpicker.SelectedIndex == -1 || daypicker.SelectedIndex == -1)
+                {
+                    DisplayAlert("Error",
+                        "Please select an aim and the number of days you can workout",
+                        "OK");
+                }
+                else
+                {
+                    // if the user has selected a value for the stepper and picker, the submit clicked method is called
+                    Submit_Clicked(sender, e, aimpicker.Items[aimpicker.SelectedIndex], Convert.ToInt32(timestepper.Value), Convert.ToInt32(daypicker.Items[daypicker.SelectedIndex]));
+                }
+            };
 
 
             root.Children.Add(aimpicker);
@@ -144,7 +154,7 @@ namespace NEA.Pages.TabbedPage.TrackPage
         }
         private void SubmitPin_Clicked(object sender, EventArgs e, string pin)
         {
-            if (pin != null)
+            if (pin != null&& pin.Length == 4)
             {
                 UserRepository userRepo = new UserRepository();
                 userRepo.ChangeUserPin(Convert.ToInt32(pin));
@@ -154,16 +164,10 @@ namespace NEA.Pages.TabbedPage.TrackPage
                 Navigation.PopAsync();
             }
             // if pin is not 4 digits error
-            else if (pin.Length != 4)
+            else if (pin == null  || pin.Length != 4)
             {
                 DisplayAlert("Error",
                     "Please enter a 4 digit pin",
-                    "OK");
-            }
-            else
-            {
-                DisplayAlert("Error",
-                    "Please enter a pin",
                     "OK");
             }
         }

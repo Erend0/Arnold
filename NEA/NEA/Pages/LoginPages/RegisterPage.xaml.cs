@@ -65,8 +65,8 @@ namespace NEA
             string checkUserName = ((Entry)UserName).Text;
             // Used in the elif statement
             bool NameDuplicateError = doesExist();
-            // check if it is larger than 0 characters 
-            if ( checkUserName == null|| checkUserName.Length < 0)
+            // check if it is larger than 1 characters 
+            if ( checkUserName == null|| checkUserName.Length < 1)
             {
                 DisplayAlert("Error", "The Username is too short: It should be 1 or more characters", "OK");
             }

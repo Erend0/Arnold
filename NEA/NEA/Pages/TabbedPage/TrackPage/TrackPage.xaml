@@ -28,7 +28,6 @@
                 </StackLayout>
             </Frame>
 
-            <Button Text="Add or remove data" Clicked="AlterData_Clicked"/>
             <Button x:Name ="Settings" Text="Settings" Clicked="Settings_Clicked"/>
             <Button Text="Log out" Clicked="LogOut_Clicked" VerticalOptions="End"/>
            

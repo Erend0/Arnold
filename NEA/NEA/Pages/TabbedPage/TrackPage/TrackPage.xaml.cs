@@ -123,15 +123,6 @@ namespace NEA
             PopulateData();
             GetLastWorkoutData();
         }
-
-        private void AlterData_Clicked(object sender, EventArgs e)
-        {
-            // create a popup which retrieves data
-            // and updates the database
-            Navigation.PushAsync(new SettingsDataPage(4));
-            
-
-        }
     }
 
    

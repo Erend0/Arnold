@@ -4,7 +4,8 @@ using NEA.Models.ListViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Security.Cryptography;
+using System.Diagnostics.Tracing;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,13 +17,10 @@ namespace NEA.Pages.TabbedPage.CustomPage
     {
         protected ObservableCollection<ExerciseData> ListOfAllExercises { get; set; }
         private List<ExerciseData> SelectedExercises = new List<ExerciseData>();
-
         private ExerciseRepository _ExerciseRepo = new ExerciseRepository();
         private MuscleTargetedRepository _MuscleTargetedRepo = new MuscleTargetedRepository();
         private MuscleRepository  _MuscleRepo = new MuscleRepository();
         private MachineRepository _MachineRepo = new MachineRepository();
-
-        private Dictionary<string, int> Checkboxes = new Dictionary<string, int>();
         
 
         public ExerciseSearchPage()
@@ -37,6 +35,8 @@ namespace NEA.Pages.TabbedPage.CustomPage
         }
         private void FillCollection(List<Exercise> exercisesfound)
         {
+            List<ExerciseData> copyOfSelectedExercises = new List<ExerciseData>(SelectedExercises);
+
             foreach (Exercise exercise in exercisesfound)
             {
                 ExerciseData currentexercise = new ExerciseData();
@@ -45,20 +45,30 @@ namespace NEA.Pages.TabbedPage.CustomPage
                 string[] musclenames = _MuscleRepo.GetMuscleName(_MuscleTargetedRepo.GetMuscleID(exercise.ExerciseID));
                 currentexercise.MajorMuscle = musclenames[0];
                 currentexercise.MinorMuscle = musclenames[1];
-                currentexercise.Sets = _ExerciseRepo.GetSetsandReps(exercise.ExerciseName)[0];
-                currentexercise.Reps = _ExerciseRepo.GetSetsandReps(exercise.ExerciseName)[1];
-                
-                foreach (ExerciseData selectedexercise in SelectedExercises)
+                currentexercise.Sets = exercise.Sets;
+                currentexercise.Reps = exercise.Reps;
+
+                bool isSelected = false;
+                foreach (ExerciseData selectedexercise in copyOfSelectedExercises)
                 {
                     if (selectedexercise.ExerciseName == currentexercise.ExerciseName)
                     {
                         currentexercise.IsChecked = true;
+                        SelectedExercises.Remove(selectedexercise);
+                        isSelected = true;
+                        break;
                     }
                 }
-                currentexercise.IsCustom = exercise.ExerciseID > 111;
+
+                if (!isSelected && currentexercise.IsChecked)
+                {
+                    SelectedExercises.Add(currentexercise);
+                }
+
                 ListOfAllExercises.Add(currentexercise);
             }
         }
+
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             ListOfAllExercises.Clear();
@@ -70,23 +80,22 @@ namespace NEA.Pages.TabbedPage.CustomPage
         private void Continue_Pressed(object sender, System.EventArgs e)
         {
             Navigation.PushAsync(new AddToSchedulePage(SelectedExercises));
-
         }
 
         private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             var checkbox = (CheckBox)sender;
             var exercise = (ExerciseData)checkbox.BindingContext;
-            
+
             if (checkbox.IsChecked)
             {
-                SelectedExercises.Add(exercise);
+              SelectedExercises.Add(exercise);
             }
-            else if(!checkbox.IsChecked)
+            else
             {
                 SelectedExercises.Remove(exercise);
-                
             }
         }
+
     }
 }

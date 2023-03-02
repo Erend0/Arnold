@@ -5,7 +5,7 @@ namespace NEA.Models
     [Table("User")]
     public class User
     {
-        [AutoIncrement, PrimaryKey]     
+        [AutoIncrement, PrimaryKey]    
         public int UserID { get; set; }
         public string UserName { get; set; }
         public int UserPin { get; set; }

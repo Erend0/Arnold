@@ -35,7 +35,6 @@
                 </ListView.ItemTemplate>
             </ListView>
             <Button Text="Start Day" Clicked="StartDay_Clicked" BackgroundColor="Beige" HorizontalOptions="Center" TextColor="Black" CornerRadius="10"/>
-            <Button Text="Regenerate day" Clicked="Regenerate_Clicked" BackgroundColor="#575958" HorizontalOptions="Center" TextColor="White" CornerRadius="10"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

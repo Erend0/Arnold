@@ -9,7 +9,9 @@
             <Button Text="Save Schedule" HorizontalOptions="End" Pressed="Save_Pressed"/>
             <Entry x:Name="DayName" Placeholder="DayName"/>
             <ListView x:Name="ListofExercises"
-                      HasUnevenRows="True">
+                      HasUnevenRows="True"
+                      SelectionMode="None"
+                      SeparatorVisibility="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

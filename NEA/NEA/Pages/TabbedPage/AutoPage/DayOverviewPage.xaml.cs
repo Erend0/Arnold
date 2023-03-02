@@ -36,7 +36,14 @@ namespace NEA.Pages.TabbedPage
                 var button = new Button();
                 button.Text = "Delete custom day";
                 button.Clicked += Button_Clicked;
-                Stack.Children.Add(button); 
+                Stack.Children.Add(button);
+            }
+            else
+            {
+                var button = new Button();
+                button.Text = "Regenerate day";
+                button.Clicked += Regenerate_Clicked;
+                Stack.Children.Add(button);
             }
             Exercises = new ObservableCollection<ExerciseData>();
             ExerciseList.ItemsSource = Exercises;

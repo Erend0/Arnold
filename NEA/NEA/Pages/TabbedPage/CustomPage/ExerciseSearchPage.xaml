@@ -14,7 +14,6 @@
                         <ViewCell>
                             <Frame CornerRadius="10" Margin="10" Padding="10">
                                 <StackLayout Padding="10" BackgroundColor="White" Margin="15">
-                                    <Label x:Name="IsCustom" Text="Custom Exercise" TextColor="Red" FontAttributes="Bold" FontSize="Large" IsVisible="{Binding IsCustom}"/>
                                     <Label Text="{Binding ExerciseName}" TextColor="Black" FontSize="Medium" FontAttributes="Bold"/>
                                     <Label Text="{Binding Sets,StringFormat='> {0} Sets'}" TextColor="Black" />
                                     <Label Text="{Binding Reps,StringFormat='> {0} Reps'}" TextColor="Black"/>
